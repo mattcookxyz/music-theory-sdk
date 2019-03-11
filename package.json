@@ -1,0 +1,32 @@
+{
+  "name": "music-sdk",
+  "version": "0.0.1",
+  "description": "Note/chord parsing, transposition, and enumeration tools",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel source -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Music",
+    "chord",
+    "note",
+    "chords",
+    "notes",
+    "transposition",
+    "enumeration",
+    "composition"
+  ],
+  "author": "Matt Cook",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
+    "eslint": "^5.15.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
