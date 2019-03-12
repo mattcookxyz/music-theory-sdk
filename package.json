@@ -1,14 +1,19 @@
 {
-  "name": "music-sdk",
-  "version": "0.0.1",
-  "description": "Note/chord parsing, transposition, and enumeration tools",
-  "main": "index.js",
+  "name": "@mattcookxyz/music-theory",
+  "version": "0.1.2",
+  "description": "Note/chord/set parsing, transposition, and enumeration tools",
+  "main": "./dist/index.js",
+  "module": "./source/index.js",
   "scripts": {
     "build": "babel source -d dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r @babel/register test/*.spec.js",
+    "lint": "eslint source/**/*.js"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "keywords": [
-    "Music",
+    "music",
     "chord",
     "note",
     "chords",
@@ -24,7 +29,11 @@
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@babel/register": "^7.0.0",
-    "eslint": "^5.15.1"
+    "chai": "^4.2.0",
+    "eslint": "^5.15.1",
+    "jsdoc-to-markdown": "^4.0.1",
+    "mocha": "^6.0.2",
+    "pre-commit": "^1.2.2"
   },
   "dependencies": {
     "lodash": "^4.17.11"
