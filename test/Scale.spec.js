@@ -28,7 +28,8 @@ describe("Scale Class", () => {
     it("Should return a random scale", () => {
       let scale = Scale.randomScale();
       expect(scale).to.haveOwnProperty("difficulty");
-      expect(scale).to.haveOwnProperty("type");
+      expect(scale).to.haveOwnProperty("mode");
+      expect(scale).to.haveOwnProperty("category");
       expect(scale).to.haveOwnProperty("structure");
     });
 

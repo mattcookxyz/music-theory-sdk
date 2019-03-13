@@ -54,12 +54,14 @@ export default class Scale {
 
       major: {
         difficulty: 0,
-        type: "Major",
+        mode: "Ionian",
+        category: "Major",
         structure: [0, 2, 4, 5, 7, 9, 11]
       },
       minor: {
         difficulty: 0,
-        type: "Minor",
+        mode: "Aolean",
+        category: "Minor",
         structure: [0, 2, 3, 5, 7, 8, 10]
       },
 
@@ -67,15 +69,86 @@ export default class Scale {
 
       dorian: {
         difficulty: 1,
-        type: "Dorian",
+        mode: "Dorian",
+        category: "Minor",
         structure: [0, 2, 3, 5, 7, 9, 10]
-      }
+      },
+      mixolydian: {
+        difficulty: 1,
+        mode: "Mixolydian",
+        category: "Major",
+        structure: [0, 2, 4, 5, 7, 9, 10]
+      },
 
       // Intermediate scales
 
+      blues: {
+        difficulty: 2,
+        mode: null,
+        category: "Blues",
+        structure: [0, 3, 5, 7, 10]
+      },
+      lydian: {
+        difficulty: 2,
+        mode: "Lydian",
+        category: "Major",
+        structure: [0, 2, 4, 6, 7, 9, 11]
+      },
+      lydianDominant: {
+        difficulty: 2,
+        mode: null,
+        category: "Dominant",
+        structure: [0, 2, 4, 6, 7, 9, 10]
+      },
+
       // Advanced scales
 
+      locrian: {
+        difficulty: 3,
+        mode: "Locrian",
+        category: "Half-Diminished",
+        structure: [0, 1, 3, 5, 6, 8, 10]
+      },
+      locrian2: {
+        difficulty: 3,
+        mode: "Locrian #2",
+        category: "Half-Diminished",
+        structure: [0, 2, 3, 5, 6, 8, 10]
+      },
+      wholeTone: {
+        difficulty: 3,
+        mode: null,
+        category: "Whole-Tone",
+        structure: [0, 2, 4, 6, 8, 10]
+      },
+      phrygian: {
+        difficulty: 3,
+        mode: "Phrygian",
+        category: "Minor",
+        structure: [0, 1, 3, 5, 7, 8, 10]
+      },
+
       // Experimental scales
+
+      halfWholeDiminished: {
+        difficulty: 4,
+        mode: null,
+        category: "Diminished",
+        structure: [0, 1, 3, 4, 6, 7, 9, 10]
+      },
+      wholeHalfDiminished: {
+        difficulty: 4,
+        mode: null,
+        category: "Diminished",
+        structure: [0, 2, 3, 5, 6, 8, 9, 11]
+      },
+      altered: {
+        difficulty: 4,
+        mode: "Super-Locrian",
+        category: "Dominant",
+        structure: [0, 1, 3, 4, 6, 8, 10]
+      }
+
     };
   }
 }
