@@ -1,4 +1,4 @@
-import lodash from "lodash";
+import { filter as lodashFilter } from "lodash";
 import Set from "./Set";
 
 /**
@@ -34,7 +34,7 @@ export default class Scale {
    * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier scales
    */
   static allScalesWithDifficulty(difficulty = 4, exclusively = false) {
-    return lodash.filter(Scale.allScales(), scale => {
+    return lodashFilter(Scale.allScales(), scale => {
       if (exclusively) {
         // If onlyThisDifficulty is true, only return scales of this difficulty
         return scale.difficulty === difficulty;

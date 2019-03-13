@@ -1,4 +1,4 @@
-import lodash from "lodash";
+import { filter as lodashFilter } from "lodash";
 
 /**
  * This is the Chord class
@@ -23,7 +23,7 @@ export default class Chord {
    * @param {boolean} exclusively - If true, the function only returns qualities of this difficulty level
    */
   static allQualitiesWithDifficulty(difficulty = 4, exclusively = false) {
-    return lodash.filter(Chord.allQualities(), quality => {
+    return lodashFilter(Chord.allQualities(), quality => {
       if (exclusively) {
         // If onlyThisDifficulty is true, only return qualities of this difficulty
         return quality.difficulty === difficulty;
