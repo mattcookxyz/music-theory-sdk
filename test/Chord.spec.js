@@ -83,11 +83,12 @@ describe("Chord Class", () => {
   });
 
   describe("Method: applyStructureToRoot", () => {
-    it("Should correctly return structure based on root", () => {
+    it("Should correctly return numeric or alpha note structure based on root", () => {
       let root = 'Db';
       let structure = [0, 5, 9, 15];
       expect(Chord.applyStructureToRoot(root, structure)).to.deep.equal([1, 6, 10, 4]);
       expect(Chord.applyStructureToRoot(root, structure, false)).to.deep.equal([1, 6, 10, 16]);
+      expect(Chord.applyStructureToRoot(root, structure, true, true, 'b')).to.deep.equal(['Db', 'Gb', 'Bb', 'E']);
     });
   });
 });

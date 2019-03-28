@@ -4,9 +4,9 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 
 describe("Set Class", () => {
-  describe("Method: getNumericNoteSetFromRoot", () => {
+  describe("Method: getNumericNoteSet", () => {
     it("Should correctly return note set for given root", () => {
-      expect(Set.getNumericNoteSetFromRoot("C")).to.deep.equal([
+      expect(Set.getNumericNoteSet("C")).to.deep.equal([
         0,
         1,
         2,
@@ -20,7 +20,7 @@ describe("Set Class", () => {
         10,
         11
       ]);
-      expect(Set.getNumericNoteSetFromRoot(0)).to.deep.equal([
+      expect(Set.getNumericNoteSet(0)).to.deep.equal([
         0,
         1,
         2,
@@ -45,9 +45,9 @@ describe("Set Class", () => {
     });
   });
 
-  describe("Method: getAlphaNoteSetFromRoot", () => {
+  describe("Method: getAlphaNoteSet", () => {
     it("Should correctly return note set for given root", () => {
-      expect(Set.getAlphaNoteSetFromRoot("C")).to.deep.equal([
+      expect(Set.getAlphaNoteSet("C")).to.deep.equal([
         "C",
         "C#/Db",
         "D",
@@ -61,7 +61,7 @@ describe("Set Class", () => {
         "A#/Bb",
         "B"
       ]);
-      expect(Set.getAlphaNoteSetFromRoot(0)).to.deep.equal([
+      expect(Set.getAlphaNoteSet(0)).to.deep.equal([
         "C",
         "C#/Db",
         "D",
@@ -78,7 +78,7 @@ describe("Set Class", () => {
     });
 
     it("Should properly filter flats and sharps", () => {
-      expect(Set.getAlphaNoteSetFromRoot("C", "#")).to.deep.equal([
+      expect(Set.getAlphaNoteSet("C", "#")).to.deep.equal([
         "C",
         "C#",
         "D",
@@ -92,7 +92,7 @@ describe("Set Class", () => {
         "A#",
         "B"
       ]);
-      expect(Set.getAlphaNoteSetFromRoot(0, "b")).to.deep.equal([
+      expect(Set.getAlphaNoteSet(0, "b")).to.deep.equal([
         "C",
         "Db",
         "D",
@@ -115,6 +115,7 @@ describe("Set Class", () => {
       let structure = [0, 5, 9, 15];
       expect(Set.applyStructureToRoot(root, structure)).to.deep.equal([1, 6, 10, 4]);
       expect(Set.applyStructureToRoot(root, structure, false)).to.deep.equal([1, 6, 10, 16]);
+      expect(Set.applyStructureToRoot(root, structure, true, true, '#')).to.deep.equal(['C#', 'F#', 'A#', 'E']);
     });
   });
 

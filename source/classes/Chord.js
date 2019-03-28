@@ -70,9 +70,18 @@ export default class Chord {
    * @param {number|string} root - Int 0-11 or alphaNote to build chord from as root
    * @param {number[]} structure - Array of chord members as chromatic integers from 0 as root
    * @param {boolean} constrainToBaseOctave - Whether to allow notes to extend beyond 11 (for audio playback)
+   * @param {boolean|string} flatSharpFilter - Whether to constrain the output root to # or b for alphaChord
    */
-  static applyStructureToRoot(root, structure, constrainToBaseOctave = true) {
-    return Set.applyStructureToRoot(root, structure, constrainToBaseOctave);
+  static applyStructureToRoot(root, structure, constrainToBaseOctave = true, isAlpha = false, flatSharpFilter = false) {
+    const numeric = Set.applyStructureToRoot(root, structure, constrainToBaseOctave);
+    if (isAlpha) {
+      const alpha = numeric.map((numericNote) => {
+          return Note.numericNoteToAlpha(numericNote, flatSharpFilter);
+      });
+      return alpha;
+    } else {
+      return numeric;
+    }
   }
 
   /**
