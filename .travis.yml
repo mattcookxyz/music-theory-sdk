@@ -1,14 +1,3 @@
 language: node_js
 node_js:
 - lts/*
-
-# after_script: npm run build
-# deploy:
-#   provider: npm
-#   email: mattcookkc@gmail.com
-#   api_key:
-#     secure: PMD7ZkEouxsmhmNb2U3trPzOZpf1p7v9CTGiHDDbd6nAKAUbtGQ/GD6mcgZCTnQgTbITkudgtfUsxhBatBM1WH1Dh1EbqI3Fxi7sbJeCEXn1Q1NgbDtqSW2+12/YdjKC4a+JhwNUMHc5IjZmJ+HfQeHf99ngctwSSFr/+dppcgGewMfpX/qHA3DtRLRO2GqYzOlHvtfHObk67ysezVvtPu+IGiK2zS5t+FTbkdEby20feO3geQeI3yqNXyaCU0GA0D9Q588M64RGJq5NYct5rz+JU+p8UPDi7ESbrr9A42fl8h3f/hVdD+07R85vsM7P/GiTT9X03q8N9cEARLq17x32XN/sHgYGtRGh+r/ZXQFn0IcR5UkvA8OZLDVo0R4Ubq37V7mcB+jQf/HeqZ/lYQDGhdSx494DpVAOMzVhHcLtC2nfuUj1Z9Bx5oeMnSqOBGJF0v1KreEB/JV7NGypuNr8tuSHNuAitH3sIPKfDqjuH4QCN3Kb/Te9iZVxwCA0kghQtRdTyK3idCwiNK8YArnNp2nbgf0Sa0s5EUnWvY1cqTBQ7BBxPXMmu3pkU+2Hu8qJatAWCA6n3jpwCHdH8usK8y5sxvhS2DkO9fAcksaGw+/CZjSI4Bailw4a2KQj0//bEC4BmQQZ9nhoAoiauQ0a2nJo8NmmHILi+XMGuHM=
-#   on:
-#     tags: true
-#     repo: mattcookxyz/music-toolkit-theory-sdk
-#     branch: master

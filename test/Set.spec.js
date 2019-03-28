@@ -37,6 +37,14 @@ describe("Set Class", () => {
     });
   });
 
+  describe("Method: random", () => {
+    it("Should correctly return random note set", () => {
+      const randomSet = Set.random();
+      expect(randomSet).to.be.an('array');
+      expect(randomSet.length).to.equal(12);
+    });
+  });
+
   describe("Method: getAlphaNoteSetFromRoot", () => {
     it("Should correctly return note set for given root", () => {
       expect(Set.getAlphaNoteSetFromRoot("C")).to.deep.equal([
@@ -98,6 +106,22 @@ describe("Set Class", () => {
         "Bb",
         "B"
       ]);
+    });
+  });
+
+  describe("Method: applyStructureToRoot", () => {
+    it("Should correctly return structure based on root", () => {
+      let root = 'Db';
+      let structure = [0, 5, 9, 15];
+      expect(Set.applyStructureToRoot(root, structure)).to.deep.equal([1, 6, 10, 4]);
+      expect(Set.applyStructureToRoot(root, structure, false)).to.deep.equal([1, 6, 10, 16]);
+    });
+  });
+
+  describe("Method: numericSetToAlpha", () => {
+    it("Should correctly return alpha notes", () => {
+      let structure = [0, 2, 4, 12];
+      expect(Set.numericSetToAlpha(structure)).to.deep.equal(['C', 'D', 'E', 'C']);
     });
   });
 });

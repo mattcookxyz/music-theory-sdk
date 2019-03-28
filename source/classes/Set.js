@@ -1,20 +1,29 @@
-import Note from "./Note";
+import Note from './Note';
 
 /**
  * @class
  */
 export default class Set {
-  constructor() {}
-
   /**
    * Returns a set of twelve numeric notes, starting on the given root
    * @param {number|string} root - The root note of your desired note set (numeric [0-11] or alpha ['C#'])
    */
   static getNumericNoteSetFromRoot(root = 0) {
     // If input root is alphaNote, convert to numeric
-    if (typeof root === "string") {
+    if (typeof root === 'string') {
       root = Note.alphaNoteToNumeric(root);
     }
+
+    // Transpose to use given root
+    let notes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    return notes.slice(root).concat(notes.slice(0, root));
+  }
+
+  /**
+   * Returns a set of twelve numeric notes, starting on a random root
+   */
+  static random() {
+    const root = Note.random();
 
     // Transpose to use given root
     let notes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -28,7 +37,7 @@ export default class Set {
    */
   static getAlphaNoteSetFromRoot(root = 0, flatSharpFilter = false) {
     // Convert to numeric if alphaNote given
-    if (typeof root === "string") {
+    if (typeof root === 'string') {
       root = Note.alphaNoteToNumeric(root);
     }
 
@@ -66,7 +75,7 @@ export default class Set {
   static numericSetToAlpha(numNoteSet, flatSharpFilter = false) {
     let alphaSet = [];
 
-    for (const numNote of numNoteSet) {
+    for (let numNote of numNoteSet) {
       alphaSet.push(Note.numericNoteToAlpha(numNote, flatSharpFilter));
     }
 
@@ -83,12 +92,12 @@ export default class Set {
     let output = [];
 
     // If input root is alphaNote, convert to numeric
-    if (typeof root === "string") {
+    if (typeof root === 'string') {
       root = Note.alphaNoteToNumeric(root);
     }
 
     // Apply and push each member of structure
-    for (const note of structure) {
+    for (let note of structure) {
       output.push(Note.applyInterval(root, note, constrainToBaseOctave));
     }
 

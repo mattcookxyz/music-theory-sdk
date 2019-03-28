@@ -6,7 +6,7 @@
   "module": "./source/index.js",
   "scripts": {
     "build": "babel source -d dist",
-    "test": "mocha -r @babel/register test/*.spec.js",
+    "test": "nyc mocha -r @babel/register test/*.spec.js",
     "lint": "eslint source/**/*.js"
   },
   "pre-commit": [
@@ -31,8 +31,10 @@
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
     "eslint": "^5.15.1",
+    "istanbul": "^0.4.5",
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
