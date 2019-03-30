@@ -1,7 +1,7 @@
-import Note from './classes/Note';
-import Chord from './classes/Chord';
-import Set from './classes/Set';
-import Scale from './classes/Scale';
+import Note from './models/Note';
+import Chord from './models/Chord';
+import Set from './models/Set';
+import Scale from './models/Scale';
 
 export {
     Note,
