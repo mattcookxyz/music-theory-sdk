@@ -1,3 +1,11 @@
 language: node_js
 node_js:
 - lts/*
+deploy:
+  provider: npm
+  email: matt@mattcook.xyz
+  api_key:
+    secure: OuRZYcY5nc41qkZc2+CwaSPAzFrJ4tMsu77RAROAl+6dbeXqu7ceRtumHj4HjtlioSCfZHd9TNeVf00eEosP+ZH/rYxYgyjFZQdIefDR3dC6T/vb4ePJksGGJRQATlozlzzhN3e2w3UHsekwC3zJz7ga67rqT6vCv5i+FX/A1KsiEeCL6Cqx8NDGxaqr9Kbf0lCBZE0fc8hKSfnu7y+sVDnNJjUZYn5Kh18qw9jhwjj3A69vJ2KM6MRdT8HDnwQAj29JBM4rrLtH7vHu+wncAx4oxXBAZoi8LLIqVpcyAA+m3jMphnJ+26xphQPbCj/ePvggSFcod4JkCSX1CMzL9BfS+EP5MGMuGSZfC1ERyz/SshK1fk/r5s3RE4xzSR2jbHUdZU0QUJmji9zBRv08aPOWfy/7BBXwEfuSsqJBHmWZebbnhRxCqPPzyIkW/tibK2GQ7vwsoJBtlutIaBG+MpoC5SHuIHvim37Zbwmn4/7zT2BF6ex+Gn58ZOCPYn9m/L9/GCKWo9kcCCuLurAm8hR4rlH9iNV80FqX6kaJOPfnGLLg0jpkFEV4h5CZloQRuV4BsBW6ECJOxZgGJte0DlAhjE17EBae8TQDTXNWhh7R2QK+qZSz0ZIvz9AjuqaoumJv1WPcDEoumhM2OMNRHqjbA69kNrFZMwZH8drQlks=
+  on:
+    tags: true
+    repo: mattcookxyz/music-theory-sdk
