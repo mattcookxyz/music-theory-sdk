@@ -17,8 +17,8 @@ export default class Scale {
   }
 
   /**
-   * Provides a random scale of the given difficulty (or below depending on the exclusively arg)
-   * @param {number} difficulty - 1-5 - difficulty of scale candidates
+   * Provides a random scale of the given difficulty (or below)
+   * @param {number} difficulty - 0-4 - difficulty of scale candidates
    * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier scales
    */
   static random(difficulty = 5, exclusively = false) {
@@ -28,7 +28,7 @@ export default class Scale {
 
   /**
    * Provides an array of scale objects
-   * @param {number} difficulty - 1-5 - difficulty of scale candidates
+   * @param {number} difficulty - 0-4 - difficulty of scale candidates
    * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier scales
    */
   static allScalesWithDifficulty(difficulty = 4, exclusively = false) {
@@ -47,7 +47,7 @@ export default class Scale {
    * Takes in a root note, and returns the given structure built from the root
    * @param {number|string} root - Int 0-11 or alphaNote to build chord from as root
    * @param {number[]} structure - Array of chord members as chromatic integers from 0 as root
-   * @param {boolean} constrainToBaseOctave - Whether to allow notes to extend beyond 11 (for audio playback)
+   * @param {boolean} constrainToBaseOctave - Whether to keep notes within base octave [ 0 - 11 ]
    */
   static applyStructureToRoot(root, structure, constrainToBaseOctave = true) {
     return Set.applyStructureToRoot(root, structure, constrainToBaseOctave);

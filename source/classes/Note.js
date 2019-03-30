@@ -4,9 +4,9 @@
  */
 export default class Note {
   /**
-   * Converts a numeric note (0) to alphaNote ('C')
-   * @param {number} numNote - Int between 0 and 11, representing a chromatic note to convert to alphaNote ('C')
-   * @param {string} flatSharpFilter - 'b' or '#' depending on desired output
+   * Returns a random note
+   * @param {number} isAlpha - Whether to return an alphabetical note or numeric
+   * @param {string} flatSharpFilter - false, 'b', or '#' depending on desired output/usage
    */
   static random(asAlpha = false, flatSharpFilter = false) {
     const note = Math.floor(Math.random() * 12);
@@ -18,9 +18,9 @@ export default class Note {
   }
 
   /**
-   * Converts a numeric note (0) to alphaNote ('C')
-   * @param {number} numNote - Int between 0 and 11, representing a chromatic note to convert to alphaNote ('C')
-   * @param {string} flatSharpFilter - 'b' or '#' depending on desired output
+   * Converts a numeric note (0) to alphabetical note ('C')
+   * @param {number} numNote - Int between 0 and 11, representing a chromatic note to convert to alphabetical note ('C')
+   * @param {string} flatSharpFilter - false, 'b', or '#' depending on desired output
    */
   static numericNoteToAlpha(numNote, flatSharpFilter = false) {
     // Convert to alpha
@@ -47,8 +47,8 @@ export default class Note {
   }
 
   /**
-   * Converts an alphaNote ('C') to numeric (0)
-   * @param {string} alphaNote - alphaNote ('C') to convert to numNote (0)
+   * Converts an alphabetical note ('C') to numeric (0)
+   * @param {string} alphaNote - alphabetical note ('C') to convert to numeric note (0)
    */
   static alphaNoteToNumeric(alphaNote) {
     return toNumDict[alphaNote];

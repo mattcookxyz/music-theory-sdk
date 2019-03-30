@@ -8,17 +8,17 @@ import Set from './Set';
  */
 export default class Chord {
   /**
-   * Provides a random chord of the given difficulty (or below depending on the exclusively arg)
-   * @param {number} difficulty - 1-5 - difficulty of chord candidates
-   * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier notes
+   * Provides a random chord of the given difficulty (or below)
+   * @param {number} difficulty - 0-4 - difficulty of chord candidates
+   * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier chord qualities
+   * @param {boolean} constrainToBaseOctave - Whether to keep notes within base octave [ 0 - 11 ]
    * @param {boolean|string} flatSharpFilter - Whether to constrain the output root to # or b for alphaChord
-   * @param {boolean} constrainToBaseOctave - Whether to constrain the output numericChord to < 11
    */
   static random(
     difficulty = 5,
     exclusively = false,
-    flatSharpFilter = false,
-    constrainToBaseOctave = true
+    constrainToBaseOctave = true,
+    flatSharpFilter = false
   ) {
     const qualities = Chord.allQualitiesWithDifficulty(difficulty, exclusively);
     const quality = qualities[Math.floor(Math.random() * qualities.length)];
@@ -39,9 +39,9 @@ export default class Chord {
   }
 
   /**
-   * Provides a random chord quality of the given difficulty (or below depending on the exclusively arg)
-   * @param {number} difficulty - 1-5 - difficulty of chord candidates
-   * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier notes
+   * Provides a random chord quality of the given difficulty (or below)
+   * @param {number} difficulty - 0-4 - difficulty of chord candidates
+   * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier qualities
    */
   static randomQuality(difficulty = 5, exclusively = false) {
     const qualities = Chord.allQualitiesWithDifficulty(difficulty, exclusively);
@@ -67,9 +67,9 @@ export default class Chord {
 
   /**
    * Takes in a root note, and returns the given structure built from the root
-   * @param {number|string} root - Int 0-11 or alphaNote to build chord from as root
+   * @param {number|string} root - Numeric note 0-11 or alphabetical note to build chord
    * @param {number[]} structure - Array of chord members as chromatic integers from 0 as root
-   * @param {boolean} constrainToBaseOctave - Whether to allow notes to extend beyond 11 (for audio playback)
+   * @param {boolean} constrainToBaseOctave - Whether to keep notes within base octave [ 0 - 11 ]
    */
   static applyStructureToRoot(root, structure, constrainToBaseOctave = true) {
     return Set.applyStructureToRoot(root, structure, constrainToBaseOctave);

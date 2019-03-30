@@ -33,7 +33,7 @@ export default class Set {
   /**
    * Returns a set of twelve alphaNotes, starting on the given root
    * @param {number|string} root - The root note of your desired note set (numeric [0-11] or alpha ['C#'])
-   * @param {string} flatSharpFilter - 'b' or '#' depending on desired output
+   * @param {string} flatSharpFilter - false, 'b', or '#' depending on desired output
    */
   static getAlphaNoteSetFromRoot(root = 0, flatSharpFilter = false) {
     // Convert to numeric if alphaNote given
@@ -54,7 +54,7 @@ export default class Set {
 
   /**
    * Converts a set of alphaNotes (['C', 'Db/C#', 'D']) to numeric notes ([0, 1, 2])
-   * @param {number[]} alphaNoteSet - Set of int between 0 and 11, representing a chromatic note array to convert to alphaNotes ('C')
+   * @param {number[]} alphaNoteSet - Set of integers between 0 and 11, representing a chromatic note array to convert to alphabetical notes ('C')
    */
   static alphaSetToNumeric(alphaNoteSet) {
     let numSet = [];
@@ -69,7 +69,7 @@ export default class Set {
 
   /**
    * Converts a set of numeric notes ([0, 1, 2]) to alphaNotes (['C', 'Db/C#', 'D'])
-   * @param {number[]} numNoteSet - Set of int between 0 and 11, representing a chromatic note array to convert to alphaNotes ('C')
+   * @param {number[]} alphaNoteSet - Set of integers between 0 and 11, representing a chromatic note array to convert to alphabetical notes ('C')
    * @param {string} flatSharpFilter - 'b' or '#' depending on desired output
    */
   static numericSetToAlpha(numNoteSet, flatSharpFilter = false) {
@@ -86,7 +86,7 @@ export default class Set {
    * Takes in a root note, and returns the given chord structure built from the root
    * @param {number|string} root - Int 0-11 or alphaNote to build chord from as root
    * @param {number[]} structure - Array of chord members as chromatic integers from 0 as root
-   * @param {boolean} constrainToBaseOctave - Whether to allow notes to extend beyond 11 (for audio playback)
+   * @param {boolean} constrainToBaseOctave - Whether to keep notes within base octave [ 0 - 11 ]
    */
   static applyStructureToRoot(root, structure, constrainToBaseOctave = true) {
     let output = [];
