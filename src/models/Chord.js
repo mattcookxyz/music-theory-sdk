@@ -3,12 +3,12 @@ import Note from './Note';
 import Set from './Set';
 
 /**
- * This is the Chord class
- * @class
+ * Class for chord-wise operations
  */
 export default class Chord {
   /**
    * Provides a random chord of the given difficulty (or below)
+   * @memberof Chord
    * @param {number} difficulty - 0-4 - difficulty of chord candidates
    * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier chord qualities
    * @param {boolean} constrainToBaseOctave - Whether to keep notes within base octave [ 0 - 11 ]

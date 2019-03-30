@@ -1,7 +1,7 @@
 import Note from './Note';
 
 /**
- * @class
+ * Class for set-wise operations
  */
 export default class Set {
   /**

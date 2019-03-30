@@ -2,8 +2,7 @@ import { filter as lodashFilter } from 'lodash';
 import Set from './Set';
 
 /**
- * @class
- * @classdesc The Scale class provides scale structures and information
+ * Class for scale-wise operations
  */
 export default class Scale {
   /**

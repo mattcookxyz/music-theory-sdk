@@ -1,6 +1,5 @@
 /**
- * @class
- * @classdesc The Note class provides methods to parse, convert, and transpose individual notes
+ * Class for note-wise operations
  */
 export default class Note {
   /**
