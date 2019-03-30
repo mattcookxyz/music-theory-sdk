@@ -4,7 +4,6 @@
   "description": "Note/chord/set parsing, transposition, and enumeration tools",
   "main": "./lib/index.js",
   "scripts": {
-    "prepublish": "babel src -d lib",
     "preversion": "npm test",
     "build": "babel src -d lib",
     "test": "nyc mocha -r @babel/register test/*.spec.js",
@@ -37,7 +36,8 @@
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^6.0.2",
     "nyc": "^13.3.0",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "rimraf": "^2.6.3"
   },
   "dependencies": {
     "lodash": "^4.17.11"
