@@ -6,6 +6,7 @@ script:
 - npm test
 - npm run build
 deploy:
+  skip_cleanup: true
   provider: npm
   email: matt@mattcook.xyz
   api_key:
