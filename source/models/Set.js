@@ -90,7 +90,13 @@ export default class Set {
    * @param {boolean} isAlpha - Whether to return in as alphabetical chord members or numeric
    * @param {boolean|string} flatSharpFilter - Whether to filter alphabetical chord members to flats or sharps
    */
-  static applyStructureToRoot(root, structure, constrainToBaseOctave = true, isAlpha = false, flatSharpFilter = false) {
+  static applyStructureToRoot(
+    root,
+    structure,
+    constrainToBaseOctave = true,
+    isAlpha = false,
+    flatSharpFilter = false
+  ) {
     let numeric = [];
 
     // If input root is alphaNote, convert to numeric
@@ -104,8 +110,8 @@ export default class Set {
     }
 
     if (isAlpha) {
-      const alpha = numeric.map((numericNote) => {
-          return Note.numericNoteToAlpha(numericNote, flatSharpFilter);
+      const alpha = numeric.map(numericNote => {
+        return Note.numericNoteToAlpha(numericNote, flatSharpFilter);
       });
       return alpha;
     } else {
