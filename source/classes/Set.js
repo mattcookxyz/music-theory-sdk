@@ -8,7 +8,7 @@ export default class Set {
    * Returns a set of twelve numeric notes, starting on the given root
    * @param {number|string} root - The root note of your desired note set (numeric [0-11] or alpha ['C#'])
    */
-  static getNumericNoteSetFromRoot(root = 0) {
+  static getNumericNoteSet(root = 0) {
     // If input root is alphaNote, convert to numeric
     if (typeof root === 'string') {
       root = Note.alphaNoteToNumeric(root);
@@ -35,14 +35,14 @@ export default class Set {
    * @param {number|string} root - The root note of your desired note set (numeric [0-11] or alpha ['C#'])
    * @param {string} flatSharpFilter - false, 'b', or '#' depending on desired output
    */
-  static getAlphaNoteSetFromRoot(root = 0, flatSharpFilter = false) {
+  static getAlphaNoteSet(root = 0, flatSharpFilter = false) {
     // Convert to numeric if alphaNote given
     if (typeof root === 'string') {
       root = Note.alphaNoteToNumeric(root);
     }
 
     // Get numeric note set from given root
-    let noteSet = Set.getNumericNoteSetFromRoot(root);
+    let noteSet = Set.getNumericNoteSet(root);
 
     // Convert each note to alphaNote
     noteSet = noteSet.map(numNote => {
@@ -86,10 +86,12 @@ export default class Set {
    * Takes in a root note, and returns the given chord structure built from the root
    * @param {number|string} root - Int 0-11 or alphaNote to build chord from as root
    * @param {number[]} structure - Array of chord members as chromatic integers from 0 as root
-   * @param {boolean} constrainToBaseOctave - Whether to keep notes within base octave [ 0 - 11 ]
+   * @param {boolean} constrainToBaseOctave - Whether to allow notes to extend beyond 11, or transpose to base octave
+   * @param {boolean} isAlpha - Whether to return in as alphabetical chord members or numeric
+   * @param {boolean|string} flatSharpFilter - Whether to filter alphabetical chord members to flats or sharps
    */
-  static applyStructureToRoot(root, structure, constrainToBaseOctave = true) {
-    let output = [];
+  static applyStructureToRoot(root, structure, constrainToBaseOctave = true, isAlpha = false, flatSharpFilter = false) {
+    let numeric = [];
 
     // If input root is alphaNote, convert to numeric
     if (typeof root === 'string') {
@@ -98,9 +100,16 @@ export default class Set {
 
     // Apply and push each member of structure
     for (let note of structure) {
-      output.push(Note.applyInterval(root, note, constrainToBaseOctave));
+      numeric.push(Note.applyInterval(root, note, constrainToBaseOctave));
     }
 
-    return output;
+    if (isAlpha) {
+      const alpha = numeric.map((numericNote) => {
+          return Note.numericNoteToAlpha(numericNote, flatSharpFilter);
+      });
+      return alpha;
+    } else {
+      return numeric;
+    }
   }
 }
