@@ -10,7 +10,8 @@
     "lint": "eslint source/**/*.js"
   },
   "pre-commit": [
-    "lint"
+    "lint",
+    "test"
   ],
   "keywords": [
     "music",
@@ -22,8 +23,8 @@
     "enumeration",
     "composition"
   ],
-  "author": "Matt Cook",
-  "license": "UNLICENSED",
+  "author": "Matt Cook <matt@mattcook.xyz> (https://mattcook.xyz)",
+  "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",

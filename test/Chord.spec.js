@@ -1,4 +1,4 @@
-import Chord from "../source/classes/Chord";
+import Chord from "../source/models/Chord";
 
 import lodash from "lodash";
 
