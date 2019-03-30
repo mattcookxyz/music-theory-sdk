@@ -1,13 +1,14 @@
 {
-  "name": "@mattcookxyz/music-theory",
+  "name": "music-theory-sdk",
   "version": "0.1.2",
   "description": "Note/chord/set parsing, transposition, and enumeration tools",
-  "main": "./dist/index.js",
-  "module": "./source/index.js",
+  "main": "./lib/index.js",
   "scripts": {
-    "build": "babel source -d dist",
+    "prepublish": "babel src -d lib",
+    "preversion": "npm test",
+    "build": "babel src -d lib",
     "test": "nyc mocha -r @babel/register test/*.spec.js",
-    "lint": "eslint source/**/*.js"
+    "lint": "eslint src/**/*.js"
   },
   "pre-commit": [
     "lint",

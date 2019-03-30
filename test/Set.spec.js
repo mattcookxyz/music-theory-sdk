@@ -1,4 +1,4 @@
-import Set from '../source/models/Set';
+import Set from '../src/models/Set';
 
 import { describe, it } from 'mocha';
 import { expect } from 'chai';

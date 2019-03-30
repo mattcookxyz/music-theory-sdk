@@ -1,8 +1,7 @@
 .babelrc
 .eslintrc.json
-.travis.yml
 .npmignore
-source
+src
 node_modules
 test
 .travis.yml

@@ -1,4 +1,4 @@
-import Scale from '../source/models/Scale.js';
+import Scale from '../src/models/Scale.js';
 
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
