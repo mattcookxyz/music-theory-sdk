@@ -4,7 +4,7 @@
 export default class Note {
   /**
    * Returns a random note
-   * @param {number} isAlpha - Whether to return an alphabetical note or numeric
+   * @param {number} asAlpha - Whether to return an alphabetical note or numeric
    * @param {string} flatSharpFilter - false, 'b', or '#' depending on desired output/usage
    */
   static random(asAlpha = false, flatSharpFilter = false) {
@@ -23,7 +23,7 @@ export default class Note {
    */
   static numericNoteToAlpha(numNote, flatSharpFilter = false) {
     // Convert to alpha
-    if (numNote > 11) numNote -= 12;
+    while (numNote > 11) numNote -= 12;
     let alphaNote = toAlphaDict[numNote];
 
     // Split strings to only show flat or sharp note if argument flatSharpFilter is provided
