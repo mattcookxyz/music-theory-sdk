@@ -23,7 +23,7 @@ asAlpha [ true | false ]: Whether to return an alphanumeric note ( 'C#' v. 1 )
 flatSharpFilter [ 'b' | '#' ]: If present with one of these values, AND the random note generated contains a modifier ( 'b' or '#' ), then it will use only that type of modifier. I.E. if a 'C#/Db' is generated, it would instead only return 'C#' or 'Db'.
 </details>
 
-### **.numericNoteToAlpha( numNote, flatSharpFilter )**
+### **.numericNoteToAlpha( numNote, flatSharpFilter = false )**
 
 Converts a numeric note (10) to alphanumeric ('A#/Bb').
 
