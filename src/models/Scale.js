@@ -2,7 +2,7 @@ import { filter as lodashFilter } from 'lodash';
 import Set from './Set';
 
 /**
- * Class for scale-wise operations
+ * Generate scales.
  * @namespace Scale
  */
 export default class Scale {

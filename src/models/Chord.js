@@ -3,7 +3,7 @@ import Note from './Note';
 import Set from './Set';
 
 /**
- * Class for chord-wise operations
+ * Generate, parse, and mangle chords.
  * @namespace Chord
  */
 export default class Chord {

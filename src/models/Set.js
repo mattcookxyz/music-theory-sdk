@@ -1,7 +1,7 @@
 import Note from './Note';
 
 /**
- * Class for set-wise operations
+ * Generate, transpose, and mangle sets of individual notes.
  * @namespace Set
  */
 export default class Set {

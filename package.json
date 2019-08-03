@@ -6,6 +6,8 @@
   "scripts": {
     "preversion": "npm test",
     "build": "babel src -d lib",
+    "setup-docs": "echo '[Back to readme...](../readme.md)\n' > docs/models.md",
+    "create-docs": "npm run setup-docs && jsdoc2md src/models/*.js >> docs/models.md",
     "test": "nyc mocha -r @babel/register test/*.spec.js",
     "lint": "eslint src/**/*.js"
   },

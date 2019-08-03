@@ -1,5 +1,5 @@
 /**
- * Class for note-wise operations
+ * Generate, transpose, and translate numeric/alphabetical chords.
  * @namespace Note
  */
 export default class Note {
