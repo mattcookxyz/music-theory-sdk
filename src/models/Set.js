@@ -2,11 +2,14 @@ import Note from './Note';
 
 /**
  * Class for set-wise operations
+ * @namespace Set
  */
 export default class Set {
   /**
    * Returns a set of twelve numeric notes, starting on the given root
-   * @param {number|string} root - The root note of your desired note set (numeric [0-11] or alpha ['C#'])
+   * @memberof Set
+   * @param {number|string} root - the root note of your desired note set (numeric [0-11] or alpha ['C#'])
+   * @returns {number[]} a numeric note set starting on the given root
    */
   static getNumericNoteSet(root = 0) {
     // If input root is alphaNote, convert to numeric
@@ -21,6 +24,8 @@ export default class Set {
 
   /**
    * Returns a set of twelve numeric notes, starting on a random root
+   * @memberof Set
+   * @returns {number[]} a numeric note set starting on a random root
    */
   static random() {
     const root = Note.random();
@@ -32,8 +37,10 @@ export default class Set {
 
   /**
    * Returns a set of twelve alphaNotes, starting on the given root
-   * @param {number|string} root - The root note of your desired note set (numeric [0-11] or alpha ['C#'])
-   * @param {string} flatSharpFilter - false, 'b', or '#' depending on desired output
+   * @memberof Set
+   * @param {number|string} root - the root note of your desired note set (numeric [0-11] or alpha ['C#'])
+   * @param {string} flatSharpFilter - 'b', or '#', will result in 'C#' or 'Db' over 'C#/Db'
+   * @returns {string[]} a set of twelve alpha notes, starting on the given root
    */
   static getAlphaNoteSet(root = 0, flatSharpFilter = false) {
     // Convert to numeric if alphaNote given
@@ -54,7 +61,9 @@ export default class Set {
 
   /**
    * Converts a set of alphaNotes (['C', 'Db/C#', 'D']) to numeric notes ([0, 1, 2])
+   * @memberof Set
    * @param {number[]} alphaNoteSet - Set of integers between 0 and 11, representing a chromatic note array to convert to alphabetical notes ('C')
+   * @returns {number[]} a numeric note set equivalent to the input alpha note set
    */
   static alphaSetToNumeric(alphaNoteSet) {
     let numSet = [];
@@ -69,8 +78,10 @@ export default class Set {
 
   /**
    * Converts a set of numeric notes ([0, 1, 2]) to alphaNotes (['C', 'Db/C#', 'D'])
+   * @memberof Set
    * @param {number[]} alphaNoteSet - Set of integers between 0 and 11, representing a chromatic note array to convert to alphabetical notes ('C')
-   * @param {string} flatSharpFilter - 'b' or '#' depending on desired output
+   * @param {string} flatSharpFilter - 'b', or '#', will result in 'C#' or 'Db' over 'C#/Db'
+   * @returns {string[]} an alpha note set equivalent to the input numeric note set
    */
   static numericSetToAlpha(numNoteSet, flatSharpFilter = false) {
     let alphaSet = [];
@@ -84,17 +95,19 @@ export default class Set {
 
   /**
    * Takes in a root note, and returns the given chord structure built from the root
-   * @param {number|string} root - Int 0-11 or alphaNote to build chord from as root
-   * @param {number[]} structure - Array of chord members as chromatic integers from 0 as root
-   * @param {boolean} constrainToBaseOctave - Whether to allow notes to extend beyond 11, or transpose to base octave
-   * @param {boolean} isAlpha - Whether to return in as alphabetical chord members or numeric
-   * @param {boolean|string} flatSharpFilter - Whether to filter alphabetical chord members to flats or sharps
+   * @memberof Set
+   * @param {number|string} root - integer 0-11 or alphaNote to build chord from as root
+   * @param {number[]} structure - array of chord members representing intervals from the root
+   * @param {boolean} constrainToBaseOctave - whether to allow notes to extend beyond 11, or transpose to base octave
+   * @param {boolean} alpha - return chord members as alpha or numeric
+   * @param {boolean|string} flatSharpFilter - 'b', or '#', will result in 'C#' or 'Db' over 'C#/Db'
+   * @returns {number|string[]} a set of notes representing the given structure built off given root
    */
   static applyStructureToRoot(
     root,
     structure,
     constrainToBaseOctave = true,
-    isAlpha = false,
+    alpha = false,
     flatSharpFilter = false
   ) {
     let numeric = [];
@@ -109,7 +122,7 @@ export default class Set {
       numeric.push(Note.applyInterval(root, note, constrainToBaseOctave));
     }
 
-    if (isAlpha) {
+    if (alpha) {
       const alpha = numeric.map(numericNote => {
         return Note.numNoteToAlpha(numericNote, flatSharpFilter);
       });

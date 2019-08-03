@@ -3,13 +3,16 @@ import Set from './Set';
 
 /**
  * Class for scale-wise operations
+ * @namespace Scale
  */
 export default class Scale {
   /**
    * This function gets an array of integers representing notes of a scale
-   * @param {number|string} root - Root from which to build scale
-   * @param {number[]} structure - Array representing the interval relationships for every note (including root)
+   * @memberof Scale
+   * @param {number|string} root - root from which to build scale
+   * @param {number[]} structure - array representing the interval relationships for every note from the root (including root)
    * @param {boolean} constrainToBaseOctave - Whether to keep notes within base octave [ 0 - 11 ]
+   * @returns {number[]}
    */
   static getScaleFromRoot(root, structure, constrainToBaseOctave = true) {
     return Set.applyStructureToRoot(root, structure, constrainToBaseOctave);
@@ -17,22 +20,26 @@ export default class Scale {
 
   /**
    * Provides a random scale of the given difficulty (or below)
+   * @memberof Scale
    * @param {number} difficulty - 0-4 - difficulty of scale candidates
-   * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier scales
+   * @param {boolean} onlyThisDifficulty - constrain to the given difficulty, or allow easier scales
+   * @returns {object} scale object with difficulty, mode, category, and structure
    */
-  static random(difficulty = 5, exclusively = false) {
-    const scales = Scale.allScalesWithDifficulty(difficulty, exclusively);
+  static random(difficulty = 4, onlyThisDifficulty = false) {
+    const scales = Scale.allScalesWithDifficulty(difficulty, onlyThisDifficulty);
     return scales[Math.floor(Math.random() * scales.length)];
   }
 
   /**
    * Provides an array of scale objects
+   * @memberof Scale
    * @param {number} difficulty - 0-4 - difficulty of scale candidates
-   * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier scales
+   * @param {boolean} onlyThisDifficulty - constrain to the given difficulty, or allow easier scales
+   * @returns {object[]} an array of scale objects fitting given difficulty parameters
    */
-  static allScalesWithDifficulty(difficulty = 4, exclusively = false) {
+  static allScalesWithDifficulty(difficulty = 4, onlyThisDifficulty = false) {
     return lodashFilter(Scale.allScales(), scale => {
-      if (exclusively) {
+      if (onlyThisDifficulty) {
         // If onlyThisDifficulty is true, only return scales of this difficulty
         return scale.difficulty === difficulty;
       } else {
@@ -44,9 +51,11 @@ export default class Scale {
 
   /**
    * Takes in a root note, and returns the given structure built from the root
-   * @param {number|string} root - Int 0-11 or alphaNote to build chord from as root
-   * @param {number[]} structure - Array of chord members as chromatic integers from 0 as root
-   * @param {boolean} constrainToBaseOctave - Whether to keep notes within base octave [ 0 - 11 ]
+   * @memberof Scale
+   * @param {number|string} root - integer 0-11 or alphaNote to build chord from as root
+   * @param {number[]} structure - array of chord members as chromatic integers from 0 as root
+   * @param {boolean} constrainToBaseOctave - keep notes within base octave [ 0 - 11 ]
+   * @returns {number[]}
    */
   static applyStructureToRoot(root, structure, constrainToBaseOctave = true) {
     return Set.applyStructureToRoot(root, structure, constrainToBaseOctave);
@@ -54,6 +63,8 @@ export default class Scale {
 
   /**
    * Returns all programmed scales
+   * @memberof Scale
+   * @returns {object} an object containing all known scales
    */
   static allScales() {
     return {

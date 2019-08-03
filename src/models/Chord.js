@@ -17,7 +17,7 @@ export default class Chord {
    * @returns {object} an object containing root, quality details, an alpha version of the chord, and numeric representation of the chord and its intervals
    */
   static random(
-    difficulty = 5,
+    difficulty = 4,
     onlyThisDifficulty = false,
     constrainToBaseOctave = true,
     flatSharpFilter = false
@@ -57,7 +57,7 @@ export default class Chord {
    * @memberof Chord
    * @param {string} difficulty - 0 through 4 - difficulty of chord qualities to include (up to and including)
    * @param {boolean} onlyThisDifficulty - constrain to given difficulty, or allow easier qualities
-   * @returns {Array.<object>} a set of chord quality objects
+   * @returns {object[]} a set of chord quality objects
    */
   static allQualitiesWithDifficulty(difficulty = 4, onlyThisDifficulty = false) {
     return lodashFilter(Chord.allQualities(), quality => {
@@ -79,7 +79,7 @@ export default class Chord {
    * @param {boolean} constrainToBaseOctave - whether to allow notes to extend beyond 11, or transpose to base octave
    * @param {boolean} alpha - whether to return as alphabetical chord members or numeric
    * @param {boolean|string} flatSharpFilter - constrain the output root to # or b for alphaChord
-   * @returns {Array.<string|number>} an array of chord members
+   * @returns {string|number[]} an array of chord members
    */
   static applyStructureToRoot(
     root,
