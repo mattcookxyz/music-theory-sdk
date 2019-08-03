@@ -66,5 +66,13 @@ describe('Note Class', () => {
       expect(Note.applyInterval(8, 24, false)).to.equal(32);
       expect(Note.applyInterval(11, 3, false)).to.equal(14);
     });
+
+    it('Should return accurate results FOR an alpha note AS an alpha note', () => {
+      expect(Note.applyInterval('C', 3, true)).to.equal('D#/Eb');
+      expect(Note.applyInterval('C', 3, false)).to.equal('D#/Eb');
+      expect(Note.applyInterval('C', 15, false)).to.equal('D#/Eb');
+      expect(Note.applyInterval('C', 15, false, '#')).to.equal('D#');
+      expect(Note.applyInterval('C', 15, false, 'b')).to.equal('Eb');
+    })
   });
 });

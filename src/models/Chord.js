@@ -4,6 +4,7 @@ import Set from './Set';
 
 /**
  * Class for chord-wise operations
+ * @namespace Chord
  */
 export default class Chord {
   /**
@@ -40,6 +41,7 @@ export default class Chord {
 
   /**
    * Provides a random chord quality of the given difficulty (or below)
+   * @memberof Chord
    * @param {number} difficulty - 0-4 - difficulty of chord candidates
    * @param {boolean} exclusively - Whether or not to constrain to the given difficulty, or allow easier qualities
    */
@@ -50,6 +52,7 @@ export default class Chord {
 
   /**
    * Get all qualities of given difficulty (including lower difficulties by default, per the exclusively arg)
+   * @memberof Chord
    * @param {string} difficulty - 0 through 4 - difficulty of chord qualities to include (up to and including)
    * @param {boolean} exclusively - If true, the function only returns qualities of this difficulty level
    */
@@ -67,6 +70,7 @@ export default class Chord {
 
   /**
    * Takes in a root note, and returns the given structure built from the root
+   * @memberof Chord
    * @param {number|string} root - Numeric note 0-11 or alphabetical note to build chord
    * @param {number[]} structure - Array of chord members as chromatic integers from 0 as root
    * @param {boolean} constrainToBaseOctave - Whether to allow notes to extend beyond 11, or transpose to base octave
@@ -97,6 +101,7 @@ export default class Chord {
 
   /**
    * Comprehensive list of chord qualities
+   * @memberof Chord
    */
   static allQualities() {
     return {
