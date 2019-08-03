@@ -1,4 +1,4 @@
-[Back to readme...](../readme.md)
+[Click here to return to the readme.](../readme.md)
 
 ## Objects
 
