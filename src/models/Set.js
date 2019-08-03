@@ -101,7 +101,7 @@ export default class Set {
    * @param {boolean} constrainToBaseOctave - whether to allow notes to extend beyond 11, or transpose to base octave
    * @param {boolean} alpha - return chord members as alpha or numeric
    * @param {boolean|string} flatSharpFilter - 'b', or '#', will result in 'C#' or 'Db' over 'C#/Db'
-   * @returns {number|string[]} a set of notes representing the given structure built off given root
+   * @returns {number[]|string[]} a set of notes representing the given structure built off given root
    */
   static applyStructureToRoot(
     root,

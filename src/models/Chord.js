@@ -79,7 +79,7 @@ export default class Chord {
    * @param {boolean} constrainToBaseOctave - whether to allow notes to extend beyond 11, or transpose to base octave
    * @param {boolean} alpha - whether to return as alphabetical chord members or numeric
    * @param {boolean|string} flatSharpFilter - constrain the output root to # or b for alphaChord
-   * @returns {string|number[]} an array of chord members
+   * @returns {number[]|string[]} an array of chord members
    */
   static applyStructureToRoot(
     root,
