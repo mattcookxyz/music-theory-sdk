@@ -46,7 +46,7 @@ export default class Set {
 
     // Convert each note to alphaNote
     noteSet = noteSet.map(numNote => {
-      return Note.numericNoteToAlpha(numNote, flatSharpFilter);
+      return Note.numNoteToAlpha(numNote, flatSharpFilter);
     });
 
     return noteSet;
@@ -76,7 +76,7 @@ export default class Set {
     let alphaSet = [];
 
     for (let numNote of numNoteSet) {
-      alphaSet.push(Note.numericNoteToAlpha(numNote, flatSharpFilter));
+      alphaSet.push(Note.numNoteToAlpha(numNote, flatSharpFilter));
     }
 
     return alphaSet;
@@ -111,7 +111,7 @@ export default class Set {
 
     if (isAlpha) {
       const alpha = numeric.map(numericNote => {
-        return Note.numericNoteToAlpha(numericNote, flatSharpFilter);
+        return Note.numNoteToAlpha(numericNote, flatSharpFilter);
       });
       return alpha;
     } else {

@@ -4,33 +4,33 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 describe('Note Class', () => {
-  describe('Method: numericNoteToAlpha', () => {
+  describe('Method: numNoteToAlpha', () => {
     it('Should properly convert numeric notes to alpha', () => {
-      expect(Note.numericNoteToAlpha(0)).to.equal('C');
-      expect(Note.numericNoteToAlpha(1)).to.equal('C#/Db');
-      expect(Note.numericNoteToAlpha(2)).to.equal('D');
-      expect(Note.numericNoteToAlpha(3)).to.equal('D#/Eb');
-      expect(Note.numericNoteToAlpha(4)).to.equal('E');
-      expect(Note.numericNoteToAlpha(5)).to.equal('F');
-      expect(Note.numericNoteToAlpha(6)).to.equal('F#/Gb');
-      expect(Note.numericNoteToAlpha(7)).to.equal('G');
-      expect(Note.numericNoteToAlpha(8)).to.equal('G#/Ab');
-      expect(Note.numericNoteToAlpha(9)).to.equal('A');
-      expect(Note.numericNoteToAlpha(10)).to.equal('A#/Bb');
-      expect(Note.numericNoteToAlpha(11)).to.equal('B');
+      expect(Note.numNoteToAlpha(0)).to.equal('C');
+      expect(Note.numNoteToAlpha(1)).to.equal('C#/Db');
+      expect(Note.numNoteToAlpha(2)).to.equal('D');
+      expect(Note.numNoteToAlpha(3)).to.equal('D#/Eb');
+      expect(Note.numNoteToAlpha(4)).to.equal('E');
+      expect(Note.numNoteToAlpha(5)).to.equal('F');
+      expect(Note.numNoteToAlpha(6)).to.equal('F#/Gb');
+      expect(Note.numNoteToAlpha(7)).to.equal('G');
+      expect(Note.numNoteToAlpha(8)).to.equal('G#/Ab');
+      expect(Note.numNoteToAlpha(9)).to.equal('A');
+      expect(Note.numNoteToAlpha(10)).to.equal('A#/Bb');
+      expect(Note.numNoteToAlpha(11)).to.equal('B');
     });
 
     it('Should properly filter by sharp and flat', () => {
-      expect(Note.numericNoteToAlpha(1, 'b')).to.equal('Db');
-      expect(Note.numericNoteToAlpha(1, '#')).to.equal('C#');
-      expect(Note.numericNoteToAlpha(3, 'b')).to.equal('Eb');
-      expect(Note.numericNoteToAlpha(3, '#')).to.equal('D#');
-      expect(Note.numericNoteToAlpha(6, 'b')).to.equal('Gb');
-      expect(Note.numericNoteToAlpha(6, '#')).to.equal('F#');
-      expect(Note.numericNoteToAlpha(8, 'b')).to.equal('Ab');
-      expect(Note.numericNoteToAlpha(8, '#')).to.equal('G#');
-      expect(Note.numericNoteToAlpha(10, 'b')).to.equal('Bb');
-      expect(Note.numericNoteToAlpha(10, '#')).to.equal('A#');
+      expect(Note.numNoteToAlpha(1, 'b')).to.equal('Db');
+      expect(Note.numNoteToAlpha(1, '#')).to.equal('C#');
+      expect(Note.numNoteToAlpha(3, 'b')).to.equal('Eb');
+      expect(Note.numNoteToAlpha(3, '#')).to.equal('D#');
+      expect(Note.numNoteToAlpha(6, 'b')).to.equal('Gb');
+      expect(Note.numNoteToAlpha(6, '#')).to.equal('F#');
+      expect(Note.numNoteToAlpha(8, 'b')).to.equal('Ab');
+      expect(Note.numNoteToAlpha(8, '#')).to.equal('G#');
+      expect(Note.numNoteToAlpha(10, 'b')).to.equal('Bb');
+      expect(Note.numNoteToAlpha(10, '#')).to.equal('A#');
     });
   });
 

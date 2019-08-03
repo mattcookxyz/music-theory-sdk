@@ -19,7 +19,7 @@ All methods can be used statically from these imported objects - there is curren
 ```javascript
 import { Note, Chord, Set, Scale } from 'music-theory-toolkit';
 
-const note = Note.numericNoteToAlpha(10, '#');
+const note = Note.numNoteToAlpha(10, '#');
 ```
 
 # Usage

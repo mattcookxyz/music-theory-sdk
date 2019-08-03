@@ -13,7 +13,7 @@ export default class Note {
   static random(alpha = false, flatSharpFilter = false) {
     const note = Math.floor(Math.random() * 12);
     if (alpha) {
-      return this.numericNoteToAlpha(note, flatSharpFilter);
+      return this.numNoteToAlpha(note, flatSharpFilter);
     } else {
       return note;
     }
@@ -26,7 +26,7 @@ export default class Note {
    * @param {string} flatSharpFilter - 'b' or '#' will result in 'Db' or 'C#' instead of 'Db/C#'
    * @returns {string} an alpha note ('A#/Bb')
    */
-  static numericNoteToAlpha(numNote, flatSharpFilter = false) {
+  static numNoteToAlpha(numNote, flatSharpFilter = false) {
     // Convert to alpha
     while (numNote > 11) numNote -= 12;
     let alphaNote = toAlphaDict[numNote];
@@ -87,7 +87,7 @@ export default class Note {
 
     // If the note started as alpha, return to alpha
     if (inputIsAlpha) {
-      appliedInterval = Note.numericNoteToAlpha(appliedInterval, flatSharpFilter);
+      appliedInterval = Note.numNoteToAlpha(appliedInterval, flatSharpFilter);
     }
 
     return appliedInterval;

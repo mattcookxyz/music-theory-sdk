@@ -26,7 +26,7 @@ export default class Chord {
     const quality = qualities[Math.floor(Math.random() * qualities.length)];
     const root = Note.random();
     const alphaChord =
-      Note.numericNoteToAlpha(root, flatSharpFilter) + quality.symbol;
+      Note.numNoteToAlpha(root, flatSharpFilter) + quality.symbol;
     const numChord = this.applyStructureToRoot(
       root,
       quality.structure,
@@ -95,7 +95,7 @@ export default class Chord {
     );
     if (alpha) {
       const alpha = numeric.map(numericNote => {
-        return Note.numericNoteToAlpha(numericNote, flatSharpFilter);
+        return Note.numNoteToAlpha(numericNote, flatSharpFilter);
       });
       return alpha;
     } else {
