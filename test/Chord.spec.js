@@ -10,7 +10,7 @@ describe('Chord Class', () => {
     it('Should return a random chord', () => {
       let chord = Chord.random();
       expect(chord).to.haveOwnProperty('alphaChord');
-      expect(chord).to.haveOwnProperty('numericChord');
+      expect(chord).to.haveOwnProperty('numChord');
       expect(chord).to.haveOwnProperty('quality');
       expect(chord).to.haveOwnProperty('root');
     });
