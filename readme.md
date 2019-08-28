@@ -1,7 +1,5 @@
 # Music Theory Toolkit
 
-**More API documentation is coming soon.**
-
 This is a toolkit for note/chord/set parsing, transposition, and enumeration.
 
 This repository is under active development. Help is welcome!
