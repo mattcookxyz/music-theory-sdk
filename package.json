@@ -1,6 +1,6 @@
 {
   "name": "music-theory-toolkit",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "Note/chord/set parsing, transposition, and enumeration tools",
   "main": "./lib/index.js",
   "scripts": {
