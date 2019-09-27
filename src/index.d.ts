@@ -1,9 +1,9 @@
 declare module "music-theory-toolkit" {
     declare class Note {
-        static random(alpha: boolean, flatSharpFilter?: boolean|string): string|number;
-        static numNoteToAlpha(numNote: number, flatSharpFilter?: boolean|string): string;
+        static random(alpha: boolean, flatSharpFilter: boolean|string = false): string|number;
+        static numNoteToAlpha(numNote: number, flatSharpFilter: boolean|string = false): string;
         static alphaNoteToNumeric(alphaNote: string): number;
-        static applyInterval(root: string|number, interval: number, constrainToBaseOctave?: boolean, flatSharpFilter?: boolean|string): number|string;
+        static applyInterval(root: string|number, interval: number, constrainToBaseOctave: boolean = false, flatSharpFilter: boolean|string = false): number|string;
         toAlphaDict: {
             [index: number]: string;
         }
