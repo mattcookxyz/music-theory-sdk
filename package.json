@@ -1,11 +1,13 @@
 {
   "name": "music-theory-toolkit",
-  "version": "0.5.10",
+  "version": "0.6.0",
   "description": "Note/chord/set parsing, transposition, and enumeration tools",
   "main": "./lib/index.js",
   "scripts": {
     "preversion": "npm test",
-    "build": "babel src -d lib",
+    "build": "npm run compile && npm run copy-types",
+    "compile": "babel src -d lib",
+    "copy-types": "cp src/index.d.ts lib/index.d.ts",
     "setup-docs": "echo '[Click here to return to the readme.](../readme.md)\n' > docs/models.md",
     "create-docs": "npm run setup-docs && jsdoc2md src/models/*.js >> docs/models.md",
     "test": "nyc mocha -r @babel/register test/*.spec.js",
