@@ -9,9 +9,7 @@ describe('Note Class', () => {
       expect(new Note()
       .toAlpha()
       .toNum()
-      .calculate()
       .transpose(12)
-      .calculate()
       .transpose(-35)).to.not.throw;
     });
   });

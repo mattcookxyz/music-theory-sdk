@@ -13,12 +13,12 @@ export class Note {
     this.calculate();
   }
 
-  getFrequency() {
+  private getFrequency() {
     this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
     return this;
   }
 
-  getAbsolute() {
+  private getAbsolute() {
     if (typeof this.value === 'number') {
       this.absolute = this.value + (12 * this.octave);
     } else if (typeof this.value ==='string') {
@@ -30,14 +30,7 @@ export class Note {
     return this;
   }
 
-  randomize(flatSharpFilter: boolean|string) {
-    // Get random note
-    this.value = getRandom(this.alpha || typeof(this.value) === 'string', flatSharpFilter);
-    this.calculate();
-    return this;
-  }
-
-  calculate() {
+  private calculate() {
     // Calculate absolute note value including octave
     this.getAbsolute();
     this.getFrequency();
@@ -45,7 +38,14 @@ export class Note {
     return this;
   }
 
-  toNum() {
+  public randomize(flatSharpFilter: boolean|string) {
+    // Get random note
+    this.value = getRandom(this.alpha || typeof(this.value) === 'string', flatSharpFilter);
+    this.calculate();
+    return this;
+  }
+
+  public toNum() {
     // Convert to numeric if needed
     if (this.alpha) {
       this.value = alphaToNumeric.get(this.value as string);
@@ -55,7 +55,7 @@ export class Note {
     return this;
   }
 
-  toAlpha() {
+  public toAlpha() {
     // Convert to alpha if needed
     if (!this.alpha) {
       this.value = numericToAlpha.get(this.value as number);
@@ -65,7 +65,7 @@ export class Note {
     return this;
   }
 
-  transpose(interval: number) {
+  public transpose(interval: number) {
 
     // If alpha, converts note,
     // and converts back at end of calculation
