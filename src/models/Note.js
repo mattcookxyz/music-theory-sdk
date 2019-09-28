@@ -1,130 +1,160 @@
-/**
- * Generate, transpose, and translate numeric/alphabetical chords.
- * @namespace Note
- */
 export default class Note {
-  /**
-   * Generates a random note.
-   * @memberof Note
-   * @param {number} alpha - whether to return an alpha note ( 'C#' vs. 1 )
-   * @param {string} flatSharpFilter - if asAlpha = true, 'b' or '#' will result in 'Db' or 'C#' instead of 'Db/C#'
-   * @returns {string|number} a random note
-   */
-  static random(alpha = false, flatSharpFilter = false) {
-    const note = Math.floor(Math.random() * 12);
-    if (alpha) {
-      return this.numNoteToAlpha(note, flatSharpFilter);
+  constructor(note = Math.floor(Math.random() * 12), octave = 4) {
+    this.value = note;
+    this.alpha = typeof note === 'string';
+    this.octave = octave;
+    this.calculate();
+  }
+
+  getFrequency() {
+    this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
+    return this;
+  }
+
+  getAbsolute() {
+    if (typeof this.value === 'number') {
+      this.absolute = this.value + (12 * this.octave);
+    } else if (typeof this.value ==='string') {
+      this.absolute = alphaToNumeric.get(this.value) + (12 * this.octave);
     } else {
-      return note;
+      // Note can only be a number or string
+      throw Error(`Unsupported note type: ${typeof this.value}`)
     }
+    return this;
   }
 
-  /**
-   * Converts a numeric note (10) to alpha ('A#/Bb')
-   * @memberof Note
-   * @param {number} numNote - integer between 0 and 11, representing a chromatic note to convert to alpha
-   * @param {string} flatSharpFilter - 'b' or '#' will result in 'Db' or 'C#' instead of 'Db/C#'
-   * @returns {string} an alpha note ('A#/Bb')
-   */
-  static numNoteToAlpha(numNote, flatSharpFilter = false) {
-    // Convert to alpha
-    while (numNote > 11) numNote -= 12;
-    let alphaNote = toAlphaDict[numNote];
-
-    // Split strings to only show flat or sharp note if argument flatSharpFilter is provided
-    if (flatSharpFilter && alphaNote.search('/') !== -1) {
-      switch (flatSharpFilter) {
-        case '#':
-          alphaNote = alphaNote.split('/')[0];
-          break;
-        case 'b':
-          alphaNote = alphaNote.split('/')[1];
-          break;
-        default:
-          throw Error(
-            'Invalid flatSharpFilter argument given: ' + flatSharpFilter
-          );
-      }
-    }
-
-    return alphaNote;
+  randomize(flatSharpFilter) {
+    // Get random note
+    this.value = getRandom(this.alpha || typeof(this.value) === 'string', flatSharpFilter);
+    this.calculate();
+    return this;
   }
 
-  /**
-   * Converts an alpha note ('C') to numeric (0)
-   * @memberof Note
-   * @param {string} alphaNote - alpha note ('C') to convert to numeric note (0)
-   * @returns {number} a numeric note (0)
-   */
-  static alphaNoteToNumeric(alphaNote) {
-    return toNumDict[alphaNote];
+  calculate() {
+    // Calculate absolute note value including octave
+    this.getAbsolute();
+    this.getFrequency();
+    console.log(this);
+    return this;
   }
 
-  /**
-   * Applies a given interval to an alpha or numeric note
-   * @memberof Note
-   * @param {number|string} root - the note to transpose from
-   * @param {number} interval - the interval to apply to the note
-   * @param {boolean} constrainToBaseOctave - whether to keep the output note within the base octave, or 0-11 range
-   * @param {string} flatSharpFilter - 'b' or '#' will result in 'Db' or 'C#' instead of 'Db/C#'
-   * @returns {number|string} the note after application of given interval
-   */
-  static applyInterval(root, interval, constrainToBaseOctave = true, flatSharpFilter = false) {
-    // If input root is alphaNote, convert to numeric for calculation
-    let inputIsAlpha = false;
-    if (typeof root === 'string') {
-      root = Note.alphaNoteToNumeric(root);
-      inputIsAlpha = true;
+  toNum() {
+    // Convert to numeric if needed
+    if (this.alpha) {
+      this.value = alphaToNumeric.get(this.value);
+      this.alpha = false;
+      this.calculate();
+    }
+    return this;
+  }
+
+  toAlpha() {
+    // Convert to alpha if needed
+    if (!this.alpha) {
+      this.value = numericToAlpha.get(this.value);
+      this.alpha = true;
+      this.calculate();
+    }
+    return this;
+  }
+
+  transpose(interval) {
+
+    // If alpha, converts note,
+    // and converts back at end of calculation
+    let alpha;
+    if (typeof this.value === 'string') {
+      alpha = true;
+      this.numeric();
     }
 
-    // Add interval
-    let appliedInterval = root + interval;
+    // Transpose
+    this.value += interval;
 
-    // If constrained to base octave, transpose down
-    while (appliedInterval > 11 && constrainToBaseOctave === true) {
-      appliedInterval -= 12;
+    // Account for octave jumps, and keep
+    // base note within 0-11
+    while (this.value >= 12) {
+      this.value -= 12;
+      this.octave += 1;
+    }
+    while (this.value < 0) {
+      this.value += 12;
+      this.octave -= 1;
     }
 
-    // If the note started as alpha, return to alpha
-    if (inputIsAlpha) {
-      appliedInterval = Note.numNoteToAlpha(appliedInterval, flatSharpFilter);
+    // Convert back to alpha if needed
+    if (alpha) {
+      this.value = numericToAlpha.get(this.value);
     }
 
-    return appliedInterval;
+    // Calculate absolute note value and return
+    this.calculate();
+    return this;
   }
 }
 
-const toAlphaDict = {
-  0: 'C',
-  1: 'C#/Db',
-  2: 'D',
-  3: 'D#/Eb',
-  4: 'E',
-  5: 'F',
-  6: 'F#/Gb',
-  7: 'G',
-  8: 'G#/Ab',
-  9: 'A',
-  10: 'A#/Bb',
-  11: 'B'
-};
+const getRandom = (alpha = false, flatSharpFilter = false) => {
+  // Get initial random numeric note
+  let note = Math.floor(Math.random() * 12);
 
-const toNumDict = {
-  C: 0,
-  Db: 1,
-  'C#': 1,
-  D: 2,
-  Eb: 3,
-  'D#': 3,
-  E: 4,
-  F: 5,
-  Gb: 6,
-  'F#': 6,
-  G: 7,
-  Ab: 8,
-  'G#': 8,
-  A: 9,
-  Bb: 10,
-  'A#': 10,
-  B: 11
-};
+  // If alpha, convert to alpha note
+  if (alpha) {
+    note = numericToAlpha.get(note);
+
+    // Apply filter if desired/needed
+    if (flatSharpFilter && note.search('/') !== -1) {
+      switch(flatSharpFilter) {
+        case '#':
+          note = note.split('/')[0];
+          break;
+        case 'b':
+          note = note.split('/')[1];
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  return note;
+}
+
+const numericToAlpha = new Map([
+  [0, 'C'],
+  [1, 'C#/Db'],
+  [2, 'D'],
+  [3, 'D#/Eb'],
+  [4, 'E'],
+  [5, 'F'],
+  [6, 'F#/Gb'],
+  [7, 'G'],
+  [8, 'G#/Ab'],
+  [9, 'A'],
+  [10, 'A#/Bb'],
+  [11, 'B']
+]);
+
+const alphaToNumeric = new Map([
+  ['C', 0],
+  ['C#', 1],
+  ['Db', 1],
+  ['C#/Db', 1],
+  ['D', 2],
+  ['D#', 3],
+  ['Eb', 3],
+  ['D#/Eb', 3],
+  ['E', 4],
+  ['F', 5],
+  ['F#', 6],
+  ['Gb', 6],
+  ['F#/Gb', 6],
+  ['G', 7],
+  ['G#', 8],
+  ['Ab', 8],
+  ['G#/Ab', 8],
+  ['A', 9],
+  ['A#', 10],
+  ['Bb', 10],
+  ['A#/Bb', 10],
+  ['B', 11]
+]);
