@@ -6,7 +6,7 @@ export class Note {
   public absolute: number;
   public frequency: number;
 
-  constructor(note = Math.floor(Math.random() * 12), octave = 4) {
+  constructor(note: number|string = Math.floor(Math.random() * 12), octave: number = 4) {
     this.value = note;
     this.alpha = typeof note === 'string';
     this.octave = octave;

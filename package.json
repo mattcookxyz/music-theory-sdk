@@ -7,8 +7,6 @@
     "preversion": "npm test",
     "build": "rimraf lib && npm run compile",
     "compile": "tsc",
-    "setup-docs": "echo '[Click here to return to the readme.](../readme.md)\n' > docs/models.md",
-    "create-docs": "npm run setup-docs && jsdoc2md src/models/*.js >> docs/models.md",
     "test": "nyc mocha -r ts-node/register test/*.spec.ts",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
