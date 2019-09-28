@@ -1,4 +1,4 @@
-import Note from '../src/models/Note';
+import { Note } from '../src';
 
 import { describe, it } from 'mocha';
 import { expect } from 'chai';

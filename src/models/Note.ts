@@ -1,4 +1,11 @@
-export default class Note {
+export class Note {
+
+  public value: number|string;
+  public alpha: boolean;
+  public octave: number;
+  public absolute: number;
+  public frequency: number;
+
   constructor(note = Math.floor(Math.random() * 12), octave = 4) {
     this.value = note;
     this.alpha = typeof note === 'string';
@@ -23,7 +30,7 @@ export default class Note {
     return this;
   }
 
-  randomize(flatSharpFilter) {
+  randomize(flatSharpFilter: boolean|string) {
     // Get random note
     this.value = getRandom(this.alpha || typeof(this.value) === 'string', flatSharpFilter);
     this.calculate();
@@ -41,7 +48,7 @@ export default class Note {
   toNum() {
     // Convert to numeric if needed
     if (this.alpha) {
-      this.value = alphaToNumeric.get(this.value);
+      this.value = alphaToNumeric.get(this.value as string);
       this.alpha = false;
       this.calculate();
     }
@@ -51,40 +58,40 @@ export default class Note {
   toAlpha() {
     // Convert to alpha if needed
     if (!this.alpha) {
-      this.value = numericToAlpha.get(this.value);
+      this.value = numericToAlpha.get(this.value as number);
       this.alpha = true;
       this.calculate();
     }
     return this;
   }
 
-  transpose(interval) {
+  transpose(interval: number) {
 
     // If alpha, converts note,
     // and converts back at end of calculation
-    let alpha;
-    if (typeof this.value === 'string') {
-      alpha = true;
-      this.numeric();
+    let tempNumeric;
+    if (this.alpha) {
+      tempNumeric = true;
+      this.toNum();
     }
 
     // Transpose
-    this.value += interval;
+    (this.value as number) += interval;
 
     // Account for octave jumps, and keep
     // base note within 0-11
     while (this.value >= 12) {
-      this.value -= 12;
+      (this.value as number) -= 12;
       this.octave += 1;
     }
     while (this.value < 0) {
-      this.value += 12;
+      (this.value as number) += 12;
       this.octave -= 1;
     }
 
     // Convert back to alpha if needed
-    if (alpha) {
-      this.value = numericToAlpha.get(this.value);
+    if (tempNumeric) {
+      this.value = numericToAlpha.get(this.value as number);
     }
 
     // Calculate absolute note value and return
@@ -93,11 +100,11 @@ export default class Note {
   }
 }
 
-const getRandom = (alpha = false, flatSharpFilter = false) => {
+const getRandom = (alpha: boolean = false, flatSharpFilter: boolean|string = false) => {
   // Get initial random numeric note
-  let note = Math.floor(Math.random() * 12);
+  let note: number|string = Math.floor(Math.random() * 12);
 
-  // If alpha, convert to alpha note
+  // If numeric, convert to alpha note
   if (alpha) {
     note = numericToAlpha.get(note);
 
