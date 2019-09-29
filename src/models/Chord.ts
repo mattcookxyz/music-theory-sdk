@@ -8,39 +8,65 @@ export class Chord {
   public notes: Note[];
   public quality: IQuality;
 
-  constructor(notes?: Note[]) {
-    if (notes) {
-      this.notes = sortBy(notes, note => note.absolute);
-      this.root = this.notes[0];
-      const rootAbsolute = this.root.absolute;
-      const baselined = uniq(this.notes.map(note => note.absolute - rootAbsolute));
-      this.quality = find(qualities, (val) => {
-        return isEqual(val, baselined);
-      });
+  constructor(root: number|string|Note = new Note(), quality: string|IQuality = randomQuality()) {
+    this.generate(root || undefined, quality || undefined);
+  }
+
+  public static generate(root?: Note|string|number, quality?: string|IQuality) {
+    return new Chord(root, quality);
+  }
+
+  public static from(set: Note[]|number[]|string[]) {
+    let notes: Note[];
+    if (set[0] instanceof Note) {
+      notes = sortBy(set, note => (note as Note).absolute) as Note[];
+    } else if (typeof set[0] === 'number' || typeof set[0] === 'string') {
+      notes = Set.from(set).notes;
     }
+    const chord = new Chord(notes[0], null);
+    chord.notes = notes;
+    chord.parseQuality();
+    return chord;
   }
 
   public generate(
     root: Note|string|number = new Note(),
-    quality: string|IQuality = randomQuality()) {
-    if (root instanceof Note) {
-      this.root = root;
-    } else if (typeof root === 'string' || typeof root === 'number') {
-      this.root = new Note(root);
+    quality: string|IQuality = randomQuality(),
+    ) {
+
+    this.setRoot(root);
+    this.setQuality(quality);
+    if (this.quality) {
+      this.notes = applyStructureToRoot(this.root, this.quality.structure);
     }
-    if (typeof quality === 'string') {
-      this.quality = qualities[quality];
-    } else {
-      this.quality = quality;
-    }
-    this.notes = applyStructureToRoot(this.root, this.quality.structure);
+    console.log(this);
     return this;
   }
 
-  public static generate(
-    root?: Note|string|number,
-    quality?: string|IQuality) {
-    return new Chord().generate(root, quality);
+  private setRoot(root: Note|string|number) {
+    if (root instanceof Note) {
+      this.root = root;
+    } else {
+      this.root = new Note(root);
+    }
+  }
+
+  private setQuality(quality: string|IQuality) {
+    if (typeof quality === 'string') {
+      this.quality = qualities[quality];
+    } else if (quality === null) {
+      this.quality === null;
+    } else {
+      this.quality = quality;
+    }
+  }
+
+  private parseQuality() {
+    const structure: number[] = [];
+    for (let i = 0; i < this.notes.length; i += 1) {
+      structure.push(this.notes[i].absolute - this.notes[0].absolute);
+    }
+    this.quality = find(qualities, quality => isEqual(quality.structure, structure));
   }
 }
 
@@ -55,12 +81,12 @@ export const applyStructureToRoot = (root: number|string|Note, structure: number
   let rootNote: Note;
   const applied: Note[] = [];
   if (!(root instanceof Note)) {
-    rootNote = new Note(root);
+    rootNote = Note.generate(root);
   } else {
     rootNote = root;
   }
   for (let i = 0; i < structure.length; i += 1) {
-    applied.push(new Note(rootNote.numeric).transpose(structure[i]));
+    applied.push(Note.generate(rootNote.numeric, rootNote.octave).transpose(structure[i]));
   }
   return applied;
 };
@@ -134,7 +160,7 @@ export const qualities: { [index: string]: IQuality } = {
     difficulty: 2,
     type: 'Minor 7th',
     symbol: 'm7',
-    structure: [0, 4, 7, 11],
+    structure: [0, 3, 7, 10],
   },
   dim7: {
     difficulty: 2,

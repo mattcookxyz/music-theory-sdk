@@ -7,7 +7,7 @@ export class Set {
   public ordered: boolean;
   public order: string|null;
 
-  constructor(length: number = 0, random: boolean = false) {
+  constructor(length: number = 12, random: boolean = false) {
     const notes: Note[] = [];
 
     if (random) {
@@ -23,7 +23,22 @@ export class Set {
     this.notes = notes;
     this.ordered = !random && length > 0;
     this.order = this.ordered ? 'ascending' : null;
-    console.log(this);
+  }
+
+  public static from(notes: Note[]|number[]|string[]) {
+    const set = new Set(0);
+    for (let i = 0; i < notes.length; i += 1) {
+      if (!(notes[i] instanceof Note)) {
+        const toPush = new Note(notes[i] as number|string);
+        while (notes[i - 1] && toPush.absolute <= (set.notes[i - 1] as Note).absolute) {
+          toPush.transpose(12);
+        }
+        set.push(toPush);
+      } else {
+        set.push(notes[i] as Note);
+      }
+    }
+    return set;
   }
 
   public shuffle() {
@@ -53,6 +68,11 @@ export class Set {
     this.order = null;
   }
 
+  public push(note: Note) {
+    this.notes.push(note);
+    this.retainOrder();
+  }
+
   public static sortAscending(notes: Note[]) {
     return sortBy(notes, note => note.absolute);
   }
@@ -65,6 +85,17 @@ export class Set {
     for (let i = 0; i < count; i += 1) {
       this.notes.push(new Note());
     }
+    this.retainOrder();
+    return this;
+  }
+
+  public remove(count: number) {
+    const numToRemove = this.notes.length - count || 0;
+    this.notes = this.notes.slice(0, numToRemove);
+    return this;
+  }
+
+  private retainOrder() {
     switch (this.order) {
       case 'ascending':
         this.sortAscending();
@@ -75,12 +106,5 @@ export class Set {
       default:
         break;
     }
-    return this;
-  }
-
-  public remove(count: number) {
-    const numToRemove = this.notes.length - count || 0;
-    this.notes = this.notes.slice(0, numToRemove);
-    return this;
   }
 }

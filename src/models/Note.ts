@@ -6,35 +6,23 @@ export class Note {
   public absolute: number;
   public frequency: number;
 
-  constructor() {}
-
-  private getFrequency() {
-    this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
-    return this;
+  constructor(note?: string|number, octave?: number) {
+    this.generate(note || undefined, octave || undefined);
   }
 
-  private getAbsolute() {
-    this.absolute = this.numeric + (12 * this.octave);
-    return this;
+  // Alternative way to construct a Note object
+  public static generate(note?: number|string, octave?: number) {
+    return new Note(note, octave);
   }
 
-  private baseline(numeric: number, octave: number) {
-    while (numeric > 11) {
-      numeric -= 12;
-      octave += 1;
+  public generate(note: number|string = Math.floor(Math.random() * 12), octave: number = 4) {
+    if (typeof note === 'string') {
+      this.generateFromString(note, octave);
+    } else if (typeof note === 'number') {
+      this.generateFromNumber(note, octave);
+    } else {
+      throw Error(`Note input type ${typeof note} is not supported.`);
     }
-    while (numeric < 0) {
-      numeric += 12;
-      octave -= 1;
-    }
-    return { numeric, octave }
-  }
-
-  private calculate() {
-    // Calculate absolute note value including octave
-    this.getAbsolute();
-    this.getFrequency();
-    console.log(this);
     return this;
   }
 
@@ -47,39 +35,74 @@ export class Note {
   }
 
   public transpose(interval: number) {
-
     // Transpose
     this.numeric += interval;
-
-    // Account for octave jumps, and keep
-    // base note within 0-11
-    const { numeric, octave } = this.baseline(this.numeric, this.octave);
-    this.numeric = numeric;
-    this.alpha = numericToAlpha.get(numeric);
-    this.octave = octave;
-
+    this.baseline();
+    this.alpha = numericToAlpha.get(this.numeric);
     // Calculate absolute note value and return
     this.calculate();
     return this;
   }
 
-  public generate(note: number|string = Math.floor(Math.random() * 12), octave: number = 4) {
-    if (typeof note === 'string') {
+  private generateFromNumber(note: number, octave: number) {
+    this.octave = octave;
+    this.setNumeric(note);
+    this.alpha = numericToAlpha.get(this.numeric);
+    this.calculate();
+  }
+
+  private generateFromString(note: string, octave?: number) {
+    // Allow input like 'C#4'
+    const indexOfNum = note.search(/[0-9]/g);
+    if (indexOfNum !== -1) {
+      this.alpha = note.slice(0, indexOfNum);
+      this.octave = parseInt(note.slice(indexOfNum));
+      this.setNumeric(alphaToNumeric.get(this.alpha));
+      this.calculate();
+    } else {
       this.alpha = note;
       this.octave = octave;
-      this.numeric = alphaToNumeric.get(note);
-    } else if (typeof note === 'number') {
-      const baselined = this.baseline(note, octave);
-      this.octave = baselined.octave;
-      this.alpha = numericToAlpha.get(baselined.numeric);
-      this.numeric = baselined.numeric;
+      this.setNumeric(alphaToNumeric.get(note));
+      this.calculate();
     }
+  }
+
+  private setNumeric(number: number) {
+    this.numeric = number;
+    this.baseline();
     this.calculate();
     return this;
   }
 
-  public static generate(note?: number|string, octave?: number) {
-    return new Note().generate(note, octave);
+  private baseline() {
+    while (this.numeric > 11) {
+      this.numeric -= 12;
+      this.octave += 1;
+    }
+    while (this.numeric < 0) {
+      this.numeric += 12;
+      this.octave -= 1;
+    }
+    return this;
+  }
+
+  private calculate() {
+    // Calculate absolute note value including octave
+    this.getAbsolute();
+    this.getFrequency();
+    return this;
+  }
+
+  private getFrequency() {
+    // Calculate and assign frequency
+    this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
+    return this;
+  }
+
+  private getAbsolute() {
+    // Calculate and assign absolute value of note
+    this.absolute = this.numeric + (12 * this.octave);
+    return this;
   }
 }
 
