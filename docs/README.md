@@ -1,3 +1,7 @@
+[music-theory-toolkit](README.md) › [Globals](globals.md)
+
+# music-theory-toolkit
+
 # Music Theory Toolkit
 
 This is a toolkit for note/chord/set parsing, transposition, and enumeration.
@@ -22,7 +26,7 @@ const note = Note.numNoteToAlpha(10, '#');
 
 # Usage
 
-Click [here](docs/globals.md) to view the generated documentation.
+There are currently 4 primary classes available - Note, Chord, Set, and Scale - some sharing common functionality.
 
 # Testing and Development
 

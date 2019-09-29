@@ -8,7 +8,9 @@
     "build": "rimraf lib && npm run compile",
     "compile": "tsc",
     "test": "nyc mocha -r ts-node/register test/*.spec.ts",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "docs:gen": "npm run docs:clear && typedoc src/models --mode file",
+    "docs:clear": "rimraf docs"
   },
   "nyc": {
     "include": [
@@ -58,7 +60,9 @@
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-config-airbnb": "^5.11.2",
-    "tslint-config-security": "^1.16.0"
+    "tslint-config-security": "^1.16.0",
+    "typedoc": "^0.15.0",
+    "typedoc-plugin-markdown": "^2.2.7"
   },
   "dependencies": {
     "lodash": "^4.17.11",

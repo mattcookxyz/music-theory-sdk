@@ -8,7 +8,7 @@ describe('Note Class', () => {
     it('Should properly generate a random note', () => {
       expect(new Note()
       .toAlpha()
-      .toNum()
+      .toNumeric()
       .transpose(12)
       .transpose(-35)).to.not.throw;
     });

@@ -45,7 +45,7 @@ export class Note {
     return this;
   }
 
-  public toNum() {
+  public toNumeric() {
     // Convert to numeric if needed
     if (this.alpha) {
       this.value = alphaToNumeric.get(this.value as string);
@@ -72,7 +72,7 @@ export class Note {
     let tempNumeric;
     if (this.alpha) {
       tempNumeric = true;
-      this.toNum();
+      this.toNumeric();
     }
 
     // Transpose
