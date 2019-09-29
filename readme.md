@@ -22,7 +22,7 @@ const note = Note.numNoteToAlpha(10, '#');
 
 # Usage
 
-Click [here](docs/globals.md) to view the generated documentation.
+[Click here](docs/README.md) to view the generated documentation.
 
 # Testing and Development
 

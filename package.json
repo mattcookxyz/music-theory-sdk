@@ -9,7 +9,7 @@
     "compile": "tsc",
     "test": "nyc mocha -r ts-node/register test/*.spec.ts",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "docs:gen": "npm run docs:clear && typedoc src/models --mode file",
+    "docs:gen": "npm run docs:clear && typedoc src --mode file --readme none --hideGenerator",
     "docs:clear": "rimraf docs"
   },
   "nyc": {

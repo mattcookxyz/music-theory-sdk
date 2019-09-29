@@ -1,35 +1,87 @@
-[music-theory-toolkit](README.md) › [Globals](globals.md)
+[music-theory-toolkit](README.md)
 
 # music-theory-toolkit
 
-# Music Theory Toolkit
+## Index
 
-This is a toolkit for note/chord/set parsing, transposition, and enumeration.
+### Classes
 
-This repository is under active development. Help is welcome!
+* [Note](classes/note.md)
 
-# Installation and Setup
+### Variables
 
-In your node or JavaScript project using NPM ( run `npm init` in a new directory, and follow the prompts ):
+* [alphaToNumeric](README.md#const-alphatonumeric)
+* [numericToAlpha](README.md#const-numerictoalpha)
 
-```bash
-npm i music-theory-toolkit
-```
+### Functions
 
-All methods can be used statically from these imported objects - there is currently no need to instantiate them:
+* [getRandom](README.md#const-getrandom)
 
-```javascript
-import { Note, Chord, Set, Scale } from 'music-theory-toolkit';
+## Variables
 
-const note = Note.numNoteToAlpha(10, '#');
-```
+### `Const` alphaToNumeric
 
-# Usage
+• **alphaToNumeric**: *Map‹string, number›* =  new Map([
+  ['C', 0],
+  ['C#', 1],
+  ['Db', 1],
+  ['C#/Db', 1],
+  ['D', 2],
+  ['D#', 3],
+  ['Eb', 3],
+  ['D#/Eb', 3],
+  ['E', 4],
+  ['F', 5],
+  ['F#', 6],
+  ['Gb', 6],
+  ['F#/Gb', 6],
+  ['G', 7],
+  ['G#', 8],
+  ['Ab', 8],
+  ['G#/Ab', 8],
+  ['A', 9],
+  ['A#', 10],
+  ['Bb', 10],
+  ['A#/Bb', 10],
+  ['B', 11]
+])
 
-There are currently 4 primary classes available - Note, Chord, Set, and Scale - some sharing common functionality.
+*Defined in [models/Note.ts:144](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L144)*
 
-# Testing and Development
+___
 
-Testing libraries: Mocha & Chai
+### `Const` numericToAlpha
 
-    npm test
+• **numericToAlpha**: *Map‹number, string›* =  new Map([
+  [0, 'C'],
+  [1, 'C#/Db'],
+  [2, 'D'],
+  [3, 'D#/Eb'],
+  [4, 'E'],
+  [5, 'F'],
+  [6, 'F#/Gb'],
+  [7, 'G'],
+  [8, 'G#/Ab'],
+  [9, 'A'],
+  [10, 'A#/Bb'],
+  [11, 'B']
+])
+
+*Defined in [models/Note.ts:129](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L129)*
+
+## Functions
+
+### `Const` getRandom
+
+▸ **getRandom**(`alpha`: boolean, `flatSharpFilter`: boolean | string): *string | number*
+
+*Defined in [models/Note.ts:103](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L103)*
+
+**Parameters:**
+
+Name | Type | Default |
+------ | ------ | ------ |
+`alpha` | boolean | false |
+`flatSharpFilter` | boolean &#124; string | false |
+
+**Returns:** *string | number*
