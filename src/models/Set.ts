@@ -4,7 +4,6 @@ import { sortBy, shuffle } from 'lodash';
 export class Set {
 
   public notes: Note[];
-  public alpha: boolean;
   public ordered: boolean;
   public order: string|null;
 
