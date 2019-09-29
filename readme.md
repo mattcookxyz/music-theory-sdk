@@ -24,8 +24,6 @@ const note = Note.numNoteToAlpha(10, '#');
 
 There are currently 4 primary classes available - Note, Chord, Set, and Scale - some sharing common functionality.
 
-[Click here for generated documentation on these classes and methods.](docs/models.md)
-
 # Testing and Development
 
 Testing libraries: Mocha & Chai
