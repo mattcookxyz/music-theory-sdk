@@ -36,7 +36,7 @@
 
 \+ **new Note**(`note`: number | string, `octave`: number): *[Note](note.md)*
 
-*Defined in [models/Note.ts:7](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L7)*
+*Defined in [models/Note.ts:7](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L7)*
 
 **Parameters:**
 
@@ -53,7 +53,7 @@ Name | Type | Default |
 
 • **absolute**: *number*
 
-*Defined in [models/Note.ts:6](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L6)*
+*Defined in [models/Note.ts:6](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L6)*
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • **alpha**: *boolean*
 
-*Defined in [models/Note.ts:4](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L4)*
+*Defined in [models/Note.ts:4](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L4)*
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 • **frequency**: *number*
 
-*Defined in [models/Note.ts:7](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L7)*
+*Defined in [models/Note.ts:7](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L7)*
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 • **octave**: *number*
 
-*Defined in [models/Note.ts:5](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L5)*
+*Defined in [models/Note.ts:5](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L5)*
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 • **value**: *number | string*
 
-*Defined in [models/Note.ts:3](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L3)*
+*Defined in [models/Note.ts:3](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L3)*
 
 ## Methods
 
@@ -93,7 +93,7 @@ ___
 
 ▸ **calculate**(): *this*
 
-*Defined in [models/Note.ts:33](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L33)*
+*Defined in [models/Note.ts:33](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L33)*
 
 **Returns:** *this*
 
@@ -103,7 +103,7 @@ ___
 
 ▸ **getAbsolute**(): *this*
 
-*Defined in [models/Note.ts:21](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L21)*
+*Defined in [models/Note.ts:21](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L21)*
 
 **Returns:** *this*
 
@@ -113,7 +113,7 @@ ___
 
 ▸ **getFrequency**(): *this*
 
-*Defined in [models/Note.ts:16](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L16)*
+*Defined in [models/Note.ts:16](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L16)*
 
 **Returns:** *this*
 
@@ -123,7 +123,7 @@ ___
 
 ▸ **randomize**(`flatSharpFilter`: boolean | string): *this*
 
-*Defined in [models/Note.ts:41](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L41)*
+*Defined in [models/Note.ts:41](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L41)*
 
 **Parameters:**
 
@@ -139,7 +139,7 @@ ___
 
 ▸ **toAlpha**(): *this*
 
-*Defined in [models/Note.ts:58](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L58)*
+*Defined in [models/Note.ts:58](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L58)*
 
 **Returns:** *this*
 
@@ -149,7 +149,7 @@ ___
 
 ▸ **toNumeric**(): *this*
 
-*Defined in [models/Note.ts:48](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L48)*
+*Defined in [models/Note.ts:48](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L48)*
 
 **Returns:** *this*
 
@@ -159,7 +159,7 @@ ___
 
 ▸ **transpose**(`interval`: number): *this*
 
-*Defined in [models/Note.ts:68](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L68)*
+*Defined in [models/Note.ts:68](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L68)*
 
 **Parameters:**
 

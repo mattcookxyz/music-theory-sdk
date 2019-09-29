@@ -1,4 +1,4 @@
-import { Note } from '../src';
+import { Note, Set } from '../src';
 
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
@@ -6,11 +6,7 @@ import { expect } from 'chai';
 describe('Note Class', () => {
   describe('Method: random', () => {
     it('Should properly generate a random note', () => {
-      expect(new Note()
-      .toAlpha()
-      .toNumeric()
-      .transpose(12)
-      .transpose(-35)).to.not.throw;
+      const set = new Set(3).shuffle();
     });
   });
 });

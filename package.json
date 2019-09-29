@@ -7,7 +7,7 @@
     "preversion": "npm test",
     "build": "rimraf lib && npm run compile",
     "compile": "tsc",
-    "test": "nyc mocha -r ts-node/register test/*.spec.ts",
+    "test": "nyc mocha -r ts-node/register test/**/*.spec.ts",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "docs:gen": "npm run docs:clear && typedoc src --mode file --readme none --hideGenerator",
     "docs:clear": "rimraf docs"
@@ -65,6 +65,7 @@
     "typedoc-plugin-markdown": "^2.2.7"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.141",
     "lodash": "^4.17.11",
     "typescript": "^3.6.3"
   }

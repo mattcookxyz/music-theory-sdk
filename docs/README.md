@@ -7,6 +7,7 @@
 ### Classes
 
 * [Note](classes/note.md)
+* [Set](classes/set.md)
 
 ### Variables
 
@@ -46,7 +47,7 @@
   ['B', 11]
 ])
 
-*Defined in [models/Note.ts:144](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L144)*
+*Defined in [models/Note.ts:144](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L144)*
 
 ___
 
@@ -67,7 +68,7 @@ ___
   [11, 'B']
 ])
 
-*Defined in [models/Note.ts:129](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L129)*
+*Defined in [models/Note.ts:129](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L129)*
 
 ## Functions
 
@@ -75,7 +76,7 @@ ___
 
 ▸ **getRandom**(`alpha`: boolean, `flatSharpFilter`: boolean | string): *string | number*
 
-*Defined in [models/Note.ts:103](https://github.com/mattcookxyz/music-theory-toolkit/blob/d87738c/src/models/Note.ts#L103)*
+*Defined in [models/Note.ts:103](https://github.com/mattcookxyz/music-theory-toolkit/blob/93ce004/src/models/Note.ts#L103)*
 
 **Parameters:**
 
