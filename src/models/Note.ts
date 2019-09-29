@@ -6,19 +6,7 @@ export class Note {
   public absolute: number;
   public frequency: number;
 
-  constructor(note: number|string = Math.floor(Math.random() * 12), octave: number = 4) {
-    if (typeof note === 'string') {
-      this.alpha = note;
-      this.octave = octave;
-      this.numeric = alphaToNumeric.get(note);
-    } else if (typeof note === 'number') {
-      const baselined = this.baseline(note, octave);
-      this.octave = baselined.octave;
-      this.alpha = numericToAlpha.get(baselined.numeric);
-      this.numeric = baselined.numeric;
-    }
-    this.calculate();
-  }
+  constructor() {}
 
   private getFrequency() {
     this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
@@ -73,6 +61,25 @@ export class Note {
     // Calculate absolute note value and return
     this.calculate();
     return this;
+  }
+
+  public generate(note: number|string = Math.floor(Math.random() * 12), octave: number = 4) {
+    if (typeof note === 'string') {
+      this.alpha = note;
+      this.octave = octave;
+      this.numeric = alphaToNumeric.get(note);
+    } else if (typeof note === 'number') {
+      const baselined = this.baseline(note, octave);
+      this.octave = baselined.octave;
+      this.alpha = numericToAlpha.get(baselined.numeric);
+      this.numeric = baselined.numeric;
+    }
+    this.calculate();
+    return this;
+  }
+
+  public static generate(note?: number|string, octave?: number) {
+    return new Note().generate(note, octave);
   }
 }
 

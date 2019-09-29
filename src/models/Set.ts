@@ -12,16 +12,16 @@ export class Set {
 
     if (random) {
       for (let i = 0; i < length; i += 1) {
-        notes.push(new Note(Math.floor(Math.random() * 12), 4));
+        notes.push(Note.generate(Math.floor(Math.random() * 12), 4));
       }
     } else {
       for (let i = 0; i < length; i += 1) {
-        notes.push(new Note(i, 4));
+        notes.push(Note.generate(i, 4));
       }
     }
 
     this.notes = notes;
-    this.ordered = !random;
+    this.ordered = !random && length > 0;
     this.order = this.ordered ? 'ascending' : null;
     console.log(this);
   }
@@ -45,6 +45,20 @@ export class Set {
     this.ordered = true;
     this.order = 'descending';
     return this;
+  }
+
+  public set(notes: Note[]) {
+    this.notes = notes;
+    this.ordered = false;
+    this.order = null;
+  }
+
+  public static sortAscending(notes: Note[]) {
+    return sortBy(notes, note => note.absolute);
+  }
+
+  public static sortDescending(notes: Note[]) {
+    return sortBy(notes, note => -note.absolute);
   }
 
   public add(count: number = 1) {
