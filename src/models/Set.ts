@@ -35,7 +35,7 @@ export class Set {
   }
 
   public sortAscending() {
-    this.notes = sortBy(this.notes, note => note.value);
+    this.notes = sortBy(this.notes, note => note.absolute);
     this.ordered = true;
     this.order = 'ascending';
     return this;

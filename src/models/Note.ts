@@ -1,15 +1,22 @@
 export class Note {
 
-  public value: number|string;
-  public alpha: boolean;
+  public numeric: number;
+  public alpha: string;
   public octave: number;
   public absolute: number;
   public frequency: number;
 
   constructor(note: number|string = Math.floor(Math.random() * 12), octave: number = 4) {
-    this.value = note;
-    this.alpha = typeof note === 'string';
-    this.octave = octave;
+    if (typeof note === 'string') {
+      this.alpha = note;
+      this.octave = octave;
+      this.numeric = alphaToNumeric.get(note);
+    } else if (typeof note === 'number') {
+      const baselined = this.baseline(note, octave);
+      this.octave = baselined.octave;
+      this.alpha = numericToAlpha.get(baselined.numeric);
+      this.numeric = baselined.numeric;
+    }
     this.calculate();
   }
 
@@ -19,15 +26,20 @@ export class Note {
   }
 
   private getAbsolute() {
-    if (typeof this.value === 'number') {
-      this.absolute = this.value + (12 * this.octave);
-    } else if (typeof this.value ==='string') {
-      this.absolute = alphaToNumeric.get(this.value) + (12 * this.octave);
-    } else {
-      // Note can only be a number or string
-      throw Error(`Unsupported note type: ${typeof this.value}`)
-    }
+    this.absolute = this.numeric + (12 * this.octave);
     return this;
+  }
+
+  private baseline(numeric: number, octave: number) {
+    while (numeric > 11) {
+      numeric -= 12;
+      octave += 1;
+    }
+    while (numeric < 0) {
+      numeric += 12;
+      octave -= 1;
+    }
+    return { numeric, octave }
   }
 
   private calculate() {
@@ -40,59 +52,22 @@ export class Note {
 
   public randomize(flatSharpFilter: boolean|string) {
     // Get random note
-    this.value = getRandom(this.alpha || typeof(this.value) === 'string', flatSharpFilter);
+    this.numeric = getRandom() as number;
     this.calculate();
-    return this;
-  }
-
-  public toNumeric() {
-    // Convert to numeric if needed
-    if (this.alpha) {
-      this.value = alphaToNumeric.get(this.value as string);
-      this.alpha = false;
-      this.calculate();
-    }
-    return this;
-  }
-
-  public toAlpha() {
-    // Convert to alpha if needed
-    if (!this.alpha) {
-      this.value = numericToAlpha.get(this.value as number);
-      this.alpha = true;
-      this.calculate();
-    }
     return this;
   }
 
   public transpose(interval: number) {
 
-    // If alpha, converts note,
-    // and converts back at end of calculation
-    let tempNumeric;
-    if (this.alpha) {
-      tempNumeric = true;
-      this.toNumeric();
-    }
-
     // Transpose
-    (this.value as number) += interval;
+    this.numeric += interval;
 
     // Account for octave jumps, and keep
     // base note within 0-11
-    while (this.value >= 12) {
-      (this.value as number) -= 12;
-      this.octave += 1;
-    }
-    while (this.value < 0) {
-      (this.value as number) += 12;
-      this.octave -= 1;
-    }
-
-    // Convert back to alpha if needed
-    if (tempNumeric) {
-      this.value = numericToAlpha.get(this.value as number);
-    }
+    const { numeric, octave } = this.baseline(this.numeric, this.octave);
+    this.numeric = numeric;
+    this.alpha = numericToAlpha.get(numeric);
+    this.octave = octave;
 
     // Calculate absolute note value and return
     this.calculate();
