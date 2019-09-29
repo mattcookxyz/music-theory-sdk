@@ -50,9 +50,10 @@ export class Note {
     return this;
   }
 
-  public randomize(flatSharpFilter: boolean|string) {
+  public randomize() {
     // Get random note
     this.numeric = getRandom() as number;
+    this.alpha = numericToAlpha.get(this.numeric);
     this.calculate();
     return this;
   }
