@@ -1,8 +1,3 @@
-interface IRandomNoteOpts {
-  alpha?: boolean;
-  flatSharpFilter?: boolean|string;
-}
-
 export class Note {
   public octave: number;
   public numeric: number;
@@ -140,6 +135,11 @@ export class Note {
     // Calculate and assign frequency
     this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
   }
+}
+
+interface IRandomNoteOpts {
+  alpha?: boolean;
+  flatSharpFilter?: boolean|string;
 }
 
 const numericToAlpha = new Map([
