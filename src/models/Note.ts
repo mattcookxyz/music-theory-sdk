@@ -37,6 +37,11 @@ export class Note {
     return note;
   }
 
+  // Takes a numeric note and optionally an octave. It will translate the numeric note to
+  // a number from 0-11, and adjust the octave accordingly, so the absolute note remains the same
+  // 12 => { numeric: 0, octave: 5 } (equiv. C5)
+  // 25 => { numeric: 1, octave: 6 }
+  // (12, 5) => { numeric: 0, octave: 6 }
   public static baseline = (note: number, octave?: number) => {
     // Set starting point
     let numeric = note;

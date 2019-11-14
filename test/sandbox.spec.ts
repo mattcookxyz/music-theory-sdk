@@ -6,7 +6,7 @@ const expect = chai.expect;
 
 describe('sandbox', () => {
   it('Should do something', () => {
-    const note = new Note('C#').transpose(0);
+    const note = Note.baseline(12, 5);
     console.log(note);
   });
 });
