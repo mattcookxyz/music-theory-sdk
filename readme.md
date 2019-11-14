@@ -2,7 +2,17 @@
 
 This is a toolkit for note/chord/set parsing, transposition, and enumeration.
 
-This repository is under active development. Help is welcome!
+Consider interfaces to be unstable - I'm not strictly following semver until this library hits v1.0.0, but the following might help guide adoption/usage until then:
+
+#### Stable interfaces:
+- Note (Class)
+
+#### Unstable interfaces:
+- Chord (Class) - Removed temporarily for redesign (last seen in v0.8.0)
+
+#### Not yet implemented interfaces:
+- Set (Class)
+- Scale (Class)
 
 # Installation and Setup
 
