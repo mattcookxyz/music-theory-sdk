@@ -31,8 +31,8 @@ const parsedNote = new Note('C#5');
 // Transpose a number of half-steps (re-calculates all relevant values)
 parsedNote.transpose(-12);
 
-// This class uses the builder pattern, so the following is also valid
-const buildNote = new Note('C#').transpose(12); // => Note object
+// This class uses the builder pattern, so you can do some pretty crazy things
+const buildNote = new Note('C#').transpose(12).transpose(-25).frequency; // => Note object
 ```
 
 Static Helpers
