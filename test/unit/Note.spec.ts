@@ -46,6 +46,20 @@ describe('Note Class', () => {
       expect(note.frequency).to.be.a('number');
     });
 
+    it('Should properly baseline a numeric note', () => {
+      const res1 = Note.baseline(12, 5);
+      expect(res1.numeric).to.equal(0);
+      expect(res1.octave).to.equal(6);
+
+      const res2 = Note.baseline(-1, 6);
+      expect(res2.numeric).to.equal(11);
+      expect(res2.octave).to.equal(5);
+
+      const res3 = Note.baseline(-12);
+      expect(res3.numeric).to.equal(0);
+      expect(res3.octave).to.equal(3);
+    });
+
     it('Should properly parse notes', () => {
       const noteC = new Note('C');
       const noteNeg1 = new Note(-1);
