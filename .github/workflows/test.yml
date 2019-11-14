@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - dev/*
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
@@ -17,3 +20,5 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+      - run: npm run build
+      - run: npm pack
