@@ -38,11 +38,13 @@ describe('Note Class', () => {
   });
 
   it('Should properly generate a random note', () => {
-    const note = new Note();
-    expect(note.numeric).to.be.a('number');
-    expect(note.absolute).to.be.a('number');
-    expect(note.alpha).to.be.a('string');
-    expect(note.frequency).to.be.a('number');
+    for (let x = 0; x <= 10; x++) {
+      const note = new Note();
+      expect(0 <= note.numeric && note.numeric <= 11).to.be.true;
+      expect(note.absolute).to.be.a('number');
+      expect(note.alpha).to.be.a('string');
+      expect(note.frequency).to.be.a('number');
+    }
   });
 
   it('Should properly baseline a numeric note', () => {
