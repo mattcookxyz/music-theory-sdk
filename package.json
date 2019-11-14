@@ -1,17 +1,33 @@
 {
   "name": "music-theory-toolkit",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Note/chord/set parsing, transposition, and enumeration tools",
   "main": "./lib/index.js",
   "scripts": {
     "preversion": "npm test",
-    "build": "npm run compile && npm run copy-types",
-    "compile": "babel src -d lib",
-    "copy-types": "cp src/index.d.ts lib/index.d.ts",
-    "setup-docs": "echo '[Click here to return to the readme.](../readme.md)\n' > docs/models.md",
-    "create-docs": "npm run setup-docs && jsdoc2md src/models/*.js >> docs/models.md",
-    "test": "nyc mocha -r @babel/register test/*.spec.js",
-    "lint": "eslint src/**/*.js"
+    "build": "rimraf lib && npm run compile",
+    "compile": "tsc",
+    "test": "nyc mocha -r ts-node/register test/**/*.spec.ts",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "docs:gen": "npm run docs:clear && typedoc src --mode file --readme none --hideGenerator",
+    "docs:clear": "rimraf docs"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text"
+    ],
+    "sourceMap": true,
+    "instrument": true
   },
   "files": [
     "lib/"
@@ -33,20 +49,20 @@
   "author": "Matt Cook <matt@mattcook.xyz> (https://mattcook.xyz)",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.4",
-    "@babel/preset-env": "^7.3.4",
-    "@babel/register": "^7.0.0",
+    "@types/chai": "^4.2.3",
+    "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
-    "eslint": "^5.15.1",
     "istanbul": "^0.4.5",
-    "jsdoc-to-markdown": "^5.0.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.0",
     "pre-commit": "^1.2.2",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-config-security": "^1.16.0"
   },
   "dependencies": {
-    "lodash": "^4.17.11"
+    "typescript": "^3.6.3"
   }
 }
