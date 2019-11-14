@@ -64,9 +64,16 @@ export class Note {
     }
 
     // Assemble from input
-    this.build(note);
+    if (typeof note === 'number') {
+      this.buildFromNumeric(note);
+    } else if (typeof note === 'string') {
+      this.buildFromAlpha(note);
+    } else {
+      throw Error(`Input note type ${typeof note} not supported.`);
+    }
   }
 
+  // Transposes the note object up or down by a number of half steps and recalculates attributes
   public transpose = (intervalInHalfSteps: number) => {
     // Get baseline values for transposed note
     const { numeric, octave } = Note.baseline(this.numeric + intervalInHalfSteps, this.octave);
@@ -80,16 +87,6 @@ export class Note {
     this.calculate();
 
     return this;
-  }
-
-  private build = (note: number|string) => {
-    if (typeof note === 'number') {
-      this.buildFromNumeric(note);
-    } else if (typeof note === 'string') {
-      this.buildFromAlpha(note);
-    } else {
-      throw Error(`Input note type ${typeof note} not supported.`);
-    }
   }
 
   private buildFromNumeric = (note: number) => {
