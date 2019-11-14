@@ -30,14 +30,19 @@ const parsedNote = new Note('C#5');
 
 // Transpose a number of half-steps (re-calculates all relevant values)
 parsedNote.transpose(-12);
+
+// This class uses the builder pattern, so the following is also valid
+const buildNote = new Note('C#').transpose(12); // => Note object
 ```
 
 Static Helpers
 
 ```typescript
+import { Note } from 'music-theory-toolkit';
+
 // Generate an alpha note filtered to only the # value if there is an enharmonic
-// For example, if 'C#/Db' (or numeric 1) would have been the output, it will filter to 'C#
-const alphaNote = Note.random({ alpha: true, flatSharpFilter: '#' });
+// For example, if 'C#/Db' (or numeric 1) would have been the output, it will filter to 'C#'
+const alphaNote = Note.random({ alpha: true, flatSharpFilter: '#' }); // => 'C#'
 
 // Generate a numeric note between 0 and 11
 const numericNote = Note.random(); // => 5
