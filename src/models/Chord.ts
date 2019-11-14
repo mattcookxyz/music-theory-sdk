@@ -1,5 +1,4 @@
 import { Note } from './Note';
-import { Set } from './Set';
 import { sortBy, find, isEqual, uniq } from 'lodash';
 
 export class Chord {

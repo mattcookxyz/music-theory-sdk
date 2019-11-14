@@ -1,135 +1,140 @@
-export class Note {
+interface IRandomNoteOpts {
+  alpha?: boolean;
+  flatSharpFilter?: boolean|string;
+}
 
+export class Note {
+  public octave: number;
   public numeric: number;
   public alpha: string;
-  public octave: number;
-  public absolute: number;
   public frequency: number;
+  public absolute: number;
 
-  constructor(note?: string|number, octave?: number) {
-    this.generate(note || undefined, octave || undefined);
-  }
+  // Returns a 'dumb' random chord as a number or string depending on options
+  public static random = (opts: IRandomNoteOpts = {}) => {
+    // Get initial random numeric note
+    let note: number|string = Math.floor(Math.random() * 12);
 
-  // Alternative way to construct a Note object
-  public static generate(note?: number|string, octave?: number) {
-    return new Note(note, octave);
-  }
+    // If numeric, convert to alpha note
+    if (opts.alpha) {
+      note = numericToAlpha.get(note);
 
-  public generate(note: number|string = Math.floor(Math.random() * 12), octave: number = 4) {
-    if (typeof note === 'string') {
-      this.generateFromString(note, octave);
-    } else if (typeof note === 'number') {
-      this.generateFromNumber(note, octave);
-    } else {
-      throw Error(`Note input type ${typeof note} is not supported.`);
+      // Apply filter if desired/needed
+      if (opts.flatSharpFilter && note.search('/') !== -1) {
+        switch(opts.flatSharpFilter) {
+          case '#':
+            note = note.split('/')[0];
+            break;
+          case 'b':
+            note = note.split('/')[1];
+            break;
+          default:
+            break;
+        }
+      }
     }
-    return this;
+
+    return note;
   }
 
-  public randomize() {
-    // Get random note
-    this.numeric = getRandom() as number;
-    this.alpha = numericToAlpha.get(this.numeric);
-    this.calculate();
-    return this;
+  public static baseline = (note: number, octave?: number) => {
+    // Set starting point
+    let numeric = note;
+    let coalescedOctave = octave || 4;
+
+    // Calculate offsets from base octave
+    let octaveOffset = Math.floor(note / 12);
+    let targetHalfStepShift = octaveOffset * -12;
+
+    // Return new values
+    return {
+      numeric: numeric + targetHalfStepShift,
+      octave: coalescedOctave + octaveOffset
+    }
   }
 
-  public transpose(interval: number) {
-    // Transpose
-    this.numeric += interval;
-    this.baseline();
-    this.alpha = numericToAlpha.get(this.numeric);
-    // Calculate absolute note value and return
-    this.calculate();
-    return this;
+  constructor(note: string|number = Math.floor(Math.random() * 12)) {
+    // Valid note patterns
+    const alphaRegex = /^[A-Ga-g]{1}[#|b]?[0-9]{0,2}/gm;
+    const numericRegex = /^-?[0-9]*$/gm;
+
+    // Validate that input is a valid note format
+    if (!note.toString().toUpperCase().match(alphaRegex) && !note.toString().toUpperCase().match(numericRegex)) {
+      throw Error(`Note ${note} is invalid - did not match pattern: ${alphaRegex}`);
+    }
+
+    // Assemble from input
+    this.build(note);
   }
 
-  private generateFromNumber(note: number, octave: number) {
+  public transpose = (intervalInHalfSteps: number) => {
+    // Get baseline values for transposed note
+    const { numeric, octave } = Note.baseline(this.numeric + intervalInHalfSteps, this.octave);
+
+    // Set new values
+    this.numeric = numeric;
     this.octave = octave;
-    this.setNumeric(note);
-    this.alpha = numericToAlpha.get(this.numeric);
+    this.alpha = numericToAlpha.get(numeric);
+
+    // Calculate absolute and frequency values
     this.calculate();
+
+    return this;
   }
 
-  private generateFromString(note: string, octave?: number) {
-    // Allow input like 'C#4'
-    const indexOfNum = note.search(/[0-9]/g);
-    if (indexOfNum !== -1) {
-      this.alpha = note.slice(0, indexOfNum);
-      this.octave = parseInt(note.slice(indexOfNum));
-      this.setNumeric(alphaToNumeric.get(this.alpha));
-      this.calculate();
+  private build = (note: number|string) => {
+    if (typeof note === 'number') {
+      this.buildFromNumeric(note);
+    } else if (typeof note === 'string') {
+      this.buildFromAlpha(note);
     } else {
-      this.alpha = note;
-      this.octave = octave;
-      this.setNumeric(alphaToNumeric.get(note));
-      this.calculate();
+      throw Error(`Input note type ${typeof note} not supported.`);
     }
   }
 
-  private setNumeric(number: number) {
-    this.numeric = number;
-    this.baseline();
+  private buildFromNumeric = (note: number) => {
+    // Calculate offsets from base octave
+    const { numeric, octave } = Note.baseline(note, 4);
+
+    // Assign to object
+    this.numeric = numeric;
+    this.octave = octave;
+
+    // Get alpha note from numeric value
+    this.alpha = numericToAlpha.get(this.numeric);
+
+    // Calculate absolute value and frequency
     this.calculate();
-    return this;
   }
 
-  private baseline() {
-    while (this.numeric > 11) {
-      this.numeric -= 12;
-      this.octave += 1;
+  private buildFromAlpha = (note: string) => {
+    let noteOnly: string;
+    let octaveOnly: number;
+
+    const octaveIndex = note.search(/[0-9]/g);
+
+    if (octaveIndex !== -1) {
+      noteOnly = note.slice(0, octaveIndex);
+      octaveOnly = parseInt(note.slice(octaveIndex));
+    } else {
+      noteOnly = note;
+      octaveOnly = 4;
     }
-    while (this.numeric < 0) {
-      this.numeric += 12;
-      this.octave -= 1;
-    }
-    return this;
+
+    this.alpha = noteOnly;
+    this.numeric = alphaToNumeric.get(noteOnly);
+    this.octave = octaveOnly;
+
+    this.calculate();
   }
 
   private calculate() {
-    // Calculate absolute note value including octave
-    this.getAbsolute();
-    this.getFrequency();
-    return this;
-  }
-
-  private getFrequency() {
-    // Calculate and assign frequency
-    this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
-    return this;
-  }
-
-  private getAbsolute() {
     // Calculate and assign absolute value of note
     this.absolute = this.numeric + (12 * this.octave);
-    return this;
+
+    // Calculate and assign frequency
+    this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
   }
-}
-
-const getRandom = (alpha: boolean = false, flatSharpFilter: boolean|string = false) => {
-  // Get initial random numeric note
-  let note: number|string = Math.floor(Math.random() * 12);
-
-  // If numeric, convert to alpha note
-  if (alpha) {
-    note = numericToAlpha.get(note);
-
-    // Apply filter if desired/needed
-    if (flatSharpFilter && note.search('/') !== -1) {
-      switch(flatSharpFilter) {
-        case '#':
-          note = note.split('/')[0];
-          break;
-        case 'b':
-          note = note.split('/')[1];
-          break;
-        default:
-          break;
-      }
-    }
-  }
-
-  return note;
 }
 
 const numericToAlpha = new Map([
