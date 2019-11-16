@@ -6,7 +6,7 @@ export class Chord {
   public notes: Note[];
   public quality: IQuality;
 
-  // Generate a simple random chord as a string
+  // Returns a 'dumb' random chord as a string
   public static random = (opts: IRandomChordOpts = {}) => {
     const root = Note.random({ alpha: true, flatSharpFilter: true });
     const qualityKeys = Object.keys(qualities);

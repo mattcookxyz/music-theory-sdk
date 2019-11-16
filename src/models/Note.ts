@@ -5,7 +5,7 @@ export class Note {
   public frequency: number;
   public absolute: number;
 
-  // Returns a 'dumb' random chord as a number or string depending on options
+  // Returns a 'dumb' random note as a number or string depending on options
   public static random = (opts: IRandomNoteOpts = {}) => {
     // Get initial random numeric note
     let note: number|string = Math.floor(Math.random() * 12);
