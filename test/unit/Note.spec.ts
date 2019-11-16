@@ -47,6 +47,48 @@ describe('Note Class', () => {
     }
   });
 
+  it('[STATIC] Should properly generate a random note', () => {
+    for (let x = 0; x <= 5; x++) {
+      const note = Note.random({ alpha: true, flatSharpFilter: true });
+      expect(note).to.be.a('string');
+    }
+
+    for (let x = 0; x <= 5; x++) {
+      const note = Note.random({ alpha: false, flatSharpFilter: true });
+      expect(note).to.be.a('number');
+    }
+
+    for (let x = 0; x <= 5; x++) {
+      const note = Note.random({ alpha: true, flatSharpFilter: false });
+      expect(note).to.be.a('string');
+    }
+
+    for (let x = 0; x <= 5; x++) {
+      const note = Note.random({ alpha: false, flatSharpFilter: false });
+      expect(note).to.be.a('number');
+    }
+
+    for (let x = 0; x <= 5; x++) {
+      const note = Note.random({ alpha: true });
+      expect(note).to.be.a('string');
+    }
+
+    for (let x = 0; x <= 5; x++) {
+      const note = Note.random({ alpha: false });
+      expect(note).to.be.a('number');
+    }
+
+    for (let x = 0; x <= 5; x++) {
+      const note = Note.random({ flatSharpFilter: true });
+      expect(note).to.be.a('number');
+    }
+
+    for (let x = 0; x <= 5; x++) {
+      const note = Note.random({ flatSharpFilter: false });
+      expect(note).to.be.a('number');
+    }
+  });
+
   it('Should properly baseline a numeric note', () => {
     const res1 = Note.baseline(12, 5);
     expect(res1.numeric).to.equal(0);
