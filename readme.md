@@ -1,6 +1,6 @@
 # Music Theory Toolkit
 
-This is a toolkit for note/chord/set parsing, transposition, and enumeration.
+This is a Typescript/Javascript toolkit for note/chord/set parsing, transposition, and enumeration.
 
 Consider interfaces to be unstable - I'm not strictly following semver until this library hits v1.0.0, but the following might help guide adoption/usage until then:
 
