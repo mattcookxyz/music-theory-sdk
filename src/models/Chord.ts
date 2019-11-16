@@ -8,9 +8,14 @@ export class Chord {
 
   // Returns a 'dumb' random chord as a string
   public static random = (opts: IRandomChordOpts = {}) => {
+    // Generate a random alphabetical root with flatSharpFilter
     const root = Note.random({ alpha: true, flatSharpFilter: true });
+
+    // Get a random chord quality
     const qualityKeys = Object.keys(qualities);
     const quality = qualities[qualityKeys[Math.floor(Math.random() * qualityKeys.length)]].symbol;
+
+    // Concatenate root and quality
     return root + quality;
   }
 
