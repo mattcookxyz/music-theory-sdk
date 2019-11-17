@@ -1,6 +1,7 @@
 # Music Theory Toolkit
 
 [![codecov](https://codecov.io/gh/mattcookxyz/music-theory-toolkit/branch/master/graph/badge.svg)](https://codecov.io/gh/mattcookxyz/music-theory-toolkit)
+[![Actions Status](https://github.com/mattcookxyz/music-theory-toolkit/workflows/Test/badge.svg)](https://github.com/mattcookxyz/music-theory-toolkit/actions)
 
 This is a toolkit for note/chord/set parsing, transposition, and enumeration.
 

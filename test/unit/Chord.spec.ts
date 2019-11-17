@@ -64,5 +64,16 @@ describe('Chord Class', () => {
         expect(quality.difficulty === 1).to.be.true;
       }
     });
+
+    it('Should throw on invalid opts', () => {
+      const fail1 = () => Chord.randomQuality({ maxDifficulty: 5, targetDifficulty: 5 });
+      const fail2 = () => Chord.randomQuality({ maxDifficulty: null, targetDifficulty: null });
+      const fail3 = () => Chord.randomQuality({ targetDifficulty: 100 });
+      const fail4 = () => Chord.randomQuality({ maxDifficulty: 0 });
+      expect(fail1).to.throw();
+      expect(fail2).to.throw();
+      expect(fail3).to.throw();
+      expect(fail4).to.throw();
+    });
   });
 });

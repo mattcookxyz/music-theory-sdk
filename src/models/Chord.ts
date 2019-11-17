@@ -35,7 +35,7 @@ export class Chord {
     // If maxDifficulty, filter to difficulties <=
     if (opts.maxDifficulty) {
       // Validate maxDifficulty
-      if (!opts.maxDifficulty.toString().match(/[1-5]/gm)) {
+      if (!opts.maxDifficulty.toString().match(/^[1-5]$/g)) {
         throw Error(`Difficulty ${opts.maxDifficulty} is not valid. Must be an integer between 1 and 5.`);
       }
       // Filter
@@ -45,7 +45,7 @@ export class Chord {
     // If targetDifficulty, filter to difficulties ===
     if (opts.targetDifficulty) {
       // Validate maxDifficulty
-      if (!opts.targetDifficulty.toString().match(/[1-5]/gm)) {
+      if (!opts.targetDifficulty.toString().match(/^[1-5]$/g)) {
         throw Error(`Difficulty ${opts.maxDifficulty} is not valid. Must be an integer between 1 and 5.`);
       }
       // Filter
