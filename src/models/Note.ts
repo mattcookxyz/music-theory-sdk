@@ -14,9 +14,11 @@ export class Note {
     if (opts.alpha) {
       note = numericToAlpha.get(note);
 
+      let filter = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
+
       // Apply filter if desired/needed
-      if (opts.flatSharpFilter && note.search('/') !== -1) {
-        switch(opts.flatSharpFilter) {
+      if (filter && note.search('/') !== -1) {
+        switch(filter) {
           case '#':
             note = note.split('/')[0];
             break;
