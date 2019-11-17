@@ -18,7 +18,7 @@ export class Chord {
     return root + quality;
   }
 
-  // Get a random quality object with a
+  // Get a random quality object by targetDifficulty or maxDifficulty
   public static randomQuality = (opts: IRandomQualityOpts = { maxDifficulty: 5 }) => {
     // Validate that both options are not provided
     if (opts.maxDifficulty && opts.targetDifficulty) {
