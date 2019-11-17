@@ -10,6 +10,8 @@ on:
 
 jobs:
   build:
+    env:
+      CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -21,7 +23,5 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run coverage
-          env:
-            CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
       - run: npm run build
       - run: npm pack
