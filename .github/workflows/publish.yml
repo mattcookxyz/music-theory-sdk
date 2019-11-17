@@ -9,7 +9,7 @@ jobs:
   build:
     env:
       CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
-      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      NODE_AUTH_TOKEN: ${{secrets.npm_token}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
