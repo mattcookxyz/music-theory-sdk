@@ -1,5 +1,7 @@
 # Music Theory Toolkit
 
+[![codecov](https://codecov.io/gh/mattcookxyz/music-theory-toolkit/branch/master/graph/badge.svg)](https://codecov.io/gh/mattcookxyz/music-theory-toolkit)
+
 This is a toolkit for note/chord/set parsing, transposition, and enumeration.
 
 Consider interfaces to be unstable - I'm not strictly following semver until this library hits v1.0.0, but the following might help guide adoption/usage until then:
