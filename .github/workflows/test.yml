@@ -23,3 +23,5 @@ jobs:
       - run: npm run coverage
       - run: npm run build
       - run: npm pack
+        env:
+          CODECOV_TOKEN: ${{secrets.codecov_token}}
