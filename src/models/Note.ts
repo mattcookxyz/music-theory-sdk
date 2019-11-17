@@ -14,10 +14,16 @@ export class Note {
     if (opts.alpha) {
       note = numericToAlpha.get(note);
 
-      let filter = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
-
       // Apply filter if desired/needed
-      if (filter && note.search('/') !== -1) {
+      if (opts.flatSharpFilter && note.search('/') !== -1) {
+
+        // If true with no filter selected, select a random filter
+        let filter: string = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
+
+        // Validate filter
+        if (['#', 'b'].indexOf(filter) === -1) throw Error(`Unsupported filter type ${filter}`);
+
+        // Apply filter
         switch(filter) {
           case '#':
             note = note.split('/')[0];
