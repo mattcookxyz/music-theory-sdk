@@ -22,5 +22,5 @@ jobs:
       - run: npm run coverage
       - run: npm run build
       - run: npm publish
-          env:
-            NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
