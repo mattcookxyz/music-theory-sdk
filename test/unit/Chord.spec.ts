@@ -8,6 +8,7 @@ describe('Chord Class', () => {
 
   it('Should throw upon attempted construction (static only for now)', () => {
     expect(() => new Chord()).to.throw();
+    expect(() => new Chord('Blah')).to.throw();
   });
 
   describe('.random()', () => {
@@ -69,7 +70,7 @@ describe('Chord Class', () => {
       const fail1 = () => Chord.randomQuality({ maxDifficulty: 5, targetDifficulty: 5 });
       const fail2 = () => Chord.randomQuality({ maxDifficulty: null, targetDifficulty: null });
       const fail3 = () => Chord.randomQuality({ targetDifficulty: 100 });
-      const fail4 = () => Chord.randomQuality({ maxDifficulty: 0 });
+      const fail4 = () => Chord.randomQuality({ maxDifficulty: 100 });
       expect(fail1).to.throw();
       expect(fail2).to.throw();
       expect(fail3).to.throw();

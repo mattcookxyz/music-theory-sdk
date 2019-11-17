@@ -21,6 +21,12 @@ describe('Note Class', () => {
       const noteNeg1 = new Note(-1);
       const noteB = new Note('B');
       const note12 = new Note(12);
+      const noteBadNumeric = () => new Note(12394100);
+      const noteBadAlpha = () => new Note('C#C#C#/Cb5Maj');
+
+      // Catch bad values
+      expect(noteBadNumeric).to.throw();
+      expect(noteBadAlpha).to.throw();
 
       // Check alpha values
       expect(noteC.alpha).to.equal('C');

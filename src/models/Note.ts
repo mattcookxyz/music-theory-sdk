@@ -31,8 +31,6 @@ export class Note {
           case 'b':
             note = note.split('/')[1];
             break;
-          default:
-            break;
         }
       }
     }
@@ -63,12 +61,12 @@ export class Note {
 
   constructor(note: string|number = Math.floor(Math.random() * 12)) {
     // Valid note patterns
-    const alphaRegex = /^[A-Ga-g]{1}[#|b]?[0-9]{0,2}/gm;
-    const numericRegex = /^-?[0-9]*$/gm;
+    const alphaRegex = /^[A-Ga-g]{1}[#|b|B]?[0-9]{0,2}$/g;
+    const numericRegex = /^-?[0-9]{0,3}$/g;
 
     // Validate that input is a valid note format
     if (!note.toString().toUpperCase().match(alphaRegex) && !note.toString().toUpperCase().match(numericRegex)) {
-      throw Error(`Note ${note} is invalid - did not match pattern: ${alphaRegex}`);
+      throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${alphaRegex} | ${numericRegex}`);
     }
 
     // Assemble from input
