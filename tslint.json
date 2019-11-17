@@ -17,7 +17,8 @@
         "sourceType": "module"
     },
     "rules": {
-        "no-console": false
+        "no-console": false,
+        "max-line-length": [true, 120]
     },
     "linterOptions": {
         "exclude": [

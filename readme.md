@@ -1,6 +1,8 @@
 # Music Theory Toolkit
 
-This is a Typescript/Javascript toolkit for note/chord/set parsing, transposition, and enumeration.
+[![codecov](https://codecov.io/gh/mattcookxyz/music-theory-toolkit/branch/master/graph/badge.svg)](https://codecov.io/gh/mattcookxyz/music-theory-toolkit)
+
+This is a toolkit for note/chord/set parsing, transposition, and enumeration.
 
 Consider interfaces to be unstable - I'm not strictly following semver until this library hits v1.0.0, but the following might help guide adoption/usage until then:
 
@@ -60,6 +62,31 @@ const numericNote = Note.random(); // => 5
 // Transpose a note to the 0-11 range, and adjust octave accordingly
 // If no octave is passed, it assumes octave 4 is the baseline
 const baselinedNote = Note.baseline(24); // => { numeric: 0, octave: 6 }
+```
+
+### Chord
+
+Object Usage
+
+```typescript
+import { Chord } from 'music-theory-toolkit';
+
+const chord = new Chord(); // Not yet implemented - this throws an error
+```
+
+Static Helpers
+
+```typescript
+import { Chord } from 'music-theory-toolkit';
+
+// Generate a random chord
+const chordOne = Chord.random(); // => 'C#Maj7'
+const chordTwo = Chord.random({ flatSharpFilter: false, maxDifficulty: 1 }); // => 'C#/DbMaj'
+const chordThree = Chord.random({ maxDifficulty: 5 }); // => 'C#/Dbø7'
+
+// Get a random chord quality object
+const qualityOne = Chord.randomQuality({ maxDifficulty: 5 }); // => { difficulty: 1, name: 'Major', symbol: 'Maj', structure: [0, 4, 7] }
+const qualityTwo = Chord.randomQuality({ targetDifficulty: 2 }); // => { difficulty: 2, name: 'Augmented', symbol: '+', structure: [0, 4, 8] }
 ```
 
 # Testing and Development

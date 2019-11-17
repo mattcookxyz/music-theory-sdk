@@ -1,13 +1,14 @@
 {
   "name": "music-theory-toolkit",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Note/chord/set parsing, transposition, and enumeration tools",
   "main": "./lib/index.js",
   "scripts": {
     "preversion": "npm test",
     "build": "rimraf lib && npm run compile",
     "compile": "tsc",
-    "test": "nyc mocha -r ts-node/register test/**/*.spec.ts",
+    "test": "nyc --reporter=\"lcov\" mocha -r ts-node/register test/**/*.spec.ts",
+    "coverage": "codecov",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "docs:gen": "npm run docs:clear && typedoc src --mode file --readme none --hideGenerator",
     "docs:clear": "rimraf docs"
@@ -52,6 +53,7 @@
     "@types/chai": "^4.2.3",
     "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
+    "codecov": "^3.6.1",
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
     "nyc": "^14.1.0",
