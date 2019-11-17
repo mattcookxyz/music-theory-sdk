@@ -9,9 +9,7 @@ Consider interfaces to be unstable - I'm not strictly following semver until thi
 
 #### Stable interfaces:
 - Note (Class)
-
-#### Unstable interfaces:
-- Chord (Class) - Removed temporarily for redesign (last seen in v0.8.0)
+- Chord (Class)
 
 #### Not yet implemented interfaces:
 - Set (Class)
