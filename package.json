@@ -8,7 +8,7 @@
     "build": "rimraf lib && npm run compile",
     "compile": "tsc",
     "test": "nyc --reporter=\"lcov\" mocha -r ts-node/register test/**/*.spec.ts",
-    "coverage": "codecov",
+    "coverage": "codecov -t $CODECOV_TOKEN",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "docs:gen": "npm run docs:clear && typedoc src --mode file --readme none --hideGenerator",
     "docs:clear": "rimraf docs"
