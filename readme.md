@@ -64,6 +64,31 @@ const numericNote = Note.random(); // => 5
 const baselinedNote = Note.baseline(24); // => { numeric: 0, octave: 6 }
 ```
 
+### Chord
+
+Object Usage
+
+```typescript
+import { Chord } from 'music-theory-toolkit';
+
+const chord = new Chord(); // Not yet implemented - this throws an error
+```
+
+Static Helpers
+
+```typescript
+import { Chord } from 'music-theory-toolkit';
+
+// Generate a random chord
+const chordOne = Chord.random(); // => 'C#Maj7'
+const chordTwo = Chord.random({ flatSharpFilter: false, maxDifficulty: 1 }); // => 'C#/DbMaj'
+const chordThree = Chord.random({ maxDifficulty: 5 }); // => 'C#/Dbø7'
+
+// Get a random chord quality object
+const qualityOne = Chord.randomQuality({ maxDifficulty: 5 }); // => { difficulty: 1, name: 'Major', symbol: 'Maj', structure: [0, 4, 7] }
+const qualityTwo = Chord.randomQuality({ targetDifficulty: 2 }); // => { difficulty: 2, name: 'Augmented', symbol: '+', structure: [0, 4, 8] }
+```
+
 # Testing and Development
 
 Testing libraries: Mocha & Chai

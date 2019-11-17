@@ -7,12 +7,12 @@ export class Chord {
   public notes: Note[];
 
   // Returns a 'dumb' random chord as a string
-  public static random = (opts: IRandomChordOpts = { flatSharpFilter: true, difficulty: 5 }) => {
+  public static random = (opts: IRandomChordOpts = { flatSharpFilter: true, maxDifficulty: 5 }) => {
     // Generate a random alphabetical root
     const root = Note.random({ alpha: true, flatSharpFilter: opts.flatSharpFilter });
 
     // Generate a random quality
-    const quality = Chord.randomQuality().symbol;
+    const quality = Chord.randomQuality({ maxDifficulty: opts.maxDifficulty || 5 }).symbol;
 
     // Concatenate root and quality
     return root + quality;
@@ -63,7 +63,7 @@ export class Chord {
 
 interface IRandomChordOpts {
   flatSharpFilter?: boolean|string;
-  difficulty?: number;
+  maxDifficulty?: number;
 }
 
 interface IRandomQualityOpts {
