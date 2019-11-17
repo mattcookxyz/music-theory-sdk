@@ -24,4 +24,4 @@ jobs:
       - run: npm run build
       - run: npm pack
         env:
-          CODECOV_TOKEN: ${{secrets.codecov_token}}
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
