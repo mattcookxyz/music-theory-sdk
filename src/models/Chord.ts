@@ -7,27 +7,26 @@ export class Chord {
   public notes: Note[];
 
   // Returns a 'dumb' random chord as a string
-  public static random = (opts: IRandomChordOpts = { flatSharpFilter: true, maxDifficulty: 5 }) => {
-    // Generate a random alphabetical root
+  public static random = (opts: IRandomChordOpts = { flatSharpFilter: true, maxDifficulty: 5, asObject: false }) => {
     const root = Note.random({ alpha: true, flatSharpFilter: opts.flatSharpFilter });
+    const quality = Chord.randomQuality({ maxDifficulty: opts.maxDifficulty || 5 });
 
-    // Generate a random quality
-    const quality = Chord.randomQuality({ maxDifficulty: opts.maxDifficulty || 5 }).symbol;
-
-    // Concatenate root and quality
-    return root + quality;
+    if (opts.asObject) {
+      return {
+        root,
+        quality,
+        value: root + quality.symbol
+      }
+    } else {
+      return root + quality.symbol;
+    }
   }
 
   // Get a random quality object by targetDifficulty or maxDifficulty
   public static randomQuality = (opts: IRandomQualityOpts = { maxDifficulty: 5 }) => {
-    // Validate that both options are not provided
+    // Validate that only one option is provided
     if (opts.maxDifficulty && opts.targetDifficulty) {
       throw Error('maxDifficulty and targetDifficulty opts are not compatible with one another.');
-    }
-
-    // Validate that at least one option is provided
-    if (!opts.maxDifficulty && !opts.targetDifficulty) {
-      throw Error('Either maxDifficulty or targetDifficulty opts must be provided with a value between 0 and 5.');
     }
 
     let keys: string[];
@@ -44,7 +43,7 @@ export class Chord {
 
     // If targetDifficulty, filter to difficulties ===
     if (opts.targetDifficulty) {
-      // Validate maxDifficulty
+      // Validate targetDifficulty
       if (!opts.targetDifficulty.toString().match(/^[1-5]$/g)) {
         throw Error(`Difficulty ${opts.maxDifficulty} is not valid. Must be an integer between 1 and 5.`);
       }
@@ -64,6 +63,7 @@ export class Chord {
 interface IRandomChordOpts {
   flatSharpFilter?: boolean|string;
   maxDifficulty?: number;
+  asObject?: boolean;
 }
 
 interface IRandomQualityOpts {
@@ -152,25 +152,58 @@ export const qualities: {
     symbol: 'ø7',
     structure: [0, 3, 6, 10],
   },
+
+  // Advanced qualities
+  minorMajor7: {
+    difficulty: 4,
+    name: 'Minor-major 7th',
+    symbol: 'mMaj7',
+    structure: [0, 3, 7, 11]
+  },
+  augmented7: {
+    difficulty: 4,
+    name: 'Augmented 7th',
+    symbol: '+7',
+    structure: [0, 4, 8, 10]
+  },
+  diminished7: {
+    difficulty: 4,
+    name: 'Diminished 7th',
+    symbol: '°7',
+    structure: [0, 3, 6, 9]
+  },
   major9: {
-    difficulty: 3,
+    difficulty: 4,
     name: 'Major 9th',
     symbol: 'Maj9',
     structure: [0, 4, 7, 11, 14],
   },
   minor9: {
-    difficulty: 3,
+    difficulty: 4,
     name: 'Minor 9th',
     symbol: 'm9',
     structure: [0, 3, 7, 10, 14],
   },
   dominant9: {
-    difficulty: 3,
+    difficulty: 4,
     name: 'Dominant 9th',
-    symbol: '7',
+    symbol: '9',
     structure: [0, 4, 7, 10, 14],
   },
 
-    // Advanced qualities
-    // Experimental qualities
+  // Experimental qualities
+  augmentedMajor7: {
+    difficulty: 5,
+    name: 'Augmented-major 7th',
+    symbol: '+Maj7',
+    structure: [0, 4, 8, 11]
+  },
+  sevenFlat5: {
+    difficulty: 5,
+    name: '7th flat 5',
+    symbol: '7b5',
+    structure: [0, 4, 6, 10]
+  }
+
+  // TODO: Add extended qualities from https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 };

@@ -11,6 +11,7 @@ describe('Chord Class', () => {
     expect(() => new Chord('Blah')).to.throw();
   });
 
+  // TODO: Fix regex to handle new chord cases (throwing up on Ab7b5, etc.)
   describe('.random()', () => {
     it('Should properly generate a random chord', () => {
       for (let i = 0; i <= 50; i++) {
