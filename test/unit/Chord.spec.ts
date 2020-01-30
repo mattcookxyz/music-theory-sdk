@@ -16,26 +16,26 @@ describe('Chord Class', () => {
     it('Should properly generate a random chord', () => {
       for (let i = 0; i <= 50; i++) {
         const chord = Chord.random();
-        expect(chord).to.match(/^[A-Ga-g][#|b]?[A-Za-z\°\ø\+]*[0-9]*$/gm);
+        expect(chord).to.match(/^[A-Ga-g][#|b]?[A-Za-z\°\ø\+]*[0-9]*[b|#]*[0-9]{0,2}$/gm);
       }
     });
 
     it('Should properly generate a random chord with flatSharpFilter set to false', () => {
       for (let i = 0; i <= 50; i++) {
         const chord = Chord.random({ flatSharpFilter: false });
-        expect(chord).to.match(/^[A-Ga-g][#|b]?(\/[A-Ga-g][#|b]?)?[A-Za-z\°\ø\+]*[0-9]*$/gm);
+        expect(chord).to.match(/^[A-Ga-g][#|b]?(\/[A-Ga-g][#|b]?)?[A-Za-z\°\ø\+]*[0-9]*[b|#]*[0-9]{0,2}$/gm);
       }
     });
 
     it('Should properly generate a random chord with flatSharpFilter set explicitly', () => {
       for (let i = 0; i <= 50; i++) {
         const chord = Chord.random({ flatSharpFilter: 'b' });
-        expect(chord).to.match(/^[A-Ga-g][b]?[A-Za-z\°\ø\+]*[0-9]*$/gm);
+        expect(chord).to.match(/^[A-Ga-g][b]?[A-Za-z\°\ø\+]*[0-9]*[b|#]*[0-9]{0,2}$/gm);
       }
 
       for (let i = 0; i <= 50; i++) {
         const chord = Chord.random({ flatSharpFilter: '#' });
-        expect(chord).to.match(/^[A-Ga-g][#]?[A-Za-z\°\ø\+]*[0-9]*$/gm);
+        expect(chord).to.match(/^[A-Ga-g][#]?[A-Za-z\°\ø\+]*[0-9]*[b|#]*[0-9]{0,2}$/gm);
       }
     });
   });
