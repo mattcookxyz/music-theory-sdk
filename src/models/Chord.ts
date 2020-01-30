@@ -15,11 +15,10 @@ export class Chord {
       return {
         root,
         quality,
-        value: root + quality.symbol
-      }
-    } else {
-      return root + quality.symbol;
+        value: root + quality.symbol,
+      };
     }
+    return root + quality.symbol;
   }
 
   // Get a random quality object by targetDifficulty or maxDifficulty
@@ -158,19 +157,19 @@ export const qualities: {
     difficulty: 4,
     name: 'Minor-major 7th',
     symbol: 'mMaj7',
-    structure: [0, 3, 7, 11]
+    structure: [0, 3, 7, 11],
   },
   augmented7: {
     difficulty: 4,
     name: 'Augmented 7th',
     symbol: '+7',
-    structure: [0, 4, 8, 10]
+    structure: [0, 4, 8, 10],
   },
   diminished7: {
     difficulty: 4,
     name: 'Diminished 7th',
     symbol: '°7',
-    structure: [0, 3, 6, 9]
+    structure: [0, 3, 6, 9],
   },
   major9: {
     difficulty: 4,
@@ -196,14 +195,14 @@ export const qualities: {
     difficulty: 5,
     name: 'Augmented-major 7th',
     symbol: '+Maj7',
-    structure: [0, 4, 8, 11]
+    structure: [0, 4, 8, 11],
   },
   sevenFlat5: {
     difficulty: 5,
     name: '7th flat 5',
     symbol: '7b5',
-    structure: [0, 4, 6, 10]
-  }
+    structure: [0, 4, 6, 10],
+  },
 
   // TODO: Add extended qualities from https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 };
