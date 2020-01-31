@@ -39,3 +39,4 @@ export const alphaToNumeric = new Map([
 ]);
 
 export const alphaNotes = Array.from(alphaToNumeric.keys());
+export const numericNotes = Array.from(numericToAlpha.keys());
