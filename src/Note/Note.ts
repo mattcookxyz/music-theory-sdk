@@ -1,3 +1,8 @@
+import { IRandomNoteOpts } from './Interfaces';
+import applyDefaults from '../util/applyDefaults';
+import { alphaToNumeric, numericToAlpha } from './translators';
+import { validAlphaNote, validNumericNote } from '../util/regex';
+
 export class Note {
   public octave: number;
   public numeric: number;
@@ -6,13 +11,9 @@ export class Note {
   public absolute: number;
 
   constructor(note: string | number = Math.floor(Math.random() * 12)) {
-    // Valid note patterns
-    const alphaRegex = /^[A-Ga-g]{1}[#|b|B]?[0-9]{0,2}$/g;
-    const numericRegex = /^-?[0-9]{0,3}$/g;
-
-    // Validate that input is a valid note format
-    if (!note.toString().toUpperCase().match(alphaRegex) && !note.toString().toUpperCase().match(numericRegex)) {
-      throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${alphaRegex} | ${numericRegex}`);
+    // Validate note format
+    if (!note.toString().toUpperCase().match(validAlphaNote) && !note.toString().toUpperCase().match(validNumericNote)) {
+      throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${validAlphaNote} | ${validNumericNote}`);
     }
 
     // Assemble from input
@@ -27,6 +28,12 @@ export class Note {
 
   // Returns a 'dumb' random note as a number or string depending on options
   public static random = (opts: IRandomNoteOpts = {}) => {
+
+    applyDefaults(opts, {
+      alpha: true,
+      flatSharpFilter: true,
+    });
+
     // Get initial random numeric note
     let note: number | string = Math.floor(Math.random() * 12);
 
@@ -139,48 +146,3 @@ export class Note {
     this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
   }
 }
-
-interface IRandomNoteOpts {
-  alpha?: boolean;
-  flatSharpFilter?: boolean | string;
-}
-
-const numericToAlpha = new Map([
-  [0, 'C'],
-  [1, 'C#/Db'],
-  [2, 'D'],
-  [3, 'D#/Eb'],
-  [4, 'E'],
-  [5, 'F'],
-  [6, 'F#/Gb'],
-  [7, 'G'],
-  [8, 'G#/Ab'],
-  [9, 'A'],
-  [10, 'A#/Bb'],
-  [11, 'B'],
-]);
-
-const alphaToNumeric = new Map([
-  ['C', 0],
-  ['C#', 1],
-  ['Db', 1],
-  ['C#/Db', 1],
-  ['D', 2],
-  ['D#', 3],
-  ['Eb', 3],
-  ['D#/Eb', 3],
-  ['E', 4],
-  ['F', 5],
-  ['F#', 6],
-  ['Gb', 6],
-  ['F#/Gb', 6],
-  ['G', 7],
-  ['G#', 8],
-  ['Ab', 8],
-  ['G#/Ab', 8],
-  ['A', 9],
-  ['A#', 10],
-  ['Bb', 10],
-  ['A#/Bb', 10],
-  ['B', 11],
-]);
