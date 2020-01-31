@@ -1,2 +1,2 @@
-export * from './models/Note';
-export * from './models/Chord';
+export * from './Note/Note';
+export * from './Chord/Chord';

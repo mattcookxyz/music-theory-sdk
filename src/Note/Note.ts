@@ -5,10 +5,30 @@ export class Note {
   public frequency: number;
   public absolute: number;
 
+  constructor(note: string | number = Math.floor(Math.random() * 12)) {
+    // Valid note patterns
+    const alphaRegex = /^[A-Ga-g]{1}[#|b|B]?[0-9]{0,2}$/g;
+    const numericRegex = /^-?[0-9]{0,3}$/g;
+
+    // Validate that input is a valid note format
+    if (!note.toString().toUpperCase().match(alphaRegex) && !note.toString().toUpperCase().match(numericRegex)) {
+      throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${alphaRegex} | ${numericRegex}`);
+    }
+
+    // Assemble from input
+    if (typeof note === 'number') {
+      this.buildFromNumeric(note);
+    } else if (typeof note === 'string') {
+      this.buildFromAlpha(note);
+    } else {
+      throw Error(`Input note type ${typeof note} not supported.`);
+    }
+  }
+
   // Returns a 'dumb' random note as a number or string depending on options
   public static random = (opts: IRandomNoteOpts = {}) => {
     // Get initial random numeric note
-    let note: number|string = Math.floor(Math.random() * 12);
+    let note: number | string = Math.floor(Math.random() * 12);
 
     // If numeric, convert to alpha note
     if (opts.alpha) {
@@ -18,13 +38,13 @@ export class Note {
       if (opts.flatSharpFilter && note.search('/') !== -1) {
 
         // If true with no filter selected, select a random filter
-        let filter: string = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
+        const filter: string = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
 
         // Validate filter
         if (['#', 'b'].indexOf(filter) === -1) throw Error(`Unsupported filter type ${filter}`);
 
         // Apply filter
-        switch(filter) {
+        switch (filter) {
           case '#':
             note = note.split('/')[0];
             break;
@@ -45,38 +65,18 @@ export class Note {
   // (12, 5) => { numeric: 0, octave: 6 }
   public static baseline = (note: number, octave?: number) => {
     // Set starting point
-    let numeric = note;
-    let coalescedOctave = octave || 4;
+    const numeric = note;
+    const coalescedOctave = octave || 4;
 
     // Calculate offsets from base octave
-    let octaveOffset = Math.floor(note / 12);
-    let targetHalfStepShift = octaveOffset * -12;
+    const octaveOffset = Math.floor(note / 12);
+    const targetHalfStepShift = octaveOffset * -12;
 
     // Return new values
     return {
       numeric: numeric + targetHalfStepShift,
-      octave: coalescedOctave + octaveOffset
-    }
-  }
-
-  constructor(note: string|number = Math.floor(Math.random() * 12)) {
-    // Valid note patterns
-    const alphaRegex = /^[A-Ga-g]{1}[#|b|B]?[0-9]{0,2}$/g;
-    const numericRegex = /^-?[0-9]{0,3}$/g;
-
-    // Validate that input is a valid note format
-    if (!note.toString().toUpperCase().match(alphaRegex) && !note.toString().toUpperCase().match(numericRegex)) {
-      throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${alphaRegex} | ${numericRegex}`);
-    }
-
-    // Assemble from input
-    if (typeof note === 'number') {
-      this.buildFromNumeric(note);
-    } else if (typeof note === 'string') {
-      this.buildFromAlpha(note);
-    } else {
-      throw Error(`Input note type ${typeof note} not supported.`);
-    }
+      octave: coalescedOctave + octaveOffset,
+    };
   }
 
   // Transposes the note object up or down by a number of half steps and recalculates attributes
@@ -142,7 +142,7 @@ export class Note {
 
 interface IRandomNoteOpts {
   alpha?: boolean;
-  flatSharpFilter?: boolean|string;
+  flatSharpFilter?: boolean | string;
 }
 
 const numericToAlpha = new Map([
@@ -157,7 +157,7 @@ const numericToAlpha = new Map([
   [8, 'G#/Ab'],
   [9, 'A'],
   [10, 'A#/Bb'],
-  [11, 'B']
+  [11, 'B'],
 ]);
 
 const alphaToNumeric = new Map([
@@ -182,5 +182,5 @@ const alphaToNumeric = new Map([
   ['A#', 10],
   ['Bb', 10],
   ['A#/Bb', 10],
-  ['B', 11]
+  ['B', 11],
 ]);
