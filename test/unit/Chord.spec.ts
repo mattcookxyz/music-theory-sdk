@@ -24,6 +24,11 @@ describe('Chord Class', () => {
       for (let i = 0; i <= 50; i++) {
         const { root, quality, value } = Chord.random({ destructure: true });
         expect(value).to.match(validChordWithFilter);
+        expect(root).to.be.a('string');
+        expect(quality.name).to.be.a('string');
+        expect(quality.symbol).to.be.a('string');
+        expect(quality.difficulty).to.be.a('number');
+        expect(quality.structure).to.be.an('array');
       }
     });
 
