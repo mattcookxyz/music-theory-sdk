@@ -1,4 +1,4 @@
-import { Note } from '../../src';
+import { Chord, Note } from '../../src';
 import { describe, it } from 'mocha';
 import * as chai from 'chai';
 
@@ -13,6 +13,13 @@ describe('Note Class', () => {
         expect(note.absolute).to.be.a('number');
         expect(note.alpha).to.be.a('string');
         expect(note.frequency).to.be.a('number');
+      }
+    });
+
+    it('Should parse notes from any string', () => {
+      for (let x = 0; x <= 50; x++) {
+        const { root, value } = Chord.random({ destructure: true });
+        expect(Note.fromString(value).alpha).to.equal(root);
       }
     });
 

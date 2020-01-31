@@ -1,3 +1,8 @@
+import { IRandomNoteOpts } from './Interfaces';
+import applyDefaults from '../util/applyDefaults';
+import { alphaNotes, alphaToNumeric, numericToAlpha } from './translators';
+import { validAlphaNote, validChordWithFilter, validChordWithoutFilter, validNumericNote } from '../util/regex';
+
 export class Note {
   public octave: number;
   public numeric: number;
@@ -5,10 +10,32 @@ export class Note {
   public frequency: number;
   public absolute: number;
 
+  constructor(note: string | number = Math.floor(Math.random() * 12)) {
+    // Validate note format
+    if (!note.toString().toUpperCase().match(validAlphaNote) && !note.toString().toUpperCase().match(validNumericNote)) {
+      throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${validAlphaNote} | ${validNumericNote}`);
+    }
+
+    // Assemble from input
+    if (typeof note === 'number') {
+      this.buildFromNumeric(note);
+    } else if (typeof note === 'string') {
+      this.buildFromAlpha(note);
+    } else {
+      throw Error(`Input note type ${typeof note} not supported.`);
+    }
+  }
+
   // Returns a 'dumb' random note as a number or string depending on options
   public static random = (opts: IRandomNoteOpts = {}) => {
+
+    applyDefaults(opts, {
+      alpha: true,
+      flatSharpFilter: true,
+    });
+
     // Get initial random numeric note
-    let note: number|string = Math.floor(Math.random() * 12);
+    let note: number | string = Math.floor(Math.random() * 12);
 
     // If numeric, convert to alpha note
     if (opts.alpha) {
@@ -18,13 +45,13 @@ export class Note {
       if (opts.flatSharpFilter && note.search('/') !== -1) {
 
         // If true with no filter selected, select a random filter
-        let filter: string = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
+        const filter: string = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
 
         // Validate filter
         if (['#', 'b'].indexOf(filter) === -1) throw Error(`Unsupported filter type ${filter}`);
 
         // Apply filter
-        switch(filter) {
+        switch (filter) {
           case '#':
             note = note.split('/')[0];
             break;
@@ -38,6 +65,24 @@ export class Note {
     return note;
   }
 
+  public static fromString = (input: string) => {
+    if (!input.match(validAlphaNote) && !input.match(validChordWithFilter) && !input.match(validChordWithoutFilter)) {
+      throw Error(`Input is not valid for Note.fromString("${input}")`);
+    }
+
+    const notes = alphaNotes.sort((a, b) => b.length - a.length);
+
+    for (const note of notes) {
+      const pos = input.indexOf(note);
+      if (pos !== -1) {
+        const parsed = input.slice(pos, pos + note.length);
+        return new Note(parsed);
+      }
+    }
+
+    throw Error(`No note could be found in Note.fromString("${input}")`);
+  }
+
   // Takes a numeric note and optionally an octave. It will translate the numeric note to
   // a number from 0-11, and adjust the octave accordingly, so the absolute note remains the same
   // 12 => { numeric: 0, octave: 5 } (equiv. C5)
@@ -45,38 +90,18 @@ export class Note {
   // (12, 5) => { numeric: 0, octave: 6 }
   public static baseline = (note: number, octave?: number) => {
     // Set starting point
-    let numeric = note;
-    let coalescedOctave = octave || 4;
+    const numeric = note;
+    const coalescedOctave = octave || 4;
 
     // Calculate offsets from base octave
-    let octaveOffset = Math.floor(note / 12);
-    let targetHalfStepShift = octaveOffset * -12;
+    const octaveOffset = Math.floor(note / 12);
+    const targetHalfStepShift = octaveOffset * -12;
 
     // Return new values
     return {
       numeric: numeric + targetHalfStepShift,
-      octave: coalescedOctave + octaveOffset
-    }
-  }
-
-  constructor(note: string|number = Math.floor(Math.random() * 12)) {
-    // Valid note patterns
-    const alphaRegex = /^[A-Ga-g]{1}[#|b|B]?[0-9]{0,2}$/g;
-    const numericRegex = /^-?[0-9]{0,3}$/g;
-
-    // Validate that input is a valid note format
-    if (!note.toString().toUpperCase().match(alphaRegex) && !note.toString().toUpperCase().match(numericRegex)) {
-      throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${alphaRegex} | ${numericRegex}`);
-    }
-
-    // Assemble from input
-    if (typeof note === 'number') {
-      this.buildFromNumeric(note);
-    } else if (typeof note === 'string') {
-      this.buildFromAlpha(note);
-    } else {
-      throw Error(`Input note type ${typeof note} not supported.`);
-    }
+      octave: coalescedOctave + octaveOffset,
+    };
   }
 
   // Transposes the note object up or down by a number of half steps and recalculates attributes
@@ -95,6 +120,7 @@ export class Note {
     return this;
   }
 
+  // Construct a full note object from numeric input
   private buildFromNumeric = (note: number) => {
     // Calculate offsets from base octave
     const { numeric, octave } = Note.baseline(note, 4);
@@ -110,6 +136,7 @@ export class Note {
     this.calculate();
   }
 
+  // Construct a full note object from alphanumeric input
   private buildFromAlpha = (note: string) => {
     let noteOnly: string;
     let octaveOnly: number;
@@ -139,48 +166,3 @@ export class Note {
     this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
   }
 }
-
-interface IRandomNoteOpts {
-  alpha?: boolean;
-  flatSharpFilter?: boolean|string;
-}
-
-const numericToAlpha = new Map([
-  [0, 'C'],
-  [1, 'C#/Db'],
-  [2, 'D'],
-  [3, 'D#/Eb'],
-  [4, 'E'],
-  [5, 'F'],
-  [6, 'F#/Gb'],
-  [7, 'G'],
-  [8, 'G#/Ab'],
-  [9, 'A'],
-  [10, 'A#/Bb'],
-  [11, 'B']
-]);
-
-const alphaToNumeric = new Map([
-  ['C', 0],
-  ['C#', 1],
-  ['Db', 1],
-  ['C#/Db', 1],
-  ['D', 2],
-  ['D#', 3],
-  ['Eb', 3],
-  ['D#/Eb', 3],
-  ['E', 4],
-  ['F', 5],
-  ['F#', 6],
-  ['Gb', 6],
-  ['F#/Gb', 6],
-  ['G', 7],
-  ['G#', 8],
-  ['Ab', 8],
-  ['G#/Ab', 8],
-  ['A', 9],
-  ['A#', 10],
-  ['Bb', 10],
-  ['A#/Bb', 10],
-  ['B', 11]
-]);

@@ -1,6 +1,7 @@
 import { Chord } from '../../src';
 import { describe, it } from 'mocha';
 import * as chai from 'chai';
+import { validChordWithFilter, validChordWithoutFilter } from "../../src/util/regex";
 
 const expect = chai.expect;
 
@@ -15,26 +16,38 @@ describe('Chord Class', () => {
     it('Should properly generate a random chord', () => {
       for (let i = 0; i <= 50; i++) {
         const chord = Chord.random();
-        expect(chord).to.match(/^[A-Ga-g][#|b]?[A-Za-z\°\ø\+]*[0-9]*$/gm);
+        expect(chord.value).to.match(validChordWithFilter);
+      }
+    });
+
+    it('Should properly generate a random chord with destructuring', () => {
+      for (let i = 0; i <= 50; i++) {
+        const { root, quality, value } = Chord.random({ destructure: true });
+        expect(value).to.match(validChordWithFilter);
+        expect(root).to.be.a('string');
+        expect(quality.name).to.be.a('string');
+        expect(quality.symbol).to.be.a('string');
+        expect(quality.difficulty).to.be.a('number');
+        expect(quality.structure).to.be.an('array');
       }
     });
 
     it('Should properly generate a random chord with flatSharpFilter set to false', () => {
       for (let i = 0; i <= 50; i++) {
         const chord = Chord.random({ flatSharpFilter: false });
-        expect(chord).to.match(/^[A-Ga-g][#|b]?(\/[A-Ga-g][#|b]?)?[A-Za-z\°\ø\+]*[0-9]*$/gm);
+        expect(chord.value).to.match(validChordWithoutFilter);
       }
     });
 
     it('Should properly generate a random chord with flatSharpFilter set explicitly', () => {
       for (let i = 0; i <= 50; i++) {
         const chord = Chord.random({ flatSharpFilter: 'b' });
-        expect(chord).to.match(/^[A-Ga-g][b]?[A-Za-z\°\ø\+]*[0-9]*$/gm);
+        expect(chord.value).to.match(validChordWithoutFilter);
       }
 
       for (let i = 0; i <= 50; i++) {
         const chord = Chord.random({ flatSharpFilter: '#' });
-        expect(chord).to.match(/^[A-Ga-g][#]?[A-Za-z\°\ø\+]*[0-9]*$/gm);
+        expect(chord.value).to.match(validChordWithoutFilter);
       }
     });
   });
