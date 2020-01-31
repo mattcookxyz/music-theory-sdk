@@ -102,6 +102,7 @@ export class Note {
     return this;
   }
 
+  // Construct a full note object from numeric input
   private buildFromNumeric = (note: number) => {
     // Calculate offsets from base octave
     const { numeric, octave } = Note.baseline(note, 4);
@@ -117,6 +118,7 @@ export class Note {
     this.calculate();
   }
 
+  // Construct a full note object from alphanumeric input
   private buildFromAlpha = (note: string) => {
     let noteOnly: string;
     let octaveOnly: number;
