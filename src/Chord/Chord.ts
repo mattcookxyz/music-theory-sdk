@@ -75,4 +75,8 @@ export class Chord {
     // Pick a random quality
     return QUALITIES[keys[Math.floor(Math.random() * keys.length)]];
   }
+
+  private parseChord = (chord: string) => {
+
+  }
 }

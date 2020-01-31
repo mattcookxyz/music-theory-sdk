@@ -37,3 +37,5 @@ export const alphaToNumeric = new Map([
   ['A#/Bb', 10],
   ['B', 11],
 ]);
+
+export const alphaNotes = Array.from(alphaToNumeric.keys());

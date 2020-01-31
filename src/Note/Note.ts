@@ -1,7 +1,7 @@
 import { IRandomNoteOpts } from './Interfaces';
 import applyDefaults from '../util/applyDefaults';
-import { alphaToNumeric, numericToAlpha } from './translators';
-import { validAlphaNote, validNumericNote } from '../util/regex';
+import { alphaNotes, alphaToNumeric, numericToAlpha } from './translators';
+import { validAlphaNote, validChordWithFilter, validChordWithoutFilter, validNumericNote } from '../util/regex';
 
 export class Note {
   public octave: number;
@@ -63,6 +63,24 @@ export class Note {
     }
 
     return note;
+  }
+
+  public static fromString = (input: string) => {
+    if (!input.match(validAlphaNote) && !input.match(validChordWithFilter) && !input.match(validChordWithoutFilter)) {
+      throw Error(`Input is not valid for Note.fromString("${input}")`);
+    }
+
+    const notes = alphaNotes.sort((a, b) => b.length - a.length);
+
+    for (const note of notes) {
+      const pos = input.indexOf(note);
+      if (pos !== -1) {
+        const parsed = input.slice(pos, pos + note.length);
+        return new Note(parsed);
+      }
+    }
+
+    throw Error(`No note could be found in Note.fromString("${input}")`);
   }
 
   // Takes a numeric note and optionally an octave. It will translate the numeric note to
