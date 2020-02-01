@@ -149,9 +149,16 @@ describe('Note Class', () => {
       }
     });
 
-    it('Should throw if provided an invalid filter and ', function () {
+    it('Should throw if provided an invalid filter', function () {
       for (let x = 0; x < numCases; x++) {
-        expect(() => Note.random({flatSharpFilter: '*&^%'})).to.throw();
+        expect(() => Note.random({ flatSharpFilter: '*&^%' })).to.throw();
+      }
+    });
+
+    it('Should successfully generate random note with valid filters', function () {
+      for (let x = 0; x < numCases; x++) {
+        const randomFilter = [true, false, undefined, '#', 'b'][Math.floor(Math.random() * 5)];
+        expect(Note.random({ flatSharpFilter: randomFilter })).to.be.a('string');
       }
     });
   });
