@@ -101,22 +101,4 @@ describe('Chord Class', () => {
       expect(fail4).to.throw();
     });
   });
-
-  describe('.parseChord()', () => {
-    it('Should correctly parse valid chords', () => {
-      for (let i = 0; i <= numCases; i++) {
-        const randomChord = Chord.random();
-        const parsed = Chord.parseChord(randomChord.value);
-        expect(parsed.root.alpha).to.equal(randomChord.root.alpha);
-      }
-    });
-
-    it('Should throw on invalid chords', () => {
-      expect(() => Chord.parseChord('888')).to.throw('Input "888" is not a valid chord.');
-    });
-
-    it('Should throw on invalid quality', () => {
-      expect(() => Chord.parseChord('C#blah')).to.throw('Could not map remainder "blah" to quality.');
-    });
-  });
 });

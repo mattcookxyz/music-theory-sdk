@@ -1,6 +1,6 @@
 import { Note } from '../Note/Note';
 import applyDefaults from '../util/applyDefaults';
-import { IParsedChord, IQuality, IChordOpts, IRandomQualityOpts } from './Interfaces';
+import { IParsedChord, IQuality, IChordOpts, IQualityOpts } from './Interfaces';
 import { QUALITIES, QUALITIES_BY_SYMBOL } from './qualities';
 import { validChordWithFilter, validChordWithoutFilter } from '../util/regex';
 import Filter from '../util/Filter';
@@ -14,10 +14,12 @@ export class Chord {
   public inversion: number;
   public flatSharpFilter: false | string;
 
+  // TODO: Make flatSharpFilter apply to root and all notes at all times
+
   constructor(chord?: string, opts: IChordOpts = {}) {
     if (chord) {
       Chord.validate(chord);
-      const { root, quality } = Chord.parseChord(chord);
+      const { root, quality } = this.parseChord(chord);
       this.root = root;
       this.quality = quality;
     } else {
@@ -70,7 +72,7 @@ export class Chord {
   }
 
   // Get a random quality object by targetDifficulty or maxDifficulty
-  public static randomQuality = (opts: IRandomQualityOpts = {}) => {
+  public static randomQuality = (opts: IQualityOpts = {}) => {
 
     applyDefaults(opts, { maxDifficulty: opts.targetDifficulty ? undefined : 5 });
 
@@ -105,10 +107,10 @@ export class Chord {
     return QUALITIES[keys[Math.floor(Math.random() * keys.length)]];
   }
 
-  public static parseChord = (chord: string): IParsedChord => {
+  private parseChord = (chord: string): IParsedChord => {
     Chord.validate(chord);
 
-    const root = Note.fromString(chord);
+    const root = Note.fromString(chord, { flatSharpFilter: this.flatSharpFilter });
     const remainder = chord.replace(root.alpha, '');
     const quality: IQuality = QUALITIES_BY_SYMBOL[remainder];
 

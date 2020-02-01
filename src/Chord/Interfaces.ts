@@ -1,14 +1,12 @@
 import { Note } from '..';
 
-export interface IChordOpts {
-  flatSharpFilter?: false | string;
-  maxDifficulty?: number;
+export interface IQualityOpts {
   targetDifficulty?: number;
+  maxDifficulty?: number;
 }
 
-export interface IRandomQualityOpts {
-  targetDifficulty?: number;
-  maxDifficulty?: number;
+export interface IChordOpts extends IQualityOpts {
+  flatSharpFilter?: false | string;
 }
 
 export interface IQuality {

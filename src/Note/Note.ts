@@ -1,4 +1,4 @@
-import { INoteOpts, IRandomNoteOpts } from './Interfaces';
+import { INoteOpts } from './Interfaces';
 import applyDefaults from '../util/applyDefaults';
 import { alphaNotes, alphaToNumeric, numericToAlpha } from './translators';
 import { validAlphaNote, validNumericNote } from '../util/regex';
@@ -40,7 +40,7 @@ export class Note {
   }
 
   // Returns a random note
-  public static random = (opts: IRandomNoteOpts = {}): Note => {
+  public static random = (opts: INoteOpts = {}): Note => {
     applyDefaults(opts, {
       flatSharpFilter: Filter.random(),
     });
@@ -48,14 +48,14 @@ export class Note {
     return new Note(undefined, { flatSharpFilter: opts.flatSharpFilter });
   }
 
-  public static fromString = (input: string) => {
+  public static fromString = (input: string, opts: INoteOpts = {}) => {
     const notes = alphaNotes.sort((a, b) => b.length - a.length);
 
     for (const note of notes) {
       const pos = input.indexOf(note);
       if (pos !== -1) {
         const parsed = input.slice(pos, pos + note.length);
-        return new Note(parsed);
+        return new Note(parsed, opts);
       }
     }
 
