@@ -23,6 +23,10 @@ describe('Note Class', () => {
       }
     });
 
+    it('Should throw up on invalid string', () => {
+      expect(() => Note.fromString('...')).to.throw();
+    });
+
     it('Should properly parse notes', () => {
       const noteC = new Note('C');
       const noteNeg1 = new Note(-1);
