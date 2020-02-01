@@ -12,7 +12,7 @@ export class Note {
 
   constructor(note: string | number = Math.floor(Math.random() * 12)) {
     // Validate note format
-    if (!note.toString().toUpperCase().match(validAlphaNote) && !note.toString().toUpperCase().match(validNumericNote)) {
+    if (!validAlphaNote.test(note.toString().toUpperCase()) && !validNumericNote.test(note.toString().toUpperCase())) {
       throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${validAlphaNote} | ${validNumericNote}`);
     }
 

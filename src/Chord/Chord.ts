@@ -1,7 +1,8 @@
 import { Note } from '../Note/Note';
 import applyDefaults from '../util/applyDefaults';
-import { IQuality, IRandomChordOpts, IRandomQualityOpts, IStaticRandomChordResult } from './Interfaces';
-import { QUALITIES } from './qualities';
+import { IParsedChord, IQuality, IRandomChordOpts, IRandomQualityOpts, IStaticRandomChordResult } from './Interfaces';
+import { QUALITIES, QUALITIES_BY_SYMBOL } from './qualities';
+import { validChordWithFilter, validChordWithoutFilter } from '../util/regex';
 
 export class Chord {
 
@@ -55,7 +56,7 @@ export class Chord {
     // If maxDifficulty, filter to difficulties <=
     if (opts.maxDifficulty) {
       // Validate maxDifficulty
-      if (!opts.maxDifficulty.toString().match(/^[1-5]$/g)) {
+      if (!/^[1-5]$/.test(opts.maxDifficulty.toString())) {
         throw Error(`Difficulty ${opts.maxDifficulty} is not valid. Must be an integer between 1 and 5.`);
       }
       // Filter
@@ -65,7 +66,7 @@ export class Chord {
     // If targetDifficulty, filter to difficulties ===
     if (opts.targetDifficulty) {
       // Validate targetDifficulty
-      if (!opts.targetDifficulty.toString().match(/^[1-5]$/g)) {
+      if (!/^[1-5]$/.test(opts.targetDifficulty.toString())) {
         throw Error(`Difficulty ${opts.maxDifficulty} is not valid. Must be an integer between 1 and 5.`);
       }
       // Filter
@@ -76,7 +77,22 @@ export class Chord {
     return QUALITIES[keys[Math.floor(Math.random() * keys.length)]];
   }
 
-  private parseChord = (chord: string) => {
+  public static parseChord = (chord: string): IParsedChord => {
+    if (!validChordWithFilter.test(chord) && !validChordWithoutFilter.test(chord)) {
+      throw Error(`Input "${chord}" cannot be parsed as a chord.`);
+    }
 
+    const root = Note.fromString(chord);
+    const remainder = chord.replace(root.alpha, '');
+    const quality: IQuality = QUALITIES_BY_SYMBOL[remainder];
+
+    if (!quality) {
+      throw Error(`Could not map remainder ${remainder} to quality.`);
+    }
+
+    return {
+      root,
+      quality,
+    };
   }
 }

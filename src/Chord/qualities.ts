@@ -1,5 +1,15 @@
 import { IQuality } from './Interfaces';
 
+const invertBy = (obj: { [index: string]: IQuality }, value: string) => {
+  const outObj = {};
+  const keys = Object.keys(obj);
+  for (const key of keys) {
+    // @ts-ignore
+    outObj[obj[key][value]] = obj[key];
+  }
+  return outObj;
+};
+
 export const QUALITIES: {
   [index: string]: IQuality,
 } = {
@@ -129,3 +139,5 @@ export const QUALITIES: {
 
   // TODO: Add extended qualities from https://en.wikipedia.org/wiki/Chord_names_and_symbols_(popular_music)
 };
+
+export const QUALITIES_BY_SYMBOL: { [index: string]: IQuality } = invertBy(QUALITIES, 'symbol');

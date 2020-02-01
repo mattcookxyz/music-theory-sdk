@@ -1,11 +1,13 @@
+import { Note } from '..';
+
 export interface IStaticRandomChordResult {
-  root?: string|number;
+  root?: string | number;
   quality?: IQuality;
   value: string;
 }
 
 export interface IRandomChordOpts {
-  flatSharpFilter?: boolean|string;
+  flatSharpFilter?: boolean | string;
   maxDifficulty?: number;
   destructure?: boolean;
   alpha?: boolean;
@@ -21,4 +23,9 @@ export interface IQuality {
   name: string;
   symbol: string;
   structure: number[];
+}
+
+export interface IParsedChord {
+  root: Note;
+  quality: IQuality;
 }
