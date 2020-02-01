@@ -15,11 +15,14 @@ export class Note {
   constructor(note: string | number = Math.floor(Math.random() * 12), opts: INoteOpts = {}) {
     Note.validate(note);
 
+    if (opts.flatSharpFilter) {
+      Filter.validate(opts.flatSharpFilter);
+      this.flatSharpFilter = opts.flatSharpFilter;
+    }
+
     applyDefaults(opts, {
       flatSharpFilter: Filter.random(),
     });
-
-    this.flatSharpFilter = opts.flatSharpFilter;
 
     // Assemble from input
     if (typeof note === 'number') {
@@ -36,40 +39,13 @@ export class Note {
     }
   }
 
-  // Returns a 'dumb' random note as a number or string depending on options
+  // Returns a random note
   public static random = (opts: IRandomNoteOpts = {}): Note => {
-
     applyDefaults(opts, {
-      alpha: true,
       flatSharpFilter: Filter.random(),
     });
 
-    // Validate filter
-    if (opts.flatSharpFilter) Filter.validate(opts.flatSharpFilter);
-
-    // Get initial random numeric note
-    let note: number | string = Math.floor(Math.random() * 12);
-
-    // If numeric, convert to alpha note
-    if (opts.alpha) {
-      note = numericToAlpha.get(note);
-
-      // Apply filter if desired/needed
-      if (opts.flatSharpFilter && note.search('/') !== -1) {
-
-        // Apply filter
-        switch (opts.flatSharpFilter) {
-          case '#':
-            note = note.split('/')[0];
-            break;
-          case 'b':
-            note = note.split('/')[1];
-            break;
-        }
-      }
-    }
-
-    return new Note(note);
+    return new Note(undefined, { flatSharpFilter: opts.flatSharpFilter });
   }
 
   public static fromString = (input: string) => {

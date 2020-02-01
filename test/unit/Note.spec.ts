@@ -157,7 +157,7 @@ describe('Note Class', () => {
 
     it('Should successfully generate numeric notes', function () {
       for (let x = 0; x < numCases; x++) {
-        const note = Note.random({ alpha: false });
+        const note = Note.random();
         expect(note.numeric).to.be.a('number');
       }
     });

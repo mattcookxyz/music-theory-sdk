@@ -65,7 +65,7 @@ export class Chord {
       alpha: true,
     });
 
-    const root = Note.random({ alpha: opts.alpha, flatSharpFilter: opts.flatSharpFilter });
+    const root = Note.random({ flatSharpFilter: opts.flatSharpFilter });
     const quality = Chord.randomQuality({ maxDifficulty: opts.maxDifficulty });
 
     // Destructure into separate root and quality if requested

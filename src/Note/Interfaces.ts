@@ -3,6 +3,5 @@ export interface INoteOpts {
 }
 
 export interface IRandomNoteOpts {
-  alpha?: boolean;
   flatSharpFilter?: false | string;
 }
