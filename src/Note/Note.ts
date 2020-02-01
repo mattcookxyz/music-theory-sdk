@@ -21,8 +21,6 @@ export class Note {
       this.buildFromNumeric(note);
     } else if (typeof note === 'string') {
       this.buildFromAlpha(note);
-    } else {
-      throw Error(`Input note type ${typeof note} not supported.`);
     }
   }
 
@@ -66,10 +64,6 @@ export class Note {
   }
 
   public static fromString = (input: string) => {
-    if (!input.match(validAlphaNote) && !input.match(validChordWithFilter) && !input.match(validChordWithoutFilter)) {
-      throw Error(`Input is not valid for Note.fromString("${input}")`);
-    }
-
     const notes = alphaNotes.sort((a, b) => b.length - a.length);
 
     for (const note of notes) {
