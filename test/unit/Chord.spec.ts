@@ -19,6 +19,19 @@ describe('Chord Class', () => {
     }
   });
 
+  describe('.transpose()', () => {
+    it('Should transpose all notes', () => {
+      for (let i = 0; i <= numCases; i++) {
+        const randomChord = Chord.random({ destructure: true });
+        const chord = new Chord(randomChord.value);
+        const interval = Math.floor(Math.random() * 50);
+        const expectedNotes = chord.notes.map(note => note.absolute + interval)
+        chord.transpose(interval);
+        expect(chord.notes.map(note => note.absolute)).to.deep.equal(expectedNotes);
+      }
+    });
+  })
+
   describe('.random()', () => {
     it('Should properly generate a random chord', () => {
       for (let i = 0; i <= numCases; i++) {

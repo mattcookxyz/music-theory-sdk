@@ -20,6 +20,12 @@ export class Chord {
     });
   }
 
+  public transpose = (intervalInHalfSteps: number) => {
+    for (const note of this.notes) {
+      note.transpose(intervalInHalfSteps);
+    }
+  }
+
   // Returns a somewhat 'dumb' random chord
   public static random = (opts: IRandomChordOpts = {}): IStaticRandomChordResult => {
 
