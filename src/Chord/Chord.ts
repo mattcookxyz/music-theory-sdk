@@ -16,15 +16,20 @@ export class Chord {
 
   constructor(chord?: string, opts: IChordOpts = {}) {
     if (chord) {
+      // If a chord was provided, validate, parse,
+      // and use # / b filter based on provided chord root
       Chord.validate(chord);
       const { root, quality } = this.parseChord(chord);
       this.root = root;
       this.quality = quality;
       this.flatSharpFilter = this.parseFilter(root.alpha);
     } else {
+      // If a chord wasn't provided, generate a random chord
       this.root = Note.random({ flatSharpFilter: opts.flatSharpFilter });
       this.quality = Chord.randomQuality(opts);
     }
+    // Calculate inversion, notes from root/quality, and
+    // value - i.e., the chord represented as a string
     this.calculate();
   }
 
@@ -35,20 +40,25 @@ export class Chord {
   }
 
   public invert = (inversion: number) => {
+    // A 3 note chord only has 2 inversions - verify
+    // that the inversion specified is valid
     if (inversion >= this.notes.length)
       throw Error(`Chord ${this.value} has too few notes for inversion ${inversion}.`);
+    // Apply and calculate
     this.inversion = inversion;
     this.calculate();
     return this;
   }
 
   public transpose = (intervalInHalfSteps: number) => {
+    // Transpose each note by the number of half steps provided
     for (const note of this.notes)
       note.transpose(intervalInHalfSteps);
     return this;
   }
 
   public static random = (opts: IChordOpts = {}): Chord => {
+    // Get a random chord object
     applyDefaults(opts, {
       flatSharpFilter: Filter.random(),
       maxDifficulty: opts.targetDifficulty ? null : 5,
@@ -57,63 +67,70 @@ export class Chord {
     return new Chord(undefined, opts);
   }
 
-  // Get a random quality object by targetDifficulty or maxDifficulty
   public static randomQuality = (opts: IQualityOpts = {}) => {
+    // Get a random quality object by targetDifficulty or maxDifficulty
+    applyDefaults(opts, {
+      maxDifficulty: opts.targetDifficulty ? undefined : 5,
+    });
 
-    applyDefaults(opts, { maxDifficulty: opts.targetDifficulty ? undefined : 5 });
-
-    // Validate that only one option is provided
+    // Validate that maxDifficulty and targetDifficulty
+    // were not both provided in opts
     if (opts.maxDifficulty && opts.targetDifficulty)
       throw Error('maxDifficulty and targetDifficulty opts are not compatible with one another.');
 
-    let keys: string[];
+    let filteredChords: string[];
 
-    // If maxDifficulty, filter to difficulties <=
+    // If maxDifficulty, filter to difficulties less than or equal
     if (opts.maxDifficulty) {
       // Validate maxDifficulty
       if (!/^[1-5]$/.test(opts.maxDifficulty.toString()))
         throw Error(`Difficulty ${opts.maxDifficulty} is not valid. Must be an integer between 1 and 5.`);
-
       // Filter
-      keys = Object.keys(QUALITIES).filter(key => QUALITIES[key].difficulty <= opts.maxDifficulty);
+      filteredChords = Object.keys(QUALITIES).filter(key => QUALITIES[key].difficulty <= opts.maxDifficulty);
     }
 
-    // If targetDifficulty, filter to difficulties ===
+    // If targetDifficulty, filter to only that difficulty
     if (opts.targetDifficulty) {
       // Validate targetDifficulty
       if (!/^[1-5]$/.test(opts.targetDifficulty.toString()))
         throw Error(`Difficulty ${opts.maxDifficulty} is not valid. Must be an integer between 1 and 5.`);
-
       // Filter
-      keys = Object.keys(QUALITIES).filter(key => QUALITIES[key].difficulty === opts.targetDifficulty);
+      filteredChords = Object.keys(QUALITIES).filter(key => QUALITIES[key].difficulty === opts.targetDifficulty);
     }
 
-    // Pick a random quality
-    return QUALITIES[keys[Math.floor(Math.random() * keys.length)]];
+    // Pick a random quality object
+    return QUALITIES[filteredChords[Math.floor(Math.random() * filteredChords.length)]];
   }
 
   private calculate = () => {
+    // Calculate chord members from root/quality
     this.notes = this.quality.structure.map((tone) => {
       const transposed = tone + this.root.numeric;
       return new Note(transposed, { flatSharpFilter: this.flatSharpFilter });
     });
+
+    // Process inversion
     if (this.inversion) {
       const fromBass = this.notes.slice(this.inversion);
       const inverted = this.notes.slice(0, this.inversion);
       this.notes = [...fromBass, ...inverted];
+      // Calculate value, or string representation
       this.value = `${this.root.alpha}${this.quality.symbol}/${this.notes[0].alpha}`;
     } else {
+      // Calculate value, or string representation
       this.value = this.root.alpha + this.quality.symbol;
     }
   }
 
   private parseChord = (chord: string): IParsedChord => {
+    // Get root and quality objects from a string
     Chord.validate(chord);
 
     const root = Note.fromString(chord, { flatSharpFilter: this.flatSharpFilter });
     const remainder = chord.replace(root.alpha, '');
     const quality: IQuality = QUALITIES_BY_SYMBOL[remainder];
 
+    // Quality is unknown
     if (!quality)
       throw Error(`Could not map remainder "${remainder}" to quality.`);
 
@@ -124,6 +141,8 @@ export class Chord {
   }
 
   private parseFilter = (note: string): false | string => {
+    // If only a sharp/flat note was specified in the constructor,
+    // use that filter for all relevant calculations/notes
     const noteArr = note.split('');
     if (noteArr.indexOf('/') !== -1)
       return false;
