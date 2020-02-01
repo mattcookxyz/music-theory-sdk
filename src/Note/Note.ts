@@ -32,6 +32,9 @@ export class Note {
       flatSharpFilter: true,
     });
 
+    // Validate filter
+    if ([true, false, undefined, '#', 'b'].indexOf(opts.flatSharpFilter) === -1) throw Error(`Unsupported filter type ${opts.flatSharpFilter}.`);
+
     // Get initial random numeric note
     let note: number | string = Math.floor(Math.random() * 12);
 
@@ -44,9 +47,6 @@ export class Note {
 
         // If true with no filter selected, select a random filter
         const filter: string = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
-
-        // Validate filter
-        if (['#', 'b'].indexOf(filter) === -1) throw Error(`Unsupported filter type ${filter}`);
 
         // Apply filter
         switch (filter) {

@@ -4,10 +4,12 @@ import * as chai from 'chai';
 
 const expect = chai.expect;
 
+const numCases = 10;
+
 describe('Note Class', () => {
   describe('Constructor', () => {
     it('Should generate a random note if no input is provided', () => {
-      for (let x = 0; x <= 10; x++) {
+      for (let x = 0; x <= numCases; x++) {
         const note = new Note();
         expect(0 <= note.numeric && note.numeric <= 11).to.be.true;
         expect(note.absolute).to.be.a('number');
@@ -17,7 +19,7 @@ describe('Note Class', () => {
     });
 
     it('Should parse notes from any string', () => {
-      for (let x = 0; x <= 50; x++) {
+      for (let x = 0; x <= numCases; x++) {
         const { root, value } = Chord.random({ destructure: true });
         expect(Note.fromString(value).alpha).to.equal(root);
       }
@@ -134,21 +136,23 @@ describe('Note Class', () => {
 
   describe('.random()', () => {
     it('Should successfully generate notes', function () {
-      for (let x = 0; x < 50; x++) {
+      for (let x = 0; x < numCases; x++) {
         const note = Note.random();
         expect(note).to.be.a('string');
       }
     });
 
     it('Should successfully generate numeric notes', function () {
-      for (let x = 0; x < 50; x++) {
+      for (let x = 0; x < numCases; x++) {
         const note = Note.random({ alpha: false });
         expect(note).to.be.a('number');
       }
     });
 
-    it('Should throw if provided an invalid filter', function () {
-      expect(() => Note.random({ flatSharpFilter: 'aaa' })).to.throw();
+    it('Should throw if provided an invalid filter and ', function () {
+      for (let x = 0; x < numCases; x++) {
+        expect(() => Note.random({flatSharpFilter: '*&^%'})).to.throw();
+      }
     });
   });
 });
