@@ -7,7 +7,7 @@ export interface IStaticRandomChordResult {
 }
 
 export interface IRandomChordOpts {
-  flatSharpFilter?: boolean | string;
+  flatSharpFilter?: false | string;
   maxDifficulty?: number;
   destructure?: boolean;
   alpha?: boolean;
@@ -28,12 +28,4 @@ export interface IQuality {
 export interface IParsedChord {
   root: Note;
   quality: IQuality;
-}
-
-export interface IChordOpts {
-  flatSharpFilter?: boolean|string;
-}
-
-export interface IParseChordOpts {
-  flatSharpFilter?: boolean|string;
 }

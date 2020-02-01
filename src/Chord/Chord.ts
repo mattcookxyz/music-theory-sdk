@@ -3,6 +3,7 @@ import applyDefaults from '../util/applyDefaults';
 import { IParsedChord, IQuality, IRandomChordOpts, IRandomQualityOpts, IStaticRandomChordResult } from './Interfaces';
 import { QUALITIES, QUALITIES_BY_SYMBOL } from './qualities';
 import { validChordWithFilter, validChordWithoutFilter } from '../util/regex';
+import Filter from '../util/Filter';
 
 export class Chord {
 
@@ -12,7 +13,7 @@ export class Chord {
   public value: string;
   public inversion: number;
 
-  constructor(chord: string = Chord.random({ flatSharpFilter: true }).value) {
+  constructor(chord: string = Chord.random().value) {
     Chord.validate(chord);
 
     const { root, quality } = Chord.parseChord(chord);
@@ -58,7 +59,7 @@ export class Chord {
   public static random = (opts: IRandomChordOpts = {}): IStaticRandomChordResult => {
 
     applyDefaults(opts, {
-      flatSharpFilter: true,
+      flatSharpFilter: Filter.random(),
       maxDifficulty: 5,
       destructure: false,
       alpha: true,

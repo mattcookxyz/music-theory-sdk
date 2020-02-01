@@ -1,7 +1,8 @@
-import { IRandomNoteOpts } from './Interfaces';
+import { INoteOpts, IRandomNoteOpts } from './Interfaces';
 import applyDefaults from '../util/applyDefaults';
 import { alphaNotes, alphaToNumeric, numericToAlpha } from './translators';
 import { validAlphaNote, validNumericNote } from '../util/regex';
+import Filter from '../util/Filter';
 
 export class Note {
   public octave: number;
@@ -9,9 +10,18 @@ export class Note {
   public alpha: string;
   public frequency: number;
   public absolute: number;
+  public flatSharpFilter: string;
 
-  constructor(note: string | number = Math.floor(Math.random() * 12)) {
+  constructor(note: string | number = Math.floor(Math.random() * 12), opts: INoteOpts = {}) {
     Note.validate(note);
+
+    applyDefaults(opts, {
+      flatSharpFilter: Filter.random(),
+    });
+
+    if (opts.flatSharpFilter) {
+      this.flatSharpFilter = opts.flatSharpFilter;
+    }
 
     // Assemble from input
     if (typeof note === 'number') {
@@ -33,11 +43,13 @@ export class Note {
 
     applyDefaults(opts, {
       alpha: true,
-      flatSharpFilter: true,
+      flatSharpFilter: Filter.random(),
     });
 
     // Validate filter
-    if ([true, false, undefined, '#', 'b'].indexOf(opts.flatSharpFilter) === -1) throw Error(`Unsupported filter type ${opts.flatSharpFilter}.`);
+    if (opts.flatSharpFilter) {
+      Filter.validate(opts.flatSharpFilter);
+    }
 
     // Get initial random numeric note
     let note: number | string = Math.floor(Math.random() * 12);
@@ -49,11 +61,8 @@ export class Note {
       // Apply filter if desired/needed
       if (opts.flatSharpFilter && note.search('/') !== -1) {
 
-        // If true with no filter selected, select a random filter
-        const filter: string = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
-
         // Apply filter
-        switch (filter) {
+        switch (opts.flatSharpFilter) {
           case '#':
             note = note.split('/')[0];
             break;

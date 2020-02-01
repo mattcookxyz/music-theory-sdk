@@ -20,9 +20,7 @@ describe('Chord Class', () => {
 
   it('Should properly invert', () => {
     const chord = new Chord();
-    console.log(chord.value, chord.inversion);
     chord.invert(2);
-    console.log(chord.value, chord.inversion);
   });
 
   describe('.transpose()', () => {

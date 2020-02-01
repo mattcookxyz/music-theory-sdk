@@ -1,6 +1,7 @@
 import { Chord, Note } from '../../src';
 import { describe, it } from 'mocha';
 import * as chai from 'chai';
+import Filter from "../../src/util/Filter";
 
 const expect = chai.expect;
 
@@ -157,8 +158,7 @@ describe('Note Class', () => {
 
     it('Should successfully generate random note with valid filters', function () {
       for (let x = 0; x < numCases; x++) {
-        const randomFilter = [true, false, undefined, '#', 'b'][Math.floor(Math.random() * 5)];
-        expect(Note.random({ flatSharpFilter: randomFilter }).alpha).to.be.a('string');
+        expect(Note.random({ flatSharpFilter: Filter.random() }).alpha).to.be.a('string');
       }
     });
   });

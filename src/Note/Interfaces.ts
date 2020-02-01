@@ -1,8 +1,8 @@
 export interface INoteOpts {
-  flatSharpFilter?: boolean | string;
+  flatSharpFilter?: string;
 }
 
 export interface IRandomNoteOpts {
   alpha?: boolean;
-  flatSharpFilter?: boolean | string;
+  flatSharpFilter?: false | string;
 }
