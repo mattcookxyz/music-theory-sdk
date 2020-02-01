@@ -29,3 +29,11 @@ export interface IParsedChord {
   root: Note;
   quality: IQuality;
 }
+
+export interface IChordOpts {
+  flatSharpFilter?: boolean|string;
+}
+
+export interface IParseChordOpts {
+  flatSharpFilter?: boolean|string;
+}

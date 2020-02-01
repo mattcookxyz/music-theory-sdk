@@ -8,7 +8,6 @@ const expect = chai.expect;
 const numCases = 10;
 
 describe('Chord Class', () => {
-
   it('Should properly construct', () => {
     for (let i = 0; i <= numCases; i++) {
       const randomChord = Chord.random({ destructure: true });
@@ -17,6 +16,13 @@ describe('Chord Class', () => {
       expect(chord.root.absolute).to.equal(randomChord.root.absolute);
       expect(chord.quality).to.deep.equal(randomChord.quality);
     }
+  });
+
+  it('Should properly invert', () => {
+    const chord = new Chord();
+    console.log(chord.value, chord.inversion);
+    chord.invert(2);
+    console.log(chord.value, chord.inversion);
   });
 
   describe('.transpose()', () => {
@@ -121,7 +127,7 @@ describe('Chord Class', () => {
     });
 
     it('Should throw on invalid chords', () => {
-      expect(() => Chord.parseChord('888')).to.throw('Input "888" cannot be parsed as a chord.');
+      expect(() => Chord.parseChord('888')).to.throw('Input "888" is not a valid chord.');
     });
 
     it('Should throw on invalid quality', () => {

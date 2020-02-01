@@ -1,7 +1,7 @@
 import { IRandomNoteOpts } from './Interfaces';
 import applyDefaults from '../util/applyDefaults';
 import { alphaNotes, alphaToNumeric, numericToAlpha } from './translators';
-import { validAlphaNote, validChordWithFilter, validChordWithoutFilter, validNumericNote } from '../util/regex';
+import { validAlphaNote, validNumericNote } from '../util/regex';
 
 export class Note {
   public octave: number;
@@ -11,16 +11,20 @@ export class Note {
   public absolute: number;
 
   constructor(note: string | number = Math.floor(Math.random() * 12)) {
-    // Validate note format
-    if (!validAlphaNote.test(note.toString().toUpperCase()) && !validNumericNote.test(note.toString().toUpperCase())) {
-      throw Error(`Note "${note}" is invalid - did not match one of the following patterns: ${validAlphaNote} | ${validNumericNote}`);
-    }
+    Note.validate(note);
 
     // Assemble from input
     if (typeof note === 'number') {
       this.buildFromNumeric(note);
     } else if (typeof note === 'string') {
       this.buildFromAlpha(note);
+    }
+  }
+
+  public static validate = (note: string | number) => {
+    const valid = validNumericNote.test(note.toString().toUpperCase()) || validAlphaNote.test(note.toString().toUpperCase());
+    if (!valid) {
+      throw Error(`Input "${note}" is not a valid note.`);
     }
   }
 

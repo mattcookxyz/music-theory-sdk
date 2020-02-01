@@ -9,15 +9,43 @@ export class Chord {
   public root: Note;
   public quality: IQuality;
   public notes: Note[];
+  public value: string;
+  public inversion: number;
 
-  constructor(chord: string = Chord.random().value) {
+  constructor(chord: string = Chord.random({ flatSharpFilter: true }).value) {
+    Chord.validate(chord);
+
     const { root, quality } = Chord.parseChord(chord);
     this.root = root;
     this.quality = quality;
-    this.notes = quality.structure.map((tone) => {
-      const transposed = tone + root.numeric;
+    this.calculate();
+  }
+
+  public static validate = (chord: string) => {
+    const valid = validChordWithFilter.test(chord) || validChordWithoutFilter.test(chord);
+    if (!valid) {
+      throw Error(`Input "${chord}" is not a valid chord.`);
+    }
+  }
+
+  public invert = (inversion: number) => {
+    this.inversion = inversion;
+    this.calculate();
+  }
+
+  private calculate = () => {
+    this.notes = this.quality.structure.map((tone) => {
+      const transposed = tone + this.root.numeric;
       return new Note(transposed);
     });
+    if (this.inversion) {
+      const fromBass = this.notes.slice(this.inversion);
+      const inverted = this.notes.slice(0, this.inversion);
+      this.notes = [...fromBass, ...inverted];
+      this.value = `${this.root.alpha}${this.quality.symbol} / (${this.notes[0].alpha})`;
+    } else {
+      this.value = this.root.alpha + this.quality.symbol;
+    }
   }
 
   public transpose = (intervalInHalfSteps: number) => {
@@ -90,9 +118,7 @@ export class Chord {
   }
 
   public static parseChord = (chord: string): IParsedChord => {
-    if (!validChordWithFilter.test(chord) && !validChordWithoutFilter.test(chord)) {
-      throw Error(`Input "${chord}" cannot be parsed as a chord.`);
-    }
+    Chord.validate(chord);
 
     const root = Note.fromString(chord);
     const remainder = chord.replace(root.alpha, '');
