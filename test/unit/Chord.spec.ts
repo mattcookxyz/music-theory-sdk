@@ -10,7 +10,7 @@ const numCases = 10;
 describe('Chord Class', () => {
   it('Should properly construct', () => {
     for (let i = 0; i <= numCases; i++) {
-      const randomChord = Chord.random({ destructure: true });
+      const randomChord = Chord.random();
       const chord = new Chord(randomChord.value);
       expect(chord.root.alpha).to.equal(randomChord.root.alpha);
       expect(chord.root.absolute).to.equal(randomChord.root.absolute);
@@ -26,8 +26,7 @@ describe('Chord Class', () => {
   describe('.transpose()', () => {
     it('Should transpose all notes', () => {
       for (let i = 0; i <= numCases; i++) {
-        const randomChord = Chord.random({ destructure: true });
-        const chord = new Chord(randomChord.value);
+        const chord = Chord.random();
         const interval = Math.floor(Math.random() * 50);
         const expectedNotes = chord.notes.map(note => note.absolute + interval)
         chord.transpose(interval);
@@ -41,18 +40,6 @@ describe('Chord Class', () => {
       for (let i = 0; i <= numCases; i++) {
         const chord = Chord.random();
         expect(validChordWithFilter.test(chord.value)).to.be.true;
-      }
-    });
-
-    it('Should properly generate a random chord with destructuring', () => {
-      for (let i = 0; i <= numCases; i++) {
-        const { root, quality, value } = Chord.random({ destructure: true });
-        expect(validChordWithFilter.test(value)).to.be.true;
-        expect(root.alpha).to.be.a('string');
-        expect(quality.name).to.be.a('string');
-        expect(quality.symbol).to.be.a('string');
-        expect(quality.difficulty).to.be.a('number');
-        expect(quality.structure).to.be.an('array');
       }
     });
 
@@ -118,7 +105,7 @@ describe('Chord Class', () => {
   describe('.parseChord()', () => {
     it('Should correctly parse valid chords', () => {
       for (let i = 0; i <= numCases; i++) {
-        const randomChord = Chord.random({ destructure: true });
+        const randomChord = Chord.random();
         const parsed = Chord.parseChord(randomChord.value);
         expect(parsed.root.alpha).to.equal(randomChord.root.alpha);
       }

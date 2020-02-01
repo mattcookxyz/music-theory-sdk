@@ -1,16 +1,9 @@
 import { Note } from '..';
 
-export interface IStaticRandomChordResult {
-  root?: Note;
-  quality?: IQuality;
-  value: string;
-}
-
-export interface IRandomChordOpts {
+export interface IChordOpts {
   flatSharpFilter?: false | string;
   maxDifficulty?: number;
-  destructure?: boolean;
-  alpha?: boolean;
+  targetDifficulty?: number;
 }
 
 export interface IRandomQualityOpts {

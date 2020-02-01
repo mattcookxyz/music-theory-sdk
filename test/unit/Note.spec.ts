@@ -21,7 +21,7 @@ describe('Note Class', () => {
 
     it('Should parse notes from any string', () => {
       for (let x = 0; x <= numCases; x++) {
-        const { root, value } = Chord.random({ destructure: true });
+        const { root, value } = Chord.random();
         expect(Note.fromString(value).alpha).to.equal(root.alpha);
       }
     });

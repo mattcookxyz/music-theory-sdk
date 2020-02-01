@@ -1,6 +1,6 @@
 import { Note } from '../Note/Note';
 import applyDefaults from '../util/applyDefaults';
-import { IParsedChord, IQuality, IRandomChordOpts, IRandomQualityOpts, IStaticRandomChordResult } from './Interfaces';
+import { IParsedChord, IQuality, IChordOpts, IRandomQualityOpts } from './Interfaces';
 import { QUALITIES, QUALITIES_BY_SYMBOL } from './qualities';
 import { validChordWithFilter, validChordWithoutFilter } from '../util/regex';
 import Filter from '../util/Filter';
@@ -12,13 +12,18 @@ export class Chord {
   public notes: Note[];
   public value: string;
   public inversion: number;
+  public flatSharpFilter: false | string;
 
-  constructor(chord: string = Chord.random().value) {
-    Chord.validate(chord);
-
-    const { root, quality } = Chord.parseChord(chord);
-    this.root = root;
-    this.quality = quality;
+  constructor(chord?: string, opts: IChordOpts = {}) {
+    if (chord) {
+      Chord.validate(chord);
+      const { root, quality } = Chord.parseChord(chord);
+      this.root = root;
+      this.quality = quality;
+    } else {
+      this.root = Note.random({ flatSharpFilter: opts.flatSharpFilter });
+      this.quality = Chord.randomQuality(opts);
+    }
     this.calculate();
   }
 
@@ -55,31 +60,13 @@ export class Chord {
     }
   }
 
-  // Returns a somewhat 'dumb' random chord
-  public static random = (opts: IRandomChordOpts = {}): IStaticRandomChordResult => {
-
+  public static random = (opts: IChordOpts = {}): Chord => {
     applyDefaults(opts, {
       flatSharpFilter: Filter.random(),
-      maxDifficulty: 5,
-      destructure: false,
-      alpha: true,
+      maxDifficulty: opts.targetDifficulty ? null : 5,
     });
 
-    const root = Note.random({ flatSharpFilter: opts.flatSharpFilter });
-    const quality = Chord.randomQuality({ maxDifficulty: opts.maxDifficulty });
-
-    // Destructure into separate root and quality if requested
-    if (opts.destructure) {
-      return {
-        root,
-        quality,
-        value: root.alpha + quality.symbol,
-      };
-    }
-
-    return {
-      value: root.alpha + quality.symbol,
-    };
+    return new Chord(undefined, opts);
   }
 
   // Get a random quality object by targetDifficulty or maxDifficulty
