@@ -14,22 +14,24 @@ export class Note {
 
   constructor(note: string | number = Math.floor(Math.random() * 12), opts: INoteOpts = {}) {
     Note.validate(note);
+    applyDefaults(opts, { flatSharpFilter: Filter.random() });
 
+    // If flatSharpFilter provided, validate and set.
     if (opts.flatSharpFilter) {
       Filter.validate(opts.flatSharpFilter);
       this.flatSharpFilter = opts.flatSharpFilter;
     }
 
-    applyDefaults(opts, {
-      flatSharpFilter: Filter.random(),
-    });
-
-    // Assemble from input
+    // Assemble note from input
     if (typeof note === 'number')
       this.buildFromNumeric(note);
     if (typeof note === 'string')
       this.buildFromAlpha(note);
   }
+
+  /**********
+   * STATIC *
+   *********/
 
   public static validate = (note: string | number) => {
     const valid = validNumericNote.test(note.toString().toUpperCase()) || validAlphaNote.test(note.toString().toUpperCase());
@@ -37,15 +39,14 @@ export class Note {
       throw Error(`Input "${note}" is not a valid note.`);
   }
 
-  // Returns a random note
+  // Returns a random note object
   public static random = (opts: INoteOpts = {}): Note => {
-    applyDefaults(opts, {
-      flatSharpFilter: Filter.random(),
-    });
+    applyDefaults(opts, { flatSharpFilter: Filter.random() });
 
     return new Note(undefined, { flatSharpFilter: opts.flatSharpFilter });
   }
 
+  // Parses the first note found in a string
   public static fromString = (input: string, opts: INoteOpts = {}) => {
     const notes = alphaNotes.sort((a, b) => b.length - a.length);
 
@@ -81,6 +82,10 @@ export class Note {
     };
   }
 
+  /**********
+   * PUBLIC *
+   *********/
+
   // Transposes the note object up or down by a number of half steps and recalculates attributes
   public transpose = (intervalInHalfSteps: number) => {
     // Get baseline values for transposed note
@@ -96,6 +101,10 @@ export class Note {
 
     return this;
   }
+
+  /***********
+   * PRIVATE *
+   **********/
 
   // Construct a full note object from numeric input
   private buildFromNumeric = (note: number) => {

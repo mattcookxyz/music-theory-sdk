@@ -1,6 +1,6 @@
 import { Note } from '../Note/Note';
 import applyDefaults from '../util/applyDefaults';
-import { IParsedChord, IQuality, IChordOpts, IQualityOpts } from './Interfaces';
+import { IChordOpts, IParsedChord, IQuality, IQualityOpts } from './Interfaces';
 import { QUALITIES, QUALITIES_BY_SYMBOL } from './qualities';
 import { validChordWithFilter, validChordWithoutFilter } from '../util/regex';
 import Filter from '../util/Filter';
@@ -43,21 +43,16 @@ export class Chord {
       throw Error(`Input "${chord}" is not a valid chord.`);
   }
 
+  // Get a random chord object
   public static random = (opts: IChordOpts = {}): Chord => {
-    // Get a random chord object
-    applyDefaults(opts, {
-      flatSharpFilter: Filter.random(),
-      maxDifficulty: opts.targetDifficulty ? null : 5,
-    });
+    applyDefaults(opts, { flatSharpFilter: Filter.random(), maxDifficulty: opts.targetDifficulty ? null : 5 });
 
     return new Chord(undefined, opts);
   }
 
+  // Get a random quality object by targetDifficulty or maxDifficulty
   public static randomQuality = (opts: IQualityOpts = {}) => {
-    // Get a random quality object by targetDifficulty or maxDifficulty
-    applyDefaults(opts, {
-      maxDifficulty: opts.targetDifficulty ? undefined : 5,
-    });
+    applyDefaults(opts, { maxDifficulty: opts.targetDifficulty ? undefined : 5 });
 
     // Validate that maxDifficulty and targetDifficulty
     // were not both provided in opts
@@ -92,6 +87,7 @@ export class Chord {
    * PUBLIC *
    *********/
 
+  // Set chord to 1st, 2nd, 3rd, etc. inversion
   public invert = (inversion: number) => {
     // A 3 note chord only has 2 inversions - verify
     // that the inversion specified is valid
@@ -103,8 +99,8 @@ export class Chord {
     return this;
   }
 
+  // Transpose each note by the number of half steps provided
   public transpose = (intervalInHalfSteps: number) => {
-    // Transpose each note by the number of half steps provided
     for (const note of this.notes)
       note.transpose(intervalInHalfSteps);
     return this;
@@ -114,8 +110,8 @@ export class Chord {
    * PRIVATE *
    **********/
 
+  // Calculate chord members from root/quality
   private calculate = () => {
-    // Calculate chord members from root/quality
     this.notes = this.quality.structure.map((tone) => {
       const transposed = tone + this.root.numeric;
       return new Note(transposed, { flatSharpFilter: this.flatSharpFilter });
@@ -134,8 +130,8 @@ export class Chord {
     }
   }
 
+  // Get root and quality objects from a string
   private parseChord = (chord: string): IParsedChord => {
-    // Get root and quality objects from a string
     Chord.validate(chord);
 
     const root = Note.fromString(chord, { flatSharpFilter: this.flatSharpFilter });
@@ -152,9 +148,9 @@ export class Chord {
     };
   }
 
+  // If only a sharp/flat note was specified in the constructor,
+  // use that filter for all relevant calculations/notes
   private parseFilter = (note: string): false | string => {
-    // If only a sharp/flat note was specified in the constructor,
-    // use that filter for all relevant calculations/notes
     const noteArr = note.split('');
     if (noteArr.indexOf('/') !== -1)
       return false;

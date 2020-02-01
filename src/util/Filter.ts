@@ -1,5 +1,7 @@
 export default class Filter {
-  constructor() {}
+  constructor() {
+  }
+
   public static validate = (filter: string): void => {
     if (!/[b|#]/.test(filter)) {
       throw Error(`Input "${filter}" is not a valid filter.`);
