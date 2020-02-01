@@ -33,28 +33,14 @@ export class Chord {
     this.calculate();
   }
 
+  /**********
+   * STATIC *
+   *********/
+
   public static validate = (chord: string) => {
     const valid = validChordWithFilter.test(chord) || validChordWithoutFilter.test(chord);
     if (!valid)
       throw Error(`Input "${chord}" is not a valid chord.`);
-  }
-
-  public invert = (inversion: number) => {
-    // A 3 note chord only has 2 inversions - verify
-    // that the inversion specified is valid
-    if (inversion >= this.notes.length)
-      throw Error(`Chord ${this.value} has too few notes for inversion ${inversion}.`);
-    // Apply and calculate
-    this.inversion = inversion;
-    this.calculate();
-    return this;
-  }
-
-  public transpose = (intervalInHalfSteps: number) => {
-    // Transpose each note by the number of half steps provided
-    for (const note of this.notes)
-      note.transpose(intervalInHalfSteps);
-    return this;
   }
 
   public static random = (opts: IChordOpts = {}): Chord => {
@@ -101,6 +87,32 @@ export class Chord {
     // Pick a random quality object
     return QUALITIES[filteredChords[Math.floor(Math.random() * filteredChords.length)]];
   }
+
+  /**********
+   * PUBLIC *
+   *********/
+
+  public invert = (inversion: number) => {
+    // A 3 note chord only has 2 inversions - verify
+    // that the inversion specified is valid
+    if (inversion >= this.notes.length)
+      throw Error(`Chord ${this.value} has too few notes for inversion ${inversion}.`);
+    // Apply and calculate
+    this.inversion = inversion;
+    this.calculate();
+    return this;
+  }
+
+  public transpose = (intervalInHalfSteps: number) => {
+    // Transpose each note by the number of half steps provided
+    for (const note of this.notes)
+      note.transpose(intervalInHalfSteps);
+    return this;
+  }
+
+  /***********
+   * PRIVATE *
+   **********/
 
   private calculate = () => {
     // Calculate chord members from root/quality
