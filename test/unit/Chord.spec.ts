@@ -5,26 +5,30 @@ import { validChordWithFilter, validChordWithoutFilter } from "../../src/util/re
 
 const expect = chai.expect;
 
+const numCases = 10;
+
 describe('Chord Class', () => {
 
   it('Should properly construct', () => {
-    const randomChord = Chord.random({ destructure: true });
-    const chord = new Chord(randomChord.value);
-    expect(chord.root.alpha).to.equal(randomChord.root.alpha);
-    expect(chord.root.absolute).to.equal(randomChord.root.absolute);
-    expect(chord.quality).to.deep.equal(randomChord.quality);
+    for (let i = 0; i <= numCases; i++) {
+      const randomChord = Chord.random({ destructure: true });
+      const chord = new Chord(randomChord.value);
+      expect(chord.root.alpha).to.equal(randomChord.root.alpha);
+      expect(chord.root.absolute).to.equal(randomChord.root.absolute);
+      expect(chord.quality).to.deep.equal(randomChord.quality);
+    }
   });
 
   describe('.random()', () => {
     it('Should properly generate a random chord', () => {
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const chord = Chord.random();
         expect(validChordWithFilter.test(chord.value)).to.be.true;
       }
     });
 
     it('Should properly generate a random chord with destructuring', () => {
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const { root, quality, value } = Chord.random({ destructure: true });
         expect(validChordWithFilter.test(value)).to.be.true;
         expect(root.alpha).to.be.a('string');
@@ -36,19 +40,19 @@ describe('Chord Class', () => {
     });
 
     it('Should properly generate a random chord with flatSharpFilter set to false', () => {
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const chord = Chord.random({ flatSharpFilter: false });
         expect(validChordWithoutFilter.test(chord.value)).to.be.true;
       }
     });
 
     it('Should properly generate a random chord with flatSharpFilter set explicitly', () => {
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const chord = Chord.random({ flatSharpFilter: 'b' });
         expect(validChordWithoutFilter.test(chord.value)).to.be.true;
       }
 
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const chord = Chord.random({ flatSharpFilter: '#' });
         expect(validChordWithoutFilter.test(chord.value)).to.be.true;
       }
@@ -57,26 +61,26 @@ describe('Chord Class', () => {
 
   describe('.randomQuality()', () => {
     it('Should properly generate a random chord quality with no options provided', () => {
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const quality = Chord.randomQuality();
         expect(quality.difficulty <= 5 && quality.difficulty >= 1).to.be.true;
       }
     });
 
     it('Should properly generate a random chord quality with maxDifficulty opt provided', () => {
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const quality = Chord.randomQuality({ maxDifficulty: 1 });
         expect(quality.difficulty === 1).to.be.true;
       }
 
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const quality = Chord.randomQuality({ maxDifficulty: 2 });
         expect(quality.difficulty <= 2 && quality.difficulty >= 1).to.be.true;
       }
     });
 
     it('Should properly generate a random chord quality with targetDifficulty opt provided', () => {
-      for (let i = 0; i <= 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const quality = Chord.randomQuality({ targetDifficulty: 1 });
         expect(quality.difficulty === 1).to.be.true;
       }
@@ -96,7 +100,7 @@ describe('Chord Class', () => {
 
   describe('.parseChord()', () => {
     it('Should correctly parse valid chords', () => {
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i <= numCases; i++) {
         const randomChord = Chord.random({ destructure: true });
         const parsed = Chord.parseChord(randomChord.value);
         expect(parsed.root.alpha).to.equal(randomChord.root.alpha);
