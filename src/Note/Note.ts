@@ -13,7 +13,7 @@ export class Note {
   constructor(note: string | number = Math.floor(Math.random() * 12)) {
     // Validate note format
     if (!validAlphaNote.test(note.toString().toUpperCase()) && !validNumericNote.test(note.toString().toUpperCase())) {
-      throw Error(`Note ${note} is invalid - did not match one of the following patterns: ${validAlphaNote} | ${validNumericNote}`);
+      throw Error(`Note "${note}" is invalid - did not match one of the following patterns: ${validAlphaNote} | ${validNumericNote}`);
     }
 
     // Assemble from input
@@ -25,7 +25,7 @@ export class Note {
   }
 
   // Returns a 'dumb' random note as a number or string depending on options
-  public static random = (opts: IRandomNoteOpts = {}) => {
+  public static random = (opts: IRandomNoteOpts = {}): Note => {
 
     applyDefaults(opts, {
       alpha: true,
@@ -60,7 +60,7 @@ export class Note {
       }
     }
 
-    return note;
+    return new Note(note);
   }
 
   public static fromString = (input: string) => {

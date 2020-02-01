@@ -7,9 +7,12 @@ const expect = chai.expect;
 
 describe('Chord Class', () => {
 
-  it('Should throw upon attempted construction (static only for now)', () => {
-    expect(() => new Chord()).to.throw();
-    expect(() => new Chord('Blah')).to.throw();
+  it('Should properly construct', () => {
+    const randomChord = Chord.random({ destructure: true });
+    const chord = new Chord(randomChord.value);
+    expect(chord.root.alpha).to.equal(randomChord.root.alpha);
+    expect(chord.root.absolute).to.equal(randomChord.root.absolute);
+    expect(chord.quality).to.deep.equal(randomChord.quality);
   });
 
   describe('.random()', () => {
@@ -24,7 +27,7 @@ describe('Chord Class', () => {
       for (let i = 0; i <= 50; i++) {
         const { root, quality, value } = Chord.random({ destructure: true });
         expect(validChordWithFilter.test(value)).to.be.true;
-        expect(root).to.be.a('string');
+        expect(root.alpha).to.be.a('string');
         expect(quality.name).to.be.a('string');
         expect(quality.symbol).to.be.a('string');
         expect(quality.difficulty).to.be.a('number');
@@ -96,12 +99,16 @@ describe('Chord Class', () => {
       for (let i = 0; i < 50; i++) {
         const randomChord = Chord.random({ destructure: true });
         const parsed = Chord.parseChord(randomChord.value);
-        expect(parsed.root.alpha).to.equal(randomChord.root);
+        expect(parsed.root.alpha).to.equal(randomChord.root.alpha);
       }
     });
 
     it('Should throw on invalid chords', () => {
       expect(() => Chord.parseChord('888')).to.throw('Input "888" cannot be parsed as a chord.');
+    });
+
+    it('Should throw on invalid quality', () => {
+      expect(() => Chord.parseChord('C#blah')).to.throw('Could not map remainder "blah" to quality.');
     });
   });
 });

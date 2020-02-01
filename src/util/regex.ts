@@ -6,5 +6,6 @@ export const validChordWithFilter = /^[A-Ga-g][#|b]?[A-Za-z\°\ø\+]*[0-9]*[b|#]
 export const validChordWithoutFilter = /^[A-Ga-g][#|b]?(\/[A-Ga-g][#|b]?)?[A-Za-z\°\ø\+]*[0-9]*[b|#]*[0-9]{0,2}$/;
 
 // Valid note patterns
-export const validAlphaNote = /^[A-Ga-g][#|b|B]?[0-9]{0,2}$/;
+// tslint:disable-next-line
+export const validAlphaNote = /^[A-Ga-g][#|b|B]?(\/[A-Ga-g][#|b|B]?)?[0-9]{0,2}$/;
 export const validNumericNote = /^-?[0-9]{0,3}$/;

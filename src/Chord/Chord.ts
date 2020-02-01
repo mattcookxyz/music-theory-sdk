@@ -11,7 +11,13 @@ export class Chord {
   public notes: Note[];
 
   constructor(chord: string = Chord.random().value) {
-    throw Error('Chord class not implemented. Try static method Chord.random(); in the meantime. :)');
+    const { root, quality } = Chord.parseChord(chord);
+    this.root = root;
+    this.quality = quality;
+    this.notes = quality.structure.map((tone) => {
+      const transposed = tone + root.numeric;
+      return new Note(transposed);
+    });
   }
 
   // Returns a somewhat 'dumb' random chord
@@ -32,12 +38,12 @@ export class Chord {
       return {
         root,
         quality,
-        value: root + quality.symbol,
+        value: root.alpha + quality.symbol,
       };
     }
 
     return {
-      value: root + quality.symbol,
+      value: root.alpha + quality.symbol,
     };
   }
 
@@ -87,7 +93,7 @@ export class Chord {
     const quality: IQuality = QUALITIES_BY_SYMBOL[remainder];
 
     if (!quality) {
-      throw Error(`Could not map remainder ${remainder} to quality.`);
+      throw Error(`Could not map remainder "${remainder}" to quality.`);
     }
 
     return {

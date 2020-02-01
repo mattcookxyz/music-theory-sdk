@@ -21,7 +21,7 @@ describe('Note Class', () => {
     it('Should parse notes from any string', () => {
       for (let x = 0; x <= numCases; x++) {
         const { root, value } = Chord.random({ destructure: true });
-        expect(Note.fromString(value).alpha).to.equal(root);
+        expect(Note.fromString(value).alpha).to.equal(root.alpha);
       }
     });
 
@@ -138,14 +138,14 @@ describe('Note Class', () => {
     it('Should successfully generate notes', function () {
       for (let x = 0; x < numCases; x++) {
         const note = Note.random();
-        expect(note).to.be.a('string');
+        expect(note.alpha).to.be.a('string');
       }
     });
 
     it('Should successfully generate numeric notes', function () {
       for (let x = 0; x < numCases; x++) {
         const note = Note.random({ alpha: false });
-        expect(note).to.be.a('number');
+        expect(note.numeric).to.be.a('number');
       }
     });
 
@@ -158,7 +158,7 @@ describe('Note Class', () => {
     it('Should successfully generate random note with valid filters', function () {
       for (let x = 0; x < numCases; x++) {
         const randomFilter = [true, false, undefined, '#', 'b'][Math.floor(Math.random() * 5)];
-        expect(Note.random({ flatSharpFilter: randomFilter })).to.be.a('string');
+        expect(Note.random({ flatSharpFilter: randomFilter }).alpha).to.be.a('string');
       }
     });
   });

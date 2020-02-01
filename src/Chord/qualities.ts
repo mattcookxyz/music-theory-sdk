@@ -98,12 +98,6 @@ export const QUALITIES: {
     symbol: '+7',
     structure: [0, 4, 8, 10],
   },
-  diminished7: {
-    difficulty: 4,
-    name: 'Diminished 7th',
-    symbol: '°7',
-    structure: [0, 3, 6, 9],
-  },
   major9: {
     difficulty: 4,
     name: 'Major 9th',

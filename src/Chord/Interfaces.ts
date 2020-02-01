@@ -1,7 +1,7 @@
 import { Note } from '..';
 
 export interface IStaticRandomChordResult {
-  root?: string | number;
+  root?: Note;
   quality?: IQuality;
   value: string;
 }
