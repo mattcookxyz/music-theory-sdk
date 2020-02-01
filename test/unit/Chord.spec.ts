@@ -2,6 +2,7 @@ import { Chord } from '../../src';
 import { describe, it } from 'mocha';
 import * as chai from 'chai';
 import { validChordWithFilter, validChordWithoutFilter } from "../../src/util/regex";
+import Filter from "../../src/util/Filter";
 
 const expect = chai.expect;
 
@@ -19,8 +20,11 @@ describe('Chord Class', () => {
   });
 
   it('Should properly invert', () => {
-    const chord = new Chord();
+    const chord = new Chord('C#Maj');
+    chord.invert(1);
+    console.log(chord.notes.map(item => item.alpha));
     chord.invert(2);
+    console.log(chord.notes.map(item => item.alpha));
   });
 
   describe('.transpose()', () => {

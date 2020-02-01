@@ -17,6 +17,7 @@
         "sourceType": "module"
     },
     "rules": {
+        "curly": false,
         "no-console": false,
         "max-line-length": [true, 180],
         "radix": false

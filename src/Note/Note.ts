@@ -25,18 +25,16 @@ export class Note {
     });
 
     // Assemble from input
-    if (typeof note === 'number') {
+    if (typeof note === 'number')
       this.buildFromNumeric(note);
-    } else if (typeof note === 'string') {
+    if (typeof note === 'string')
       this.buildFromAlpha(note);
-    }
   }
 
   public static validate = (note: string | number) => {
     const valid = validNumericNote.test(note.toString().toUpperCase()) || validAlphaNote.test(note.toString().toUpperCase());
-    if (!valid) {
+    if (!valid)
       throw Error(`Input "${note}" is not a valid note.`);
-    }
   }
 
   // Returns a random note
