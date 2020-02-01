@@ -1,5 +1,5 @@
 export interface INoteOpts {
-  flatSharpFilter?: string;
+  flatSharpFilter?: false | string;
 }
 
 export interface IRandomNoteOpts {

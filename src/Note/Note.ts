@@ -10,7 +10,7 @@ export class Note {
   public alpha: string;
   public frequency: number;
   public absolute: number;
-  public flatSharpFilter: string;
+  public flatSharpFilter: false | string;
 
   constructor(note: string | number = Math.floor(Math.random() * 12), opts: INoteOpts = {}) {
     Note.validate(note);
@@ -19,9 +19,7 @@ export class Note {
       flatSharpFilter: Filter.random(),
     });
 
-    if (opts.flatSharpFilter) {
-      this.flatSharpFilter = opts.flatSharpFilter;
-    }
+    this.flatSharpFilter = opts.flatSharpFilter;
 
     // Assemble from input
     if (typeof note === 'number') {
@@ -47,9 +45,7 @@ export class Note {
     });
 
     // Validate filter
-    if (opts.flatSharpFilter) {
-      Filter.validate(opts.flatSharpFilter);
-    }
+    if (opts.flatSharpFilter) Filter.validate(opts.flatSharpFilter);
 
     // Get initial random numeric note
     let note: number | string = Math.floor(Math.random() * 12);
@@ -166,10 +162,30 @@ export class Note {
   }
 
   private calculate() {
-    // Calculate and assign absolute value of note
-    this.absolute = this.numeric + (12 * this.octave);
+    this.applyFilter();
+    this.calculateAbsolute();
+    this.calculateFrequency();
+  }
 
-    // Calculate and assign frequency
+  private applyFilter() {
+    if (this.flatSharpFilter && this.alpha.indexOf('/') !== -1) {
+      // Apply filter
+      switch (this.flatSharpFilter) {
+        case '#':
+          this.alpha = this.alpha.split('/')[0];
+          break;
+        case 'b':
+          this.alpha = this.alpha.split('/')[1];
+          break;
+      }
+    }
+  }
+
+  private calculateAbsolute() {
+    this.absolute = this.numeric + (12 * this.octave);
+  }
+
+  private calculateFrequency() {
     this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
   }
 }

@@ -68,7 +68,19 @@ describe('Note Class', () => {
       expect(note.octave).to.equal(2);
       expect(note.absolute).to.equal(24);
 
-      note = new Note(25);
+      note = new Note(25, { flatSharpFilter: 'b' });
+      expect(note.alpha).to.equal('Db');
+      expect(note.numeric).to.equal(1);
+      expect(note.octave).to.equal(6);
+      expect(note.absolute).to.equal(73);
+
+      note = new Note(25, { flatSharpFilter: '#' });
+      expect(note.alpha).to.equal('C#');
+      expect(note.numeric).to.equal(1);
+      expect(note.octave).to.equal(6);
+      expect(note.absolute).to.equal(73);
+
+      note = new Note(25, { flatSharpFilter: false });
       expect(note.alpha).to.equal('C#/Db');
       expect(note.numeric).to.equal(1);
       expect(note.octave).to.equal(6);
