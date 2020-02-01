@@ -131,4 +131,24 @@ describe('Note Class', () => {
       expect(note.absolute).to.equal(35);
     });
   });
+
+  describe('.random()', () => {
+    it('Should successfully generate notes', function () {
+      for (let x = 0; x < 50; x++) {
+        const note = Note.random();
+        expect(note).to.be.a('string');
+      }
+    });
+
+    it('Should successfully generate numeric notes', function () {
+      for (let x = 0; x < 50; x++) {
+        const note = Note.random({ alpha: false });
+        expect(note).to.be.a('number');
+      }
+    });
+
+    it('Should throw if provided an invalid filter', function () {
+      expect(() => Note.random({ flatSharpFilter: 'aaa' })).to.throw();
+    });
+  });
 });
