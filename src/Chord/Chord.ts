@@ -113,6 +113,7 @@ export class Chord {
 
   // Transpose each note by the number of half steps provided
   public transpose = (intervalInHalfSteps: number) => {
+    this.root.transpose(intervalInHalfSteps);
     for (const note of this.notes)
       note.transpose(intervalInHalfSteps);
     return this;
