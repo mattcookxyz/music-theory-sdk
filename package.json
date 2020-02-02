@@ -1,6 +1,8 @@
 {
     "name": "music-theory-toolkit",
     "version": "0.11.0",
+    "author": "Matt Cook <matt@mattcook.xyz> (https://mattcook.xyz)",
+    "license": "MIT",
     "description": "Note/chord/set parsing, transposition, and enumeration tools",
     "main": "./lib/index.js",
     "scripts": {
@@ -12,6 +14,24 @@
         "lint": "tslint -c tslint.json 'src/**/*.ts'",
         "docs:gen": "npm run docs:clear && typedoc src --mode file --readme none --hideGenerator",
         "docs:clear": "rimraf docs"
+    },
+    "devDependencies": {
+      "@types/chai": "^4.2.3",
+      "@types/mocha": "^5.2.7",
+      "chai": "^4.2.0",
+      "codecov": "^3.6.1",
+      "istanbul": "^0.4.5",
+      "mocha": "^6.1.4",
+      "nyc": "^14.1.0",
+      "pre-commit": "^1.2.2",
+      "rimraf": "^2.6.3",
+      "ts-node": "^8.4.1",
+      "tslint": "^5.20.0",
+      "tslint-config-airbnb": "^5.11.2",
+      "tslint-config-security": "^1.16.0"
+    },
+    "dependencies": {
+      "typescript": "^3.6.3"
     },
     "nyc": {
         "include": [
@@ -47,25 +67,5 @@
         "transposition",
         "enumeration",
         "composition"
-    ],
-    "author": "Matt Cook <matt@mattcook.xyz> (https://mattcook.xyz)",
-    "license": "MIT",
-    "devDependencies": {
-        "@types/chai": "^4.2.3",
-        "@types/mocha": "^5.2.7",
-        "chai": "^4.2.0",
-        "codecov": "^3.6.1",
-        "istanbul": "^0.4.5",
-        "mocha": "^6.1.4",
-        "nyc": "^14.1.0",
-        "pre-commit": "^1.2.2",
-        "rimraf": "^2.6.3",
-        "ts-node": "^8.4.1",
-        "tslint": "^5.20.0",
-        "tslint-config-airbnb": "^5.11.2",
-        "tslint-config-security": "^1.16.0"
-    },
-    "dependencies": {
-        "typescript": "^3.6.3"
-    }
+    ]
 }
