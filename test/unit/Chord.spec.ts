@@ -2,7 +2,6 @@ import { Chord } from '../../src';
 import { describe, it } from 'mocha';
 import * as chai from 'chai';
 import { validChordWithFilter, validChordWithoutFilter } from "../../src/util/regex";
-import Filter from "../../src/util/Filter";
 
 const expect = chai.expect;
 
@@ -17,14 +16,35 @@ describe('Chord Class', () => {
       expect(chord.root.absolute).to.equal(randomChord.root.absolute);
       expect(chord.quality).to.deep.equal(randomChord.quality);
     }
+
+    const noFilter = new Chord('C#/DbMaj7');
+    expect(noFilter.flatSharpFilter).to.be.false;
+    expect(noFilter.root.alpha).to.equal('C#/Db');
+
+    const filter = new Chord('C#Maj7');
+    expect(filter.flatSharpFilter).to.equal('#');
+    expect(filter.root.alpha).to.equal('C#');
+    expect(filter.notes[2].alpha).to.equal('G#');
   });
 
-  it('Should properly invert', () => {
-    const chord = new Chord('C#Maj');
-    chord.invert(1);
-    console.log(chord.notes.map(item => item.alpha));
-    chord.invert(2);
-    console.log(chord.notes.map(item => item.alpha));
+  it('Should throw with invalid chord', () => {
+    expect(() => new Chord('C#min-7')).to.throw();
+    expect(() => new Chord('C#mi')).to.throw();
+  });
+
+  describe('.invert()', () => {
+    it('Should properly invert', () => {
+      const chord = new Chord('C#Maj');
+      chord.invert(1);
+      expect(chord.notes[0].alpha).to.equal('F');
+      chord.invert(2);
+      expect(chord.notes[0].alpha).to.equal('G#');
+    });
+
+    it('Should throw if inversion is impossible', () => {
+      const chord = new Chord('C#Maj');
+      expect(() => chord.invert(3)).to.throw();
+    });
   });
 
   describe('.transpose()', () => {

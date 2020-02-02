@@ -15,19 +15,31 @@ export class Chord {
   public flatSharpFilter: false | string;
 
   constructor(chord?: string, opts: IChordOpts = {}) {
+
+    applyDefaults(opts, { flatSharpFilter: false });
+
+    // If flatSharpFilter provided, validate.
+    if (opts.flatSharpFilter)
+      Filter.validate(opts.flatSharpFilter);
+
+    // Init flatSharpFilter
+    this.flatSharpFilter = opts.flatSharpFilter;
+
     if (chord) {
       // If a chord was provided, validate, parse,
       // and use # / b filter based on provided chord root
       Chord.validate(chord);
-      const { root, quality } = this.parseChord(chord);
+      const { root, quality, flatSharpFilter } = this.parseChord(chord);
       this.root = root;
       this.quality = quality;
-      this.flatSharpFilter = this.parseFilter(root.alpha);
+      if (flatSharpFilter)
+        this.flatSharpFilter = flatSharpFilter;
     } else {
       // If a chord wasn't provided, generate a random chord
-      this.root = Note.random({ flatSharpFilter: opts.flatSharpFilter });
+      this.root = Note.random({ flatSharpFilter: this.flatSharpFilter });
       this.quality = Chord.randomQuality(opts);
     }
+
     // Calculate inversion, notes from root/quality, and
     // value - i.e., the chord represented as a string
     this.calculate();
@@ -134,7 +146,8 @@ export class Chord {
   private parseChord = (chord: string): IParsedChord => {
     Chord.validate(chord);
 
-    const root = Note.fromString(chord, { flatSharpFilter: this.flatSharpFilter });
+    const root = Note.fromString(chord);
+    const flatSharpFilter = root.flatSharpFilter;
     const remainder = chord.replace(root.alpha, '');
     const quality: IQuality = QUALITIES_BY_SYMBOL[remainder];
 
@@ -145,18 +158,7 @@ export class Chord {
     return {
       root,
       quality,
+      flatSharpFilter,
     };
-  }
-
-  // If only a sharp/flat note was specified in the constructor,
-  // use that filter for all relevant calculations/notes
-  private parseFilter = (note: string): false | string => {
-    const noteArr = note.split('');
-    if (noteArr.indexOf('/') !== -1)
-      return false;
-    if (noteArr.indexOf('#') !== -1)
-      return '#';
-    if (noteArr.indexOf('b') !== -1)
-      return 'b';
   }
 }

@@ -14,6 +14,7 @@ export class Note {
 
   constructor(note: string | number = Math.floor(Math.random() * 12), opts: INoteOpts = {}) {
     Note.validate(note);
+
     applyDefaults(opts, { flatSharpFilter: Filter.random() });
 
     // If flatSharpFilter provided, validate and set.
@@ -46,15 +47,26 @@ export class Note {
     return new Note(undefined, { flatSharpFilter: opts.flatSharpFilter });
   }
 
-  // Parses the first note found in a string
-  public static fromString = (input: string, opts: INoteOpts = {}) => {
-    const notes = alphaNotes.sort((a, b) => b.length - a.length);
+  // If only a sharp/flat note was specified in the constructor,
+  // use that filter for all relevant calculations/notes
+  public static parseFilter = (note: string): false | string => {
+    if (note.indexOf('/') !== -1)
+      return false;
+    if (note.indexOf('#') !== -1)
+      return '#';
+    if (note.indexOf('b') !== -1)
+      return 'b';
+    return false;
+  }
 
+  // Parses the first note found in a string
+  public static fromString = (input: string) => {
+    const notes = alphaNotes.sort((a, b) => b.length - a.length);
     for (const note of notes) {
       const pos = input.indexOf(note);
       if (pos !== -1) {
         const parsed = input.slice(pos, pos + note.length);
-        return new Note(parsed, opts);
+        return new Note(parsed, { flatSharpFilter: Note.parseFilter(parsed) });
       }
     }
 
@@ -151,7 +163,7 @@ export class Note {
   }
 
   private applyFilter() {
-    if (this.flatSharpFilter && this.alpha.indexOf('/') !== -1) {
+    if (this.flatSharpFilter && this.alpha.split('').indexOf('/') !== -1) {
       // Apply filter
       switch (this.flatSharpFilter) {
         case '#':

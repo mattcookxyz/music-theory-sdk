@@ -19,4 +19,5 @@ export interface IQuality {
 export interface IParsedChord {
   root: Note;
   quality: IQuality;
+  flatSharpFilter: false | string;
 }
