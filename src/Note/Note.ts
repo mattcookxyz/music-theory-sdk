@@ -1,7 +1,8 @@
-import { IRandomNoteOpts } from './Interfaces';
+import { INoteOpts } from './Interfaces';
 import applyDefaults from '../util/applyDefaults';
 import { alphaNotes, alphaToNumeric, numericToAlpha } from './translators';
-import { validAlphaNote, validChordWithFilter, validChordWithoutFilter, validNumericNote } from '../util/regex';
+import { validAlphaNote, validNumericNote } from '../util/regex';
+import Filter from '../util/Filter';
 
 export class Note {
   public octave: number;
@@ -9,68 +10,63 @@ export class Note {
   public alpha: string;
   public frequency: number;
   public absolute: number;
+  public flatSharpFilter: false | string;
 
-  constructor(note: string | number = Math.floor(Math.random() * 12)) {
-    // Validate note format
-    if (!validAlphaNote.test(note.toString().toUpperCase()) && !validNumericNote.test(note.toString().toUpperCase())) {
-      throw Error(`Note "${note}" is invalid - did not match one of the following patterns: ${validAlphaNote} | ${validNumericNote}`);
+  constructor(note: string | number = Math.floor(Math.random() * 12), opts: INoteOpts = {}) {
+    Note.validate(note);
+
+    applyDefaults(opts, { flatSharpFilter: Filter.random() });
+
+    // If flatSharpFilter provided, validate and set.
+    if (opts.flatSharpFilter) {
+      Filter.validate(opts.flatSharpFilter);
+      this.flatSharpFilter = opts.flatSharpFilter;
     }
 
-    // Assemble from input
-    if (typeof note === 'number') {
+    // Assemble note from input
+    if (typeof note === 'number')
       this.buildFromNumeric(note);
-    } else if (typeof note === 'string') {
+    if (typeof note === 'string')
       this.buildFromAlpha(note);
-    }
   }
 
-  // Returns a 'dumb' random note as a number or string depending on options
-  public static random = (opts: IRandomNoteOpts = {}): Note => {
+  /**********
+   * STATIC *
+   *********/
 
-    applyDefaults(opts, {
-      alpha: true,
-      flatSharpFilter: true,
-    });
-
-    // Validate filter
-    if ([true, false, undefined, '#', 'b'].indexOf(opts.flatSharpFilter) === -1) throw Error(`Unsupported filter type ${opts.flatSharpFilter}.`);
-
-    // Get initial random numeric note
-    let note: number | string = Math.floor(Math.random() * 12);
-
-    // If numeric, convert to alpha note
-    if (opts.alpha) {
-      note = numericToAlpha.get(note);
-
-      // Apply filter if desired/needed
-      if (opts.flatSharpFilter && note.search('/') !== -1) {
-
-        // If true with no filter selected, select a random filter
-        const filter: string = opts.flatSharpFilter === true ? ['#', 'b'][Math.floor(Math.random() * 2)] : opts.flatSharpFilter;
-
-        // Apply filter
-        switch (filter) {
-          case '#':
-            note = note.split('/')[0];
-            break;
-          case 'b':
-            note = note.split('/')[1];
-            break;
-        }
-      }
-    }
-
-    return new Note(note);
+  public static validate = (note: string | number) => {
+    const valid = validNumericNote.test(note.toString().toUpperCase()) || validAlphaNote.test(note.toString().toUpperCase());
+    if (!valid)
+      throw Error(`Input "${note}" is not a valid note.`);
   }
 
+  // Returns a random note object
+  public static random = (opts: INoteOpts = {}): Note => {
+    applyDefaults(opts, { flatSharpFilter: Filter.random() });
+
+    return new Note(undefined, { flatSharpFilter: opts.flatSharpFilter });
+  }
+
+  // If only a sharp/flat note was specified in the constructor,
+  // use that filter for all relevant calculations/notes
+  public static parseFilter = (note: string): false | string => {
+    if (note.indexOf('/') !== -1)
+      return false;
+    if (note.indexOf('#') !== -1)
+      return '#';
+    if (note.indexOf('b') !== -1)
+      return 'b';
+    return false;
+  }
+
+  // Parses the first note found in a string
   public static fromString = (input: string) => {
     const notes = alphaNotes.sort((a, b) => b.length - a.length);
-
     for (const note of notes) {
       const pos = input.indexOf(note);
       if (pos !== -1) {
         const parsed = input.slice(pos, pos + note.length);
-        return new Note(parsed);
+        return new Note(parsed, { flatSharpFilter: Note.parseFilter(parsed) });
       }
     }
 
@@ -98,6 +94,10 @@ export class Note {
     };
   }
 
+  /**********
+   * PUBLIC *
+   *********/
+
   // Transposes the note object up or down by a number of half steps and recalculates attributes
   public transpose = (intervalInHalfSteps: number) => {
     // Get baseline values for transposed note
@@ -113,6 +113,10 @@ export class Note {
 
     return this;
   }
+
+  /***********
+   * PRIVATE *
+   **********/
 
   // Construct a full note object from numeric input
   private buildFromNumeric = (note: number) => {
@@ -153,10 +157,30 @@ export class Note {
   }
 
   private calculate() {
-    // Calculate and assign absolute value of note
-    this.absolute = this.numeric + (12 * this.octave);
+    this.applyFilter();
+    this.calculateAbsolute();
+    this.calculateFrequency();
+  }
 
-    // Calculate and assign frequency
+  private applyFilter() {
+    if (this.flatSharpFilter && this.alpha.split('').indexOf('/') !== -1) {
+      // Apply filter
+      switch (this.flatSharpFilter) {
+        case '#':
+          this.alpha = this.alpha.split('/')[0];
+          break;
+        case 'b':
+          this.alpha = this.alpha.split('/')[1];
+          break;
+      }
+    }
+  }
+
+  private calculateAbsolute() {
+    this.absolute = this.numeric + (12 * this.octave);
+  }
+
+  private calculateFrequency() {
     this.frequency = 440 * Math.pow(2, (this.absolute - 57) / 12);
   }
 }

@@ -1,6 +1,7 @@
 import { Chord, Note } from '../../src';
 import { describe, it } from 'mocha';
 import * as chai from 'chai';
+import Filter from "../../src/util/Filter";
 
 const expect = chai.expect;
 
@@ -20,7 +21,7 @@ describe('Note Class', () => {
 
     it('Should parse notes from any string', () => {
       for (let x = 0; x <= numCases; x++) {
-        const { root, value } = Chord.random({ destructure: true });
+        const { root, value } = Chord.random();
         expect(Note.fromString(value).alpha).to.equal(root.alpha);
       }
     });
@@ -67,7 +68,19 @@ describe('Note Class', () => {
       expect(note.octave).to.equal(2);
       expect(note.absolute).to.equal(24);
 
-      note = new Note(25);
+      note = new Note(25, { flatSharpFilter: 'b' });
+      expect(note.alpha).to.equal('Db');
+      expect(note.numeric).to.equal(1);
+      expect(note.octave).to.equal(6);
+      expect(note.absolute).to.equal(73);
+
+      note = new Note(25, { flatSharpFilter: '#' });
+      expect(note.alpha).to.equal('C#');
+      expect(note.numeric).to.equal(1);
+      expect(note.octave).to.equal(6);
+      expect(note.absolute).to.equal(73);
+
+      note = new Note(25, { flatSharpFilter: false });
       expect(note.alpha).to.equal('C#/Db');
       expect(note.numeric).to.equal(1);
       expect(note.octave).to.equal(6);
@@ -144,7 +157,7 @@ describe('Note Class', () => {
 
     it('Should successfully generate numeric notes', function () {
       for (let x = 0; x < numCases; x++) {
-        const note = Note.random({ alpha: false });
+        const note = Note.random();
         expect(note.numeric).to.be.a('number');
       }
     });
@@ -157,8 +170,7 @@ describe('Note Class', () => {
 
     it('Should successfully generate random note with valid filters', function () {
       for (let x = 0; x < numCases; x++) {
-        const randomFilter = [true, false, undefined, '#', 'b'][Math.floor(Math.random() * 5)];
-        expect(Note.random({ flatSharpFilter: randomFilter }).alpha).to.be.a('string');
+        expect(Note.random({ flatSharpFilter: Filter.random() }).alpha).to.be.a('string');
       }
     });
   });

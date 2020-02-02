@@ -8,47 +8,62 @@ const expect = chai.expect;
 const numCases = 10;
 
 describe('Chord Class', () => {
-
   it('Should properly construct', () => {
     for (let i = 0; i <= numCases; i++) {
-      const randomChord = Chord.random({ destructure: true });
+      const randomChord = Chord.random();
       const chord = new Chord(randomChord.value);
       expect(chord.root.alpha).to.equal(randomChord.root.alpha);
       expect(chord.root.absolute).to.equal(randomChord.root.absolute);
       expect(chord.quality).to.deep.equal(randomChord.quality);
     }
+
+    const noFilter = new Chord('C#/DbMaj7');
+    expect(noFilter.flatSharpFilter).to.be.false;
+    expect(noFilter.root.alpha).to.equal('C#/Db');
+
+    const filter = new Chord('C#Maj7');
+    expect(filter.flatSharpFilter).to.equal('#');
+    expect(filter.root.alpha).to.equal('C#');
+    expect(filter.notes[2].alpha).to.equal('G#');
+  });
+
+  it('Should throw with invalid chord', () => {
+    expect(() => new Chord('C#min-7')).to.throw();
+    expect(() => new Chord('C#mi')).to.throw();
+  });
+
+  describe('.invert()', () => {
+    it('Should properly invert', () => {
+      const chord = new Chord('C#Maj');
+      chord.invert(1);
+      expect(chord.notes[0].alpha).to.equal('F');
+      chord.invert(2);
+      expect(chord.notes[0].alpha).to.equal('G#');
+    });
+
+    it('Should throw if inversion is impossible', () => {
+      const chord = new Chord('C#Maj');
+      expect(() => chord.invert(3)).to.throw();
+    });
   });
 
   describe('.transpose()', () => {
     it('Should transpose all notes', () => {
       for (let i = 0; i <= numCases; i++) {
-        const randomChord = Chord.random({ destructure: true });
-        const chord = new Chord(randomChord.value);
+        const chord = Chord.random();
         const interval = Math.floor(Math.random() * 50);
-        const expectedNotes = chord.notes.map(note => note.absolute + interval)
+        const expectedNotes = chord.notes.map(note => note.absolute + interval);
         chord.transpose(interval);
         expect(chord.notes.map(note => note.absolute)).to.deep.equal(expectedNotes);
       }
     });
-  })
+  });
 
   describe('.random()', () => {
     it('Should properly generate a random chord', () => {
       for (let i = 0; i <= numCases; i++) {
         const chord = Chord.random();
         expect(validChordWithFilter.test(chord.value)).to.be.true;
-      }
-    });
-
-    it('Should properly generate a random chord with destructuring', () => {
-      for (let i = 0; i <= numCases; i++) {
-        const { root, quality, value } = Chord.random({ destructure: true });
-        expect(validChordWithFilter.test(value)).to.be.true;
-        expect(root.alpha).to.be.a('string');
-        expect(quality.name).to.be.a('string');
-        expect(quality.symbol).to.be.a('string');
-        expect(quality.difficulty).to.be.a('number');
-        expect(quality.structure).to.be.an('array');
       }
     });
 
@@ -108,24 +123,6 @@ describe('Chord Class', () => {
       expect(fail2).to.throw();
       expect(fail3).to.throw();
       expect(fail4).to.throw();
-    });
-  });
-
-  describe('.parseChord()', () => {
-    it('Should correctly parse valid chords', () => {
-      for (let i = 0; i <= numCases; i++) {
-        const randomChord = Chord.random({ destructure: true });
-        const parsed = Chord.parseChord(randomChord.value);
-        expect(parsed.root.alpha).to.equal(randomChord.root.alpha);
-      }
-    });
-
-    it('Should throw on invalid chords', () => {
-      expect(() => Chord.parseChord('888')).to.throw('Input "888" cannot be parsed as a chord.');
-    });
-
-    it('Should throw on invalid quality', () => {
-      expect(() => Chord.parseChord('C#blah')).to.throw('Could not map remainder "blah" to quality.');
     });
   });
 });

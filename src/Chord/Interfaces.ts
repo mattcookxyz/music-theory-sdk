@@ -1,21 +1,12 @@
 import { Note } from '..';
 
-export interface IStaticRandomChordResult {
-  root?: Note;
-  quality?: IQuality;
-  value: string;
-}
-
-export interface IRandomChordOpts {
-  flatSharpFilter?: boolean | string;
-  maxDifficulty?: number;
-  destructure?: boolean;
-  alpha?: boolean;
-}
-
-export interface IRandomQualityOpts {
+export interface IQualityOpts {
   targetDifficulty?: number;
   maxDifficulty?: number;
+}
+
+export interface IChordOpts extends IQualityOpts {
+  flatSharpFilter?: false | string;
 }
 
 export interface IQuality {
@@ -28,4 +19,5 @@ export interface IQuality {
 export interface IParsedChord {
   root: Note;
   quality: IQuality;
+  flatSharpFilter: false | string;
 }

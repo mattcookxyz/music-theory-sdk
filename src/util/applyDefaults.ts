@@ -4,4 +4,5 @@ export default (opts: any, defaults: any) => {
       opts[defaultOpt] = defaults[defaultOpt];
     }
   }
+  return { ...opts };
 };

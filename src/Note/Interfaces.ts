@@ -1,4 +1,3 @@
-export interface IRandomNoteOpts {
-  alpha?: boolean;
-  flatSharpFilter?: boolean | string;
+export interface INoteOpts {
+  flatSharpFilter?: false | string;
 }
