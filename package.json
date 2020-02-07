@@ -1,6 +1,6 @@
 {
     "name": "music-theory-toolkit",
-    "version": "0.12.2",
+    "version": "0.12.3",
     "author": "Matt Cook <matt@mattcook.xyz> (https://mattcook.xyz)",
     "license": "MIT",
     "description": "Note/chord/set parsing, transposition, and enumeration tools",
